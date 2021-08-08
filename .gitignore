@@ -1,4 +1,6 @@
 
 rust-analyzer
 plugged/
-
+.DS_Store
+.AppleDouble
+.LSOverride
