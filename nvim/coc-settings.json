@@ -1,0 +1,12 @@
+{
+  "rust-analyzer.cargo-watch.enable": false,
+  "rust-analyzer.inlayHints.typeHints": true,
+  "rust-analyzer.inlayHints.parameterHints": true,
+  "rust-analyzer.inlayHints.chainingHints": true,
+  "rust-client.enable": true,
+  "coc.preferences.hoverTarget": "float",
+  "coc.preferences.colorSupport": true,
+  "coc.preferences.bracketEnterImprove": true,
+  "suggest.noselect": false,
+  "diagnostic.locationlist": false
+}
