@@ -478,6 +478,7 @@ imap <F1> <Esc>
 
 " Toggle NERDTree
 nmap <C-n> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
 
 " =============================================================================
 " # Autocommands
