@@ -131,7 +131,7 @@ local on_attach = function(client, bufnr)
 end
 
 
-local servers = { "rust_analyzer", "pyright" }
+local servers = { "rust_analyzer", "pyright", "clangd" }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup {
 		on_attach = on_attach,
