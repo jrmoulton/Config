@@ -136,7 +136,7 @@ local on_attach = function(client, bufnr)
 end
 
 
-local servers = { "rust_analyzer", "pyright", "clangd", "svls" }
+local servers = { "pyright", "clangd", "svls" }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup {
 		on_attach = on_attach,
@@ -178,6 +178,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 	update_in_insert = true,
   }
 )
+
 
 END
 
