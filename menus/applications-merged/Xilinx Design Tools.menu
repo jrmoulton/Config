@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Menu>
+    <Name>Applications</Name>
+    <MergeFile type="parent">/etc/xdg/menus/applications.menu</MergeFile>
+    <Menu>
+        <Directory>Xilinx Design Tools_1631627826747.directory</Directory>
+        <Name>Xilinx Design Tools</Name>
+        <Include>
+            <Filename>Uninstall Xilinx Information Center_1631627826826.desktop</Filename>
+        </Include>
+        <Include>
+            <Filename>Xilinx Information Center_1631627826830.desktop</Filename>
+        </Include>
+        <Menu>
+            <Directory>DocNav_1631627826818.directory</Directory>
+            <Name>DocNav</Name>
+            <Include>
+                <Filename>Documentation Navigator_1631627826818.desktop</Filename>
+            </Include>
+            <Include>
+                <Filename>Uninstall DocNav_1631627826821.desktop</Filename>
+            </Include>
+        </Menu>
+    </Menu>
+</Menu>
