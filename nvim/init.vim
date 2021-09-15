@@ -20,6 +20,8 @@ Plug 'preservim/nerdtree'
 Plug 'rstacruz/vim-closer'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
+Plug 'vim-scripts/BufOnly.vim'
+Plug 'mfussenegger/nvim-dap'
 
 " GUI enhancements
 Plug 'itchyny/lightline.vim'
@@ -49,6 +51,7 @@ Plug 'rhysd/vim-clang-format'
 Plug 'dag/vim-fish'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
+Plug 'simrat39/rust-tools.nvim'
 
 call plug#end()
 
@@ -116,7 +119,9 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
 	buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 	buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+	-- rename the current token
 	buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+	-- Code actions are code suggestions maybe clippy?
 	buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 	buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 	buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
@@ -131,7 +136,7 @@ local on_attach = function(client, bufnr)
 end
 
 
-local servers = { "rust_analyzer", "pyright" }
+local servers = { "pyright", "svls" }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup {
 		on_attach = on_attach,
@@ -141,6 +146,31 @@ for _, lsp in ipairs(servers) do
 	}
 end
 
+require'lspconfig'.rust_analyzer.setup {
+  on_attach = on_attach,
+  settings = {
+    ["rust-analyzer"] = {
+      assist = {
+        importMergeBehavior = "last",
+        importPrefix = "by_self",
+      },
+      diagnostics = {
+        disabled = { "unresolved-import" }
+      },
+      cargo = {
+          loadOutDirsFromCheck = true
+      },
+      procMacro = {
+          enable = true
+      },
+      checkOnSave = {
+          command = "clippy"
+      },
+    }
+  }
+}
+
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
 	virtual_text = true,
@@ -148,16 +178,17 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 	update_in_insert = true,
   }
 )
+
 END
 
 
-" This is my java configuration but it always gives me too many errors
-" if has('nvim-0.5')
-"   augroup lsp
-"     au!
-"     au FileType java lua require('jdtls').start_or_attach({cmd = {'java-lsp.sh'}})
-"   augroup end
-" endif
+" This is my java configuration 
+if has('nvim-0.5')
+  augroup lsp
+    au!
+    au FileType java lua require('jdtls').start_or_attach({cmd = {'java-lsp.sh'}})
+  augroup end
+endif
 
 " Plugin settings
 let g:secure_modelines_allowed_items = [
@@ -211,7 +242,9 @@ let g:latex_fold_envs = 0
 let g:latex_fold_sections = []
 
 " Open hotkeys
+" control p is a fuzzy search over the project files names
 map <C-p> :Files<CR>
+" leader ; is a fuzzy search over open buffers
 nmap <leader>; :Buffers<CR>
 
 " Quick-save
@@ -228,7 +261,7 @@ let g:rust_clip_command = 'xclip -selection clipboard'
 
 " Completion
 " Better completion
-" menuone: popup even when there's only one match
+
 " noinsert: Do not insert text until a selection is made
 " noselect: Do not select, force user to select one from the menu
 set completeopt=menuone,noinsert,noselect
@@ -405,7 +438,7 @@ noremap <leader>p :read !pbpaste<cr>
 noremap <leader>c :w !pbcopy<cr><cr>
 
 " <leader>s for Rg search
-noremap <leader>s :Rg
+noremap <leader>s :Rg 
 let g:fzf_layout = { 'down': '~20%' }
 command! -bang -nargs=* Rg
 			\ call fzf#vim#grep(
@@ -424,7 +457,7 @@ command! -bang -nargs=? -complete=dir Files
 			\                               'options': '--tiebreak=index'}, <bang>0)
 
 " Open new file adjacent to current file
-nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+nnoremap <leader>o :e <C-R>=expand("%:p:h") . "/" <CR>
 
 " No arrow keys --- force yourself to use the home row
 nnoremap <up> <nop>
@@ -433,6 +466,12 @@ inoremap <up> <nop>
 inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
+
+" No repeated use of movement keys
+" noremap jj <nop>
+" noremap kk <nop>
+" noremap hh <nop>
+" noremap ll <nop>
 
 " Left and right can switch buffers
 nnoremap <left> :bp<CR>
@@ -452,7 +491,9 @@ imap <Tab> <Plug>(completion_smart_tab)
 imap <S-Tab> <Plug>(completion_smart_s_tab)
 
 " Enable type inlay hints
-autocmd CursorHold,CursorHoldI *.rs :lua require'lsp_extensions'.inlay_hints{ only_current_line = false }
+autocmd CursorHold,CursorHoldI *.rs :lua require'lsp_extensions'.inlay_hints{
+			\ prefix = '=> ', highlight = "Constant", 
+			\ enabled = {"TypeHint", "ChainingHint", "ParameterHint"}}
 
 " Use <TAB> for selections ranges.
 " nmap <silent> <TAB> <Plug>(coc-range-select)
