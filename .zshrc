@@ -58,3 +58,4 @@ bindkey -v '^?' backward-delete-char
 tmux source-file ~/.config/tmux/.tmux.conf
 
 export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs'
+
