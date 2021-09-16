@@ -89,106 +89,113 @@ endif
 " Rainbow Parantheses settings
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
 let g:rainbow_conf = {
-\	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
-\	'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
-\	'guis': [''],
-\	'cterms': [''],
-\	'operators': '_,_',
-\	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-\}
+			\	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+			\	'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+			\	'guis': [''],
+			\	'cterms': [''],
+			\	'operators': '_,_',
+			\	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+			\}
 
 " LSP configuration
 lua << END
 local lspconfig = require('lspconfig')
 local on_attach = function(client, bufnr)
-	local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-	local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-	--Enable completion triggered by <c-x><c-o>
-	buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+--Enable completion triggered by <c-x><c-o>
+buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-	-- Mappings.
-	local opts = { noremap=true, silent=true }
+-- Mappings.
+local opts = { noremap=true, silent=true }
 
-	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-	buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-	-- go to definition
-	buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-	-- brind up a window to show dodumentation
-	buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-	buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-	buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-	-- rename the current token
-	buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-	-- Code actions are code suggestions maybe clippy?
-	buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-	buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-	buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-	buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-	buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-	buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-	-- format the whole document
+-- See `:help vim.lsp.*` for documentation on any of the below functions
+buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+-- go to definition
+buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+-- brind up a window to show dodumentation
+buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+-- rename the current token
+buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+-- Code actions are code suggestions maybe clippy?
+buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+-- format the whole document
 
-	-- Forward to other plugins
-	require'completion'.on_attach(client)
+-- Forward to other plugins
+require'completion'.on_attach(client)
 end
 
 
-local servers = { "pyright", "clangd", "svls" }
+local servers = { "pyright", "clangd" }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup {
 		on_attach = on_attach,
 		flags = {
 			debounce_text_changes = 150,
+			}
 		}
-	}
 end
 
 require'lspconfig'.rust_analyzer.setup {
-  on_attach = on_attach,
-  settings = {
-    ["rust-analyzer"] = {
-      assist = {
-        importMergeBehavior = "last",
-        importPrefix = "by_self",
-      },
-      diagnostics = {
-        disabled = { "unresolved-import" }
-      },
-      cargo = {
-          loadOutDirsFromCheck = true
-      },
-      procMacro = {
-          enable = true
-      },
-      checkOnSave = {
-          command = "clippy"
-      },
-    }
-  }
+	on_attach = on_attach,
+	settings = {
+		["rust-analyzer"] = {
+			assist = {
+				importMergeBehavior = "last",
+				importPrefix = "by_self",
+				},
+			diagnostics = {
+				disabled = { "unresolved-import" }
+				},
+			cargo = {
+				loadOutDirsFromCheck = true
+				},
+			procMacro = {
+			enable = true
+			},
+		checkOnSave = {
+			command = "clippy"
+			},
+		}
+	}
 }
 
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
+vim.lsp.diagnostic.on_publish_diagnostics, {
 	virtual_text = true,
 	signs = true,
 	update_in_insert = true,
-  }
+	}
 )
 
 
 END
 
+if executable('svls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'svls',
+        \ 'cmd': {server_info->['svls']},
+        \ 'whitelist': ['systemverilog'],
+        \ })
+endif
 
 " This is my java configuration 
 if has('nvim-0.5')
-  augroup lsp
-    au!
-    au FileType java lua require('jdtls').start_or_attach({cmd = {'java-lsp.sh'}})
-  augroup end
+	augroup lsp
+		au!
+		au FileType java lua require('jdtls').start_or_attach({cmd = {'java-lsp.sh'}})
+	augroup end
 endif
 
 " Plugin settings
@@ -209,14 +216,14 @@ let g:secure_modelines_allowed_items = [
 let g:lightline = {
 			\ 'colorscheme': 'onedark',
 			\ 'active': {
-			\   'left': [ [ 'mode', 'paste' ],
-			\             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
-			\ },
-			\ 'component_function': {
-			\   'filename': 'LightlineFilename',
-			\   'cocstatus': 'coc#status'
-			\ },
-			\ }
+				\   'left': [ [ 'mode', 'paste' ],
+				\             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+				\ },
+				\ 'component_function': {
+					\   'filename': 'LightlineFilename',
+					\   'cocstatus': 'coc#status'
+					\ },
+					\ }
 function! LightlineFilename()
 	return expand('%:t') !=# '' ? @% : '[No Name]'
 endfunction
@@ -438,9 +445,32 @@ map L $
 noremap <leader>p :read !pbpaste<cr>
 noremap <leader>c :w !pbcopy<cr><cr>
 
+noremap <leader>p :read !xsel --clipboard --output<cr>
+noremap <leader>c :w !xsel -ib<cr><cr>
+
 " <leader>s for Rg search
 noremap <leader>s :Rg 
-let g:fzf_layout = { 'down': '~20%' }
+" let g:fzf_layout = { 'down': '~20%' }
+let g:fzf_tags_command = 'ctags -R'
+" Border color
+let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp' } }
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+			\ { 'fg':      ['fg', 'Normal'],
+			\ 'bg':      ['bg', 'Normal'],
+			\ 'hl':      ['fg', 'Comment'],
+			\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+			\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+			\ 'hl+':     ['fg', 'Statement'],
+			\ 'info':    ['fg', 'PreProc'],
+			\ 'border':  ['fg', 'Ignore'],
+			\ 'prompt':  ['fg', 'Conditional'],
+			\ 'pointer': ['fg', 'Exception'],
+			\ 'marker':  ['fg', 'Keyword'],
+			\ 'spinner': ['fg', 'Label'],
+			\ 'header':  ['fg', 'Comment'] }
+
 command! -bang -nargs=* Rg
 			\ call fzf#vim#grep(
 			\   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
@@ -453,9 +483,15 @@ function! s:list_cmd()
 	return base == '.' ? 'fd --type file --follow' : printf('fd --type file --follow | proximity-sort %s', shellescape(expand('%')))
 endfunction
 
+" Old Files command with smaller view that doesn't take up the whole screen
+"  and has no preview
+" command! -bang -nargs=? -complete=dir Files
+" 			\ call fzf#vim#files(<q-args>, {'source': s:list_cmd(),
+" 			\                               'options': '--tiebreak=index'}, <bang>0)
 command! -bang -nargs=? -complete=dir Files
-			\ call fzf#vim#files(<q-args>, {'source': s:list_cmd(),
-			\                               'options': '--tiebreak=index'}, <bang>0)
+			\ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+
+
 
 " Open new file adjacent to current file
 nnoremap <leader>o :e <C-R>=expand("%:p:h") . "/" <CR>
