@@ -59,7 +59,7 @@ if has('nvim')
 	set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
 	set inccommand=nosplit
 	noremap <C-q> :confirm qall<CR>
-end
+endif
 
 " deal with colors
 " onedark.vim override: Don't set a background color when running in a terminal;
@@ -84,7 +84,7 @@ colorscheme onedark
 if (has("termguicolors"))
 	set termguicolors
 	hi LineNr ctermbg=NONE guibg=NONE
-endif
+end
 
 " Rainbow Parantheses settings
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
@@ -557,6 +557,13 @@ imap <F1> <Esc>
 " Toggle NERDTree
 nmap <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
+
+nnoremap J :m .+1<CR>==
+nnoremap K :m .-2<CR>==
+nnoremap J :m '>+1<CR>gv==gv
+nnoremap K :m '<-2<CR>gv==gv
+
+nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " =============================================================================
 " # Autocommands

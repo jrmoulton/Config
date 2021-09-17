@@ -1,0 +1,5 @@
+
+#!/usr/bin/zsh
+
+run="gh repo clone "$(gh repo list | fzf | rg '/[^\s]+' -o | rg '[^/]+' -o )""
+eval $run
