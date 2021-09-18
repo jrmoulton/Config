@@ -52,6 +52,7 @@ Plug 'dag/vim-fish'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'simrat39/rust-tools.nvim'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 call plug#end()
 
