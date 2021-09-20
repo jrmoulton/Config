@@ -53,6 +53,7 @@ bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
 
+bindkey '^ ' autosuggest-accept
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 tmux source-file ~/.config/tmux/.tmux.conf
