@@ -16,7 +16,7 @@ zstyle ':completion:*' menu select
 
 plugins=(
 	git
-	vi-mode
+	# vi-mode
 	zsh-syntax-highlighting
 	zsh-autosuggestions
 	colored-man-pages
@@ -39,7 +39,6 @@ alias gb=git branch
 alias gc=git clone
 alias gcb=git checkout -b
 alias gcm=git checkout master
-alias gdca=git diff --chached
 alias gf=git fetch
 alias gm=git merge
 alias gp=git push
@@ -55,6 +54,11 @@ bindkey -v '^?' backward-delete-char
 
 bindkey '^ ' autosuggest-accept
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# if tmux is not running then start a session
+if ! { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
+	tmux
+fi
 
 tmux source-file ~/.config/tmux/.tmux.conf
 

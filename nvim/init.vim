@@ -17,7 +17,6 @@ Plug 'ciaranm/securemodelines'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'justinmk/vim-sneak'
 Plug 'preservim/nerdtree'
-Plug 'rstacruz/vim-closer'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'vim-scripts/BufOnly.vim'
@@ -137,7 +136,7 @@ require'completion'.on_attach(client)
 end
 
 
-local servers = { "pyright", "clangd" }
+local servers = { "pyright", "clangd", "svls" }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup {
 		on_attach = on_attach,
@@ -182,14 +181,6 @@ vim.lsp.diagnostic.on_publish_diagnostics, {
 
 
 END
-
-if executable('svls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'svls',
-        \ 'cmd': {server_info->['svls']},
-        \ 'whitelist': ['systemverilog'],
-        \ })
-endif
 
 " This is my java configuration 
 if has('nvim-0.5')
@@ -290,7 +281,9 @@ let g:go_bin_path = expand("~/dev/go/bin")
 " =============================================================================
 filetype plugin indent on
 set autoindent
-set timeoutlen=300 " http://stackoverflow.com/questions/2158516/delay-before-o-opens-a-new-line
+" set timeoutlen=300 " http://stackoverflow.com/questions/2158516/delay-before-o-opens-a-new-line
+:autocmd InsertEnter * set timeoutlen=1200
+:autocmd InsertLeave * set timeoutlen=300
 set encoding=utf-8
 set scrolloff=2
 set noshowmode
@@ -519,6 +512,11 @@ nnoremap <right> :bn<CR>
 nnoremap j gj
 nnoremap k gk
 
+" Increment with control i because control a is tmux
+vnoremap <C-i> <C-a>
+nnoremap <C-i> <C-a>
+0
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -565,6 +563,9 @@ nnoremap J :m '>+1<CR>gv==gv
 nnoremap K :m '<-2<CR>gv==gv
 
 nnoremap <leader>sv :source $MYVIMRC<CR>
+
+" Autoclose brackets the way I want them to
+inoremap {<Enter> {}<Left><Return><Up><Esc>A<Return> 
 
 " =============================================================================
 " # Autocommands
