@@ -43,6 +43,12 @@ albert/
 nu/
 ulauncher/
 menus/
+gitui/
+gpg*
+leafish/
+nohup*
+vivado*
+xpra/
 1Password/
 BraveSoftware/
 chromium/

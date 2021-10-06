@@ -1,16 +1,10 @@
 ZSH_DISABLE_COMPFIX=true
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 zstyle ':completion:*' menu select
 
@@ -51,15 +45,34 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
-
 bindkey '^ ' autosuggest-accept
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# if tmux is not running then start a session
-if ! { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
-	tmux
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs'
+
+
+###### Really don't put stuff beneath this. What happens after this won't
+# necessarily affecty the current running shell
+
+# # if we are in vscode then create/ attach to vscode session and create new window
+if [ "$TERM_PROGRAM" = "vscode" ];  then
+	#Get the current working directory to use as the session name
+	# The exec stuff is so that if there is a duplicate session the error is not
+	# printed to stdout
+	SESSION=`pwd | rg "[^/]+$" -o`
+	exec 3>&2
+	exec 2> /dev/null
+	tmux new-session -s $SESSION -d
+	exec 2>&3
+	tmux new-window -t $SESSION
+	if [ -d ".venv" ]; then
+		tmux send-keys -t $SESSION 'source .venv/bin/activate' Enter
+	fi
+	tmux attach-session -t $SESSION
+elif ! { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
+ 	# if tmux is not running then start a session
+ 	tmux
 fi
 
 tmux source-file ~/.config/tmux/.tmux.conf
 
-export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs'
