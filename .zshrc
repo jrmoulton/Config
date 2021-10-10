@@ -50,7 +50,7 @@ bindkey -v '^?' backward-delete-char
 bindkey '^ ' autosuggest-accept
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs'
+export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs --follow --hidden'
 
 
 ###### Really don't put stuff beneath this. What happens after this won't
