@@ -4,6 +4,8 @@ ZSH_DISABLE_COMPFIX=true
 export ZSH="$HOME/.oh-my-zsh"
 
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/.config/scripts:$PATH"
 
 ZSH_THEME="robbyrussell"
 zstyle ':completion:*' menu select
