@@ -1,0 +1,39 @@
+#!/bin/bash
+
+function upload() {
+	if [ -d "$1" ]; then
+		gdrive upload --parent $2 -r $1
+	else
+		gdrive upload --parent $2 $1
+	fi
+}
+
+echo "Where do you want to to upload $1 to?"
+read -e -p "Base folder(u) or sub folder(s)?: " choice
+if [[ "$choice" == [Uu]* ]]; then
+	if [ -d "$1" ]; then
+		gdrive upload -r $1
+		exit
+	else
+		gdrive upload $1
+	fi
+else
+	finished=false
+	while ! $finished
+	do 
+	folder_line=`gdrive list --query \
+		"mimeType = 'application/vnd.google-apps.folder' and trashed = false"\
+		| fzf`;
+	folder_id=`echo $folder_line | awk '{ print $1 }'`
+	echo "folder_id is $folder_id"
+	folder_name=`echo $folder_line | rg "\s.*" -o | rg ".*[\d]{4}-" -o | rg "[^\s].*" -o`
+
+	read -e -p "Do you want to upload to '$folder_name'(u) or a sub-folder?(s)?" choice
+	if [[ "$choice" == [Uu]* ]]; then
+		upload $1 $folder_id
+		finished=true
+		exit
+	fi
+	done
+fi
+

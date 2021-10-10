@@ -1,0 +1,26 @@
+#!/bin/bash
+
+
+file_line=`gdrive list -m 1000 | fzf `
+file_type=`echo $file_line | rg "(bin|dir|doc)" -o`
+file_id=`echo $file_line | awk '{ print $1 }'`
+
+while [ "$file_type" == "dir" ]
+do
+	read -e -p "Do you want to download the whole folder (d) or just look inside (i)?" choice
+	if [[ "$choice" == [Dd]* ]]; then
+		gdrive download -r $file_id
+		exit
+	else
+		file_line=`gdrive list -m 1000 --query "'$file_id' in parents" | fzf`
+		file_type=`echo $file_line | rg "(bin|dir|doc)" -o`
+		file_id=`echo $file_line | awk '{ print $1 }'`
+	fi
+done
+
+if [[ "$file_type" == "doc" ]]; then
+	gdrive export $file_id
+	exit
+else
+	gdrive download $file_id
+fi
