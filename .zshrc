@@ -11,7 +11,6 @@ ZSH_THEME="robbyrussell"
 zstyle ':completion:*' menu select
 
 plugins=(
-	git
 	# vi-mode
 	zsh-syntax-highlighting
 	zsh-autosuggestions
@@ -30,14 +29,15 @@ alias vim=nvim
 alias ls=exa
 alias cat=bat
 
-alias gaa=git add all
-alias gb=git branch
-alias gc=git clone
-alias gcb=git checkout -b
-alias gcm=git checkout master
-alias gf=git fetch
-alias gm=git merge
-alias gp=git push
+alias gaa="git add all"
+alias gap="git add -p"
+alias gb="git branch"
+alias gcb="git checkout -b"
+alias gcm="git checkout master"
+alias gf="git fetch"
+alias gm="git merge"
+alias gp="git push"
+
 eval $(thefuck --alias)
 
 
