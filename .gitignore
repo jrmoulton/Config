@@ -1,7 +1,9 @@
 
 rust-analyzer
 plugged/
+solaar/
 .DS_Store
+nautilus/
 .AppleDouble
 .LSOverride
 autostart/

@@ -15,7 +15,6 @@ call plug#begin()
 " VIM enhancements
 Plug 'ciaranm/securemodelines'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'justinmk/vim-sneak'
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
@@ -178,8 +177,6 @@ vim.lsp.diagnostic.on_publish_diagnostics, {
 	update_in_insert = true,
 	}
 )
-
-
 END
 
 " This is my java configuration 
