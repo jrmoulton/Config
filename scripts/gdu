@@ -8,6 +8,12 @@ function upload() {
 	fi
 }
 
+if [ $# -eq 0 ]
+  then
+    echo "Error: Please enter a folder or file path"
+	exit 1
+fi
+
 echo "Where do you want to to upload $1 to?"
 read -e -p "Base folder(u) or sub folder(s)?: " choice
 if [[ "$choice" == [Uu]* ]]; then
