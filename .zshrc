@@ -11,7 +11,6 @@ ZSH_THEME="robbyrussell"
 zstyle ':completion:*' menu select
 
 plugins=(
-	# vi-mode
 	zsh-syntax-highlighting
 	zsh-autosuggestions
 	colored-man-pages
@@ -19,26 +18,30 @@ plugins=(
 	autojump
   )
 
+# Start oh-my-zsh and starship
 source $ZSH/oh-my-zsh.sh
 eval "$(starship init zsh)"
 
 # Add aliases
 alias ohmyzsh="mate ~/.oh-my-zsh"
-alias c=clear
 alias vim=nvim
 alias ls=exa
-alias cat=bat
+eval $(thefuck --alias)
 
+# Git alaiases
 alias gaa="git add all"
 alias gap="git add -p"
 alias gb="git branch"
 alias gcb="git checkout -b"
+alias gc="git checkout"
 alias gcm="git checkout master"
 alias gf="git fetch"
 alias gm="git merge"
 alias gp="git push"
+alias gs="git status"
+alias glogg="git log --graph --pretty=oneline --decorate --abbrev-commit"
+alias glog="git log --pretty=oneline --decorate --abbrev-commit -n 10"
 
-eval $(thefuck --alias)
 
 
 # Use vim keys in tab complete menu:
@@ -46,9 +49,11 @@ bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -v '^?' backward-delete-char
+
+# Other keybindings
 bindkey '^ ' autosuggest-accept
 
+# set up fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs --follow --hidden'
 
