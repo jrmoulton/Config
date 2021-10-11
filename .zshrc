@@ -7,6 +7,9 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.config/scripts:$PATH"
 
+# Environment variables
+export EDITOR=nvim
+
 ZSH_THEME="robbyrussell"
 zstyle ':completion:*' menu select
 
