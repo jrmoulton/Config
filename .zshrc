@@ -18,17 +18,21 @@ plugins=(
 	zsh-autosuggestions
 	colored-man-pages
 	colorize
-	autojump
   )
 
 # Start oh-my-zsh and starship
 source $ZSH/oh-my-zsh.sh
+export STARTSHIP_CONFIG="$HOME/.config/starship.toml"
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
 
 # Add aliases
 alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim=nvim
 alias ls=exa
+alias j=z
+alias cd=z
+alias tec="tectonic -X"
 eval $(thefuck --alias)
 
 # Git alaiases
@@ -58,7 +62,8 @@ bindkey '^ ' autosuggest-accept
 
 # set up fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs --follow --hidden'
+export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs --follow'
+export FZF_DEFAULT_OPTS='--bind=ctrl-u:up,ctrl-d:down'
 
 
 ###### Really don't put stuff beneath this. What happens after this won't
