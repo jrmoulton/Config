@@ -1,0 +1,27 @@
+#!/bin/env bash
+
+file_name=`basename $1`
+folder_path=`echo $1 | sd "$file_name" ""`
+cd $folder_path
+if git rev-parse --show-toplevel; then
+	folder_name=`basename $(git rev-parse --show-toplevel)`
+else
+	echo "You must initialize a git repository"
+	exit
+fi
+session="vivado"
+window=${session}:$folder_name
+pane=${window}.0
+session_started=`tmux ls -F "#{session_name} #{window_name}" | rg "$session"`
+echo $session_started
+if [[ "$session_started" == "" ]]; then
+	tmux new-session -d -s $session -n $folder_name
+	tmux send-keys -t "$pane" "vim $1" Enter
+else
+	if [[ "$session_started" != *"$folder_name"* ]]; then
+		tmux new-window -n $folder_name
+		tmux send-keys -t "$pane" "vim $1" Enter
+	else
+		tmux send-keys -t "$pane" ^k ":e $1" Enter
+	fi
+fi
