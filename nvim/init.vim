@@ -555,6 +555,9 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " Autoclose brackets the way I want them to
 inoremap {<Enter> {}<Left><Return><Up><Esc>A<Return> 
+inoremap " ""<Left>
+inoremap ' ''<Left>
+
 
 " =============================================================================
 " # Autocommands
