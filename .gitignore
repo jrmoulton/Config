@@ -8,6 +8,8 @@ neofetch/
 bottom/
 op/
 discord/
+thefuck/
+font-manager/
 .AppleDouble
 .LSOverride
 autostart/
@@ -53,7 +55,6 @@ gitui/
 gpg*
 leafish/
 nohup*
-vivado*
 xpra/
 1Password/
 BraveSoftware/
@@ -80,3 +81,4 @@ google-chrome/
 microsoft-edge-dev/
 vivaldi-snapshot/
 vivaldi/
+inkdrop/

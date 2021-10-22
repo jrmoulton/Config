@@ -6,19 +6,8 @@ add_newline = true
 success_symbol = "[➜](bold green)"     # The "success_symbol" segment is being set to "➜" with the color "bold green"
 error_symbol = "[➜](bold red)"     # The "success_symbol" segment is being set to "➜" with the color "bold green"
 
-# Disable the package module, hiding it from the prompt completely
-[package]
-disabled = true
+[git_status]
+ahead = "⇡${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+behind = "⇣${count}"
 
-[battery]
-full_symbol = "🔋 "
-charging_symbol = "⚡️ "
-discharging_symbol = "💀 "
-
-[[battery.display]]
-threshold = 30
-style = "bold red"
-
-[git_commit]
-commit_hash_length = 4
-tag_symbol = "🔖 "

@@ -1,31 +1,34 @@
-" Fish doesn't play all that well with others
 set shell=/bin/bash
 let mapleader = "\<Space>"
 
 " =============================================================================
 " # PLUGINS
 " =============================================================================
-" Load vundle
 set nocompatible
 filetype off
-set rtp+=~/dev/others/base16/templates/vim/
 call plug#begin()
 
 " Load plugins
 " VIM enhancements
 Plug 'ciaranm/securemodelines'
 Plug 'editorconfig/editorconfig-vim'
+" The file explorer: C-n
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'vim-scripts/BufOnly.vim'
+" A debegger plugin
 Plug 'mfussenegger/nvim-dap'
+" Time watcher
+Plug 'wakatime/vim-wakatime'
 
 " GUI enhancements
 Plug 'itchyny/lightline.vim'
 Plug 'machakann/vim-highlightedyank'
 Plug 'andymass/vim-matchup'
+" Color theme
 Plug 'joshdick/onedark.vim'
+" Bracket Pair Colorizer
 Plug 'luochen1990/rainbow'
 Plug 'psliwka/vim-smoothie'
 
@@ -35,7 +38,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 " Semantic language support
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'nvim-lua/completion-nvim'
@@ -46,9 +48,9 @@ Plug 'stephpy/vim-yaml'
 Plug 'rust-lang/rust.vim'
 Plug 'mfussenegger/nvim-jdtls'
 Plug 'rhysd/vim-clang-format'
-Plug 'dag/vim-fish'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
+Plug 'jakewvincent/texmagic.nvim'
 Plug 'simrat39/rust-tools.nvim'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 
@@ -144,6 +146,8 @@ for _, lsp in ipairs(servers) do
 			}
 		}
 end
+
+require('lspconfig').texlab.setup{}
 
 require'lspconfig'.rust_analyzer.setup {
 	on_attach = on_attach,
@@ -384,19 +388,7 @@ set listchars=nbsp:¬,extends:»,precedes:«,trail:•
 " ; as :
 nnoremap ; :
 
-" Ctrl+j and Ctrl+k as Esc
-" Ctrl-j is a little awkward unfortunately:
-" https://github.com/neovim/neovim/issues/5916
-" So we also map Ctrl+k
-nnoremap <C-j> <Esc>
-inoremap <C-j> <Esc>
-vnoremap <C-j> <Esc>
-snoremap <C-j> <Esc>
-xnoremap <C-j> <Esc>
-cnoremap <C-j> <C-c>
-onoremap <C-j> <Esc>
-lnoremap <C-j> <Esc>
-tnoremap <C-j> <Esc>
+" Ctrl+k as Esc
 
 nnoremap <C-k> <Esc>
 inoremap <C-k> <Esc>
@@ -408,7 +400,7 @@ onoremap <C-k> <Esc>
 lnoremap <C-k> <Esc>
 tnoremap <C-k> <Esc>
 
-" No esc key use <^j>
+" No esc key use <^k>
 inoremap <esc> <nop>
 nnoremap <esc> <nop>
 vnoremap <esc> <nop>
@@ -563,6 +555,9 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " Autoclose brackets the way I want them to
 inoremap {<Enter> {}<Left><Return><Up><Esc>A<Return> 
+inoremap " ""<Left>
+inoremap ' ''<Left>
+
 
 " =============================================================================
 " # Autocommands
