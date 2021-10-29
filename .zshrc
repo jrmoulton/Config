@@ -6,6 +6,7 @@ export ZSH="$HOME/.oh-my-zsh"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.config/scripts:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Environment variables
 export EDITOR=nvim
@@ -41,7 +42,7 @@ alias gap="git add -p"
 alias gb="git branch"
 alias gcb="git checkout -b"
 alias gc="git checkout"
-alias gcm="git checkout master"
+alias gcm="git checkout main"
 alias gf="git fetch"
 alias gm="git merge"
 alias gp="git push"

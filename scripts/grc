@@ -1,4 +1,6 @@
 
 #!/usr/bin/zsh
-repo=`gh repo list | fzf | rg '/[^\s]+' -o | rg '[^/]+' -o `
+repo=`gh repo list -l 100 | fzf | rg '/[^\s]+' -o | rg '[^/]+' -o `
 gh repo clone $repo
+toastify send -i "dialog-error" "HELP"
+

@@ -3,3 +3,5 @@
 *.ip_user_files/
 *.runs/
 *.sim/
+env/
+__pycache__/

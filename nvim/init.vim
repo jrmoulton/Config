@@ -22,6 +22,7 @@ Plug 'mfussenegger/nvim-dap'
 " Time watcher
 Plug 'wakatime/vim-wakatime'
 
+
 " GUI enhancements
 Plug 'itchyny/lightline.vim'
 Plug 'machakann/vim-highlightedyank'
@@ -31,16 +32,21 @@ Plug 'joshdick/onedark.vim'
 " Bracket Pair Colorizer
 Plug 'luochen1990/rainbow'
 Plug 'psliwka/vim-smoothie'
+Plug 'luukvbaal/stabilize.nvim'
+
 
 " Fuzzy finder
 Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
+
 " Semantic language support
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'nvim-lua/completion-nvim'
+Plug 'github/copilot.vim'
+
 
 " Syntactic language support
 Plug 'cespare/vim-toml'
@@ -53,6 +59,7 @@ Plug 'plasticboy/vim-markdown'
 Plug 'jakewvincent/texmagic.nvim'
 Plug 'simrat39/rust-tools.nvim'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'vim-python/python-syntax'
 
 call plug#end()
 
@@ -385,6 +392,9 @@ set listchars=nbsp:¬,extends:»,precedes:«,trail:•
 " =============================================================================
 " # Keyboard shortcuts
 " =============================================================================
+
+" I miss shift ; for : all the time
+inoremap <C-;> :echo hi
 " ; as :
 nnoremap ; :
 
@@ -555,9 +565,6 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " Autoclose brackets the way I want them to
 inoremap {<Enter> {}<Left><Return><Up><Esc>A<Return> 
-inoremap " ""<Left>
-inoremap ' ''<Left>
-
 
 " =============================================================================
 " # Autocommands
