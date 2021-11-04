@@ -19,10 +19,12 @@ echo $window_started
 if [[ "$session_started" == "" ]]; then
 	tmux new-session -d -s $session -n $folder_name
 	tmux send-keys -t "$pane" "vim $1" Enter
+    toastify send -a "vivado" "Session Started"
 else
 	if [[ "$window_started" != *"$folder_name"* ]]; then
 		tmux new-window -t $session -n $folder_name
 		tmux send-keys -t "$pane" "vim $1" Enter
+        toastify send -a "vivado" "New Tmux window started"
 	else
 		tmux send-keys -t "$pane" ^k ":e $1" Enter
 	fi
