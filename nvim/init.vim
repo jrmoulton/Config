@@ -45,7 +45,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'nvim-lua/completion-nvim'
-Plug 'github/copilot.vim'
+" Plug 'github/copilot.vim'
 
 
 " Syntactic language support
@@ -144,7 +144,7 @@ require'completion'.on_attach(client)
 end
 
 
-local servers = { "pyright", "clangd", "svls" }
+local servers = { "pyright", "clangd", }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup {
 		on_attach = on_attach,
@@ -329,7 +329,7 @@ set wildignore=.hg,.svn,*~,*.png,*.jpg,*.gif,*.settings,Thumbs.db,*.min.js,*.swp
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
-set noexpandtab
+set expandtab
 
 " Wrapping options
 set formatoptions=tc " wrap text and comments using textwidth

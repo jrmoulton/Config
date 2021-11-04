@@ -26,6 +26,9 @@ source $ZSH/oh-my-zsh.sh
 export STARTSHIP_CONFIG="$HOME/.config/starship.toml"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/jaredmoulton/.zprofile
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 
 # Add aliases
 alias ohmyzsh="mate ~/.oh-my-zsh"
