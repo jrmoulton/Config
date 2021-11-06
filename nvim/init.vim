@@ -142,8 +142,7 @@ buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 require'completion'.on_attach(client)
 end
 
-
-local servers = { "pyright", "clangd" }
+local servers = { "pyright", "clangd", }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup {
 		on_attach = on_attach,
