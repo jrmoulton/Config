@@ -1,4 +1,0 @@
-
-#!/usr/bin/zsh
-repo=`gh repo list | fzf | rg '/[^\s]+' -o | rg '[^/]+' -o `
-gh repo clone $repo

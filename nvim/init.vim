@@ -12,35 +12,36 @@ call plug#begin()
 " VIM enhancements
 Plug 'ciaranm/securemodelines'
 Plug 'editorconfig/editorconfig-vim'
-" The file explorer: C-n
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'vim-scripts/BufOnly.vim'
-" A debegger plugin
 Plug 'mfussenegger/nvim-dap'
-" Time watcher
 Plug 'wakatime/vim-wakatime'
+Plug 'ThePrimeagen/git-worktree.nvim'
 
 " GUI enhancements
 Plug 'itchyny/lightline.vim'
 Plug 'machakann/vim-highlightedyank'
 Plug 'andymass/vim-matchup'
-" Color theme
 Plug 'joshdick/onedark.vim'
-" Bracket Pair Colorizer
 Plug 'luochen1990/rainbow'
 Plug 'psliwka/vim-smoothie'
+Plug 'luukvbaal/stabilize.nvim'
+
 
 " Fuzzy finder
 Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
+
 " Semantic language support
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'nvim-lua/completion-nvim'
+" Plug 'github/copilot.vim'
+
 
 " Syntactic language support
 Plug 'cespare/vim-toml'
@@ -53,6 +54,7 @@ Plug 'plasticboy/vim-markdown'
 Plug 'jakewvincent/texmagic.nvim'
 Plug 'simrat39/rust-tools.nvim'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'vim-python/python-syntax'
 
 call plug#end()
 
@@ -99,6 +101,10 @@ let g:rainbow_conf = {
 			\}
 
 " LSP configuration
+let g:LanguageClient_serverCommands = {
+    \ 'sh': ['bash-language-server', 'start']
+    \ }
+
 lua << END
 local lspconfig = require('lspconfig')
 local on_attach = function(client, bufnr)
@@ -136,8 +142,7 @@ buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 require'completion'.on_attach(client)
 end
 
-
-local servers = { "pyright", "clangd", "svls" }
+local servers = { "pyright", "clangd", }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup {
 		on_attach = on_attach,
@@ -146,6 +151,8 @@ for _, lsp in ipairs(servers) do
 			}
 		}
 end
+
+require'lspconfig'.bashls.setup{}
 
 require('lspconfig').texlab.setup{}
 
@@ -322,7 +329,7 @@ set wildignore=.hg,.svn,*~,*.png,*.jpg,*.gif,*.settings,Thumbs.db,*.min.js,*.swp
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
-set noexpandtab
+set expandtab
 
 " Wrapping options
 set formatoptions=tc " wrap text and comments using textwidth
@@ -385,6 +392,9 @@ set listchars=nbsp:¬,extends:»,precedes:«,trail:•
 " =============================================================================
 " # Keyboard shortcuts
 " =============================================================================
+
+" I miss shift ; for : all the time
+inoremap <C-;> :echo hi
 " ; as :
 nnoremap ; :
 
@@ -555,9 +565,6 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " Autoclose brackets the way I want them to
 inoremap {<Enter> {}<Left><Return><Up><Esc>A<Return> 
-inoremap " ""<Left>
-inoremap ' ''<Left>
-
 
 " =============================================================================
 " # Autocommands

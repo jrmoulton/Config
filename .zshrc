@@ -6,6 +6,7 @@ export ZSH="$HOME/.oh-my-zsh"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.config/scripts:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Environment variables
 export EDITOR=nvim
@@ -25,6 +26,13 @@ source $ZSH/oh-my-zsh.sh
 export STARTSHIP_CONFIG="$HOME/.config/starship.toml"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
+<<<<<<< HEAD
+if [[ "$(uname -s)" =="Darwin" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+else
+    echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/jaredmoulton/.zprofile
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 
 # Add aliases
 alias ohmyzsh="mate ~/.oh-my-zsh"
@@ -33,21 +41,25 @@ alias ls=exa
 alias j=z
 alias cd=z
 alias tec="tectonic -X"
+alias tms=tmux-sessionizer
 eval $(thefuck --alias)
 
 # Git alaiases
-alias gaa="git add all"
+alias gaa="git add --all"
 alias gap="git add -p"
 alias gb="git branch"
 alias gcb="git checkout -b"
 alias gc="git checkout"
-alias gcm="git checkout master"
+alias gcm="git checkout main"
 alias gf="git fetch"
 alias gm="git merge"
 alias gp="git push"
 alias gs="git status"
+alias gss="git status -s"
 alias glogg="git log --graph --pretty=oneline --decorate --abbrev-commit"
 alias glog="git log --pretty=oneline --decorate --abbrev-commit -n 10"
+alias gk="git commit -m"
+alias gwa="git worktree add"
 
 
 
@@ -86,7 +98,7 @@ if [ "$TERM_PROGRAM" = "vscode" ];  then
 	tmux attach-session -t $SESSION
 elif ! { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
  	# if tmux is not running then start a session
- 	tmux
+ 	tmux new-session -A -s .config -c $HOME/.config
 fi
 
 tmux source-file ~/.config/tmux/.tmux.conf

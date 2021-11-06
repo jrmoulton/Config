@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/env zsh
 
 function upload() {
 	if [ -d "$1" ]; then
