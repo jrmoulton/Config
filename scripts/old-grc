@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+path=`gh repo list -l 100 | fzf | rg '[^\s]+' -o | head -n 1 `
+repo=`echo $path | rg '/[^\s]+' -o | rg '[^/]+' -o `
+gh repo clone $path $repo -- $@
+toastify send -i "Git clone" "Finished Cloning"
+

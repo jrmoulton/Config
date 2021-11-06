@@ -3,5 +3,11 @@
 *.ip_user_files/
 *.runs/
 *.sim/
+.vscode/
+target/
+.DS_Store
+callgrind*
+*.zip
+.swp
 env/
 __pycache__/
