@@ -37,11 +37,25 @@ Plug 'junegunn/fzf.vim'
 
 
 " Semantic language support
+" Plug 'github/copilot.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
-Plug 'nvim-lua/completion-nvim'
-" Plug 'github/copilot.vim'
+Plug 'hrsh7th/cmp-nvim-lsp', {'branch': 'main'}
+Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}
+Plug 'hrsh7th/cmp-path', {'branch': 'main'}
+Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}
+Plug 'ray-x/lsp_signature.nvim'
 
+" Only because nvim-cmp _requires_ snippets
+Plug 'hrsh7th/cmp-vsnip', {'branch': 'main'}
+Plug 'hrsh7th/vim-vsnip'
+
+" Debugging
+Plug 'nvim-lua/plenary.nvim'
+Plug 'mfussenegger/nvim-dap'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 " Syntactic language support
 Plug 'cespare/vim-toml'
@@ -59,19 +73,19 @@ Plug 'vim-python/python-syntax'
 call plug#end()
 
 if has('nvim')
-	set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
-	set inccommand=nosplit
-	noremap <C-q> :confirm qall<CR>
+    set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+    set inccommand=nosplit
+    noremap <C-q> :confirm qall<CR>
 endif
 
 " deal with colors
 " onedark.vim override: Don't set a background color when running in a terminal;
 if (has("autocmd") && !has("gui_running"))
-	augroup colorset
-		autocmd!
-		let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-		autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
-	augroup END
+    augroup colorset
+        autocmd!
+        let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
+        autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
+    augroup END
 endif
 
 hi Comment cterm=italic
@@ -85,157 +99,219 @@ colorscheme onedark
 
 " checks if your terminal has 24-bit color support
 if (has("termguicolors"))
-	set termguicolors
-	hi LineNr ctermbg=NONE guibg=NONE
+    set termguicolors
+    hi LineNr ctermbg=NONE guibg=NONE
 end
 
 " Rainbow Parantheses settings
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
 let g:rainbow_conf = {
-			\	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
-			\	'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
-			\	'guis': [''],
-			\	'cterms': [''],
-			\	'operators': '_,_',
-			\	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-			\}
+            \	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+            \	'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+            \	'guis': [''],
+            \	'cterms': [''],
+            \	'operators': '_,_',
+            \	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+            \}
 
 " LSP configuration
 let g:LanguageClient_serverCommands = {
-    \ 'sh': ['bash-language-server', 'start']
-    \ }
+            \ 'sh': ['bash-language-server', 'start']
+            \ }
 
 lua << END
-local lspconfig = require('lspconfig')
-local on_attach = function(client, bufnr)
-local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+local cmp = require'cmp'
 
---Enable completion triggered by <c-x><c-o>
-buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+local lspconfig = require'lspconfig'
+cmp.setup({
+snippet = {
+    -- REQUIRED by nvim-cmp. get rid of it once we can
+    expand = function(args)
+    vim.fn["vsnip#anonymous"](args.body)
+end,
+},
+   mapping = {
+       ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+       ['<Tab>'] = cmp.mapping.select_next_item(),
+       ['<CR>'] = cmp.mapping.confirm({
+       behavior = cmp.ConfirmBehavior.Insert,
+       select = true,
+       })
+   },
+   sources = cmp.config.sources({
+   -- TODO: currently snippets from lsp end up getting prioritized -- stop that!
+   { name = 'nvim_lsp' },
+   }, {
+   { name = 'path' },
+   }),
+   experimental = {
+       ghost_text = true,
+       },
+   }) 
 
--- Mappings.
-local opts = { noremap=true, silent=true }
+ -- Enable completing paths in :
+ cmp.setup.cmdline(':', {
+     sources = cmp.config.sources({
+     { name = 'path' }
+     })
+ })
+ -- Setup lspconfig.
 
--- See `:help vim.lsp.*` for documentation on any of the below functions
-buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
--- go to definition
-buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
--- brind up a window to show dodumentation
-buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
--- rename the current token
-buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
--- Code actions are code suggestions maybe clippy?
-buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
--- format the whole document
+ local on_attach = function(client, bufnr)
+ local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+ local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
--- Forward to other plugins
-require'completion'.on_attach(client)
+ --Enable completion triggered by <c-x><c-o>
+ buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+ -- Mappings.
+ local opts = { noremap=true, silent=true }
+
+ -- See `:help vim.lsp.*` for documentation on any of the below functions
+ buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+ buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+ -- go to definition
+ buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+ -- brind up a window to show dodumentation
+ buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+ buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+ buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+ -- rename the current token
+ buf_set_keymap('n', '<space>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+ -- Code actions are code suggestions maybe clippy?
+ buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+ buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+ buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+ buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+ buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+ buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+ buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+ -- format the whole document
+
+ -- Get signatures (and _only_ signatures) when in argument lists.
+ require "lsp_signature".on_attach({
+ doc_lines = 0,
+ handler_opts = {
+     border = "none"
+     },
+ })
 end
 
-local servers = { "pyright", "clangd", }
-for _, lsp in ipairs(servers) do
-	lspconfig[lsp].setup {
-		on_attach = on_attach,
-		flags = {
-			debounce_text_changes = 150,
-			}
-		}
-end
+local extension_path = '/Users/jaredmoulton/.vscode-insiders/extensions/vadimcn.vscode-lldb-1.6.9/'
+local codelldb_path = extension_path .. 'adapter/codelldb'
+local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
 
-require'lspconfig'.bashls.setup{}
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local rust_opts = {
+    tools = { -- rust-tools options
+    autoSetHints = true,
+    hover_with_actions = true,
+    inlay_hints = {
+        show_parameter_hints = false,
+        parameter_hints_prefix = "",
+        other_hints_prefix = "",
+        },
+    },
 
-require('lspconfig').texlab.setup{}
-
-require'lspconfig'.rust_analyzer.setup {
-	on_attach = on_attach,
-	settings = {
-		["rust-analyzer"] = {
-			assist = {
-				importMergeBehavior = "last",
-				importPrefix = "by_self",
-				},
-			diagnostics = {
-				disabled = { "unresolved-import" }
-				},
-			cargo = {
-				loadOutDirsFromCheck = true
-				},
-			procMacro = {
-			enable = true
-			},
-		checkOnSave = {
-			command = "clippy"
-			},
-		}
-	}
+-- all the opts to send to nvim-lspconfig
+-- these override the defaults set by rust-tools.nvim
+-- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
+server = {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    -- on_attach is a callback called when the language server attachs to the buffer
+    -- on_attach = on_attach,
+    settings = {
+        -- to enable rust-analyzer settings visit:
+        -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+        ["rust-analyzer"] = {
+            -- enable clippy on save
+            checkOnSave = {
+                command = "clippy"
+                },
+            }
+        }
+    },
+dap = {
+    adapter = require('rust-tools.dap').get_codelldb_adapter(
+    codelldb_path, liblldb_path)
+    }
 }
 
+require('rust-tools').setup(rust_opts)
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 vim.lsp.diagnostic.on_publish_diagnostics, {
-	virtual_text = true,
-	signs = true,
-	update_in_insert = true,
-	}
+    virtual_text = true,
+    signs = true,
+    update_in_insert = true,
+    }
 )
+
+local servers = { "pyright", "clangd", }
+for _, lsp in ipairs(servers) do
+    lspconfig[lsp].setup {
+        on_attach = on_attach,
+        flags = {
+            debounce_text_changes = 150,
+            },
+        capabilities = capabilities,
+        }
+
+end
+require'lspconfig'.bashls.setup{capabilities = capabilities,}
+require('lspconfig').texlab.setup{capabilities = capabilities,}
+
 END
+
+autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight =  "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
 
 " This is my java configuration 
 if has('nvim-0.5')
-	augroup lsp
-		au!
-		au FileType java lua require('jdtls').start_or_attach({cmd = {'java-lsp.sh'}})
-	augroup end
+    augroup lsp
+        au!
+        au FileType java lua require('jdtls').start_or_attach({cmd = {'java-lsp.sh'}})
+    augroup end
 endif
 
 " Plugin settings
 let g:secure_modelines_allowed_items = [
-			\ "textwidth",   "tw",
-			\ "softtabstop", "sts",
-			\ "tabstop",     "ts",
-			\ "shiftwidth",  "sw",
-			\ "expandtab",   "et",   "noexpandtab", "noet",
-			\ "filetype",    "ft",
-			\ "foldmethod",  "fdm",
-			\ "readonly",    "ro",   "noreadonly", "noro",
-			\ "rightleft",   "rl",   "norightleft", "norl",
-			\ "colorcolumn"
-			\ ]
+            \ "textwidth",   "tw",
+            \ "softtabstop", "sts",
+            \ "tabstop",     "ts",
+            \ "shiftwidth",  "sw",
+            \ "expandtab",   "et",   "noexpandtab", "noet",
+            \ "filetype",    "ft",
+            \ "foldmethod",  "fdm",
+            \ "readonly",    "ro",   "noreadonly", "noro",
+            \ "rightleft",   "rl",   "norightleft", "norl",
+            \ "colorcolumn"
+            \ ]
 
 " Lightline
 let g:lightline = {
-			\ 'colorscheme': 'onedark',
-			\ 'active': {
-				\   'left': [ [ 'mode', 'paste' ],
-				\             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
-				\ },
-				\ 'component_function': {
-					\   'filename': 'LightlineFilename',
-					\   'cocstatus': 'coc#status'
-					\ },
-					\ }
+            \ 'colorscheme': 'onedark',
+            \ 'active': {
+                \   'left': [ [ 'mode', 'paste' ],
+                \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+                \ },
+                \ 'component_function': {
+                    \   'filename': 'LightlineFilename',
+                    \   'cocstatus': 'coc#status'
+                    \ },
+                    \ }
 function! LightlineFilename()
-	return expand('%:t') !=# '' ? @% : '[No Name]'
+    return expand('%:t') !=# '' ? @% : '[No Name]'
 endfunction
 
 
 " from http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 if executable('ag')
-	set grepprg=ag\ --nogroup\ --nocolor
+    set grepprg=ag\ --nogroup\ --nocolor
 endif
 if executable('rg')
-	set grepprg=rg\ --no-heading\ --vimgrep
-	set grepformat=%f:%l:%c:%m
+    set grepprg=rg\ --no-heading\ --vimgrep
+    set grepformat=%f:%l:%c:%m
 endif
 
 " Javascript
@@ -358,8 +434,8 @@ cnoremap %s/ %sm/
 
 " use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
-	let col = col('.') - 1
-	return !col || getline('.')[col - 1]  =~ '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
 " =============================================================================
@@ -450,30 +526,30 @@ let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffse
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
-			\ { 'fg':      ['fg', 'Normal'],
-			\ 'bg':      ['bg', 'Normal'],
-			\ 'hl':      ['fg', 'Comment'],
-			\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-			\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-			\ 'hl+':     ['fg', 'Statement'],
-			\ 'info':    ['fg', 'PreProc'],
-			\ 'border':  ['fg', 'Ignore'],
-			\ 'prompt':  ['fg', 'Conditional'],
-			\ 'pointer': ['fg', 'Exception'],
-			\ 'marker':  ['fg', 'Keyword'],
-			\ 'spinner': ['fg', 'Label'],
-			\ 'header':  ['fg', 'Comment'] }
+            \ { 'fg':      ['fg', 'Normal'],
+            \ 'bg':      ['bg', 'Normal'],
+            \ 'hl':      ['fg', 'Comment'],
+            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+            \ 'hl+':     ['fg', 'Statement'],
+            \ 'info':    ['fg', 'PreProc'],
+            \ 'border':  ['fg', 'Ignore'],
+            \ 'prompt':  ['fg', 'Conditional'],
+            \ 'pointer': ['fg', 'Exception'],
+            \ 'marker':  ['fg', 'Keyword'],
+            \ 'spinner': ['fg', 'Label'],
+            \ 'header':  ['fg', 'Comment'] }
 
 command! -bang -nargs=* Rg
-			\ call fzf#vim#grep(
-			\   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-			\   <bang>0 ? fzf#vim#with_preview('up:60%')
-			\           : fzf#vim#with_preview('right:50%:hidden', '?'),
-			\   <bang>0)
+            \ call fzf#vim#grep(
+            \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+            \   <bang>0 ? fzf#vim#with_preview('up:60%')
+            \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \   <bang>0)
 
 function! s:list_cmd()
-	let base = fnamemodify(expand('%'), ':h:.:S')
-	return base == '.' ? 'fd --type file --follow' : printf('fd --type file --follow | proximity-sort %s', shellescape(expand('%')))
+    let base = fnamemodify(expand('%'), ':h:.:S')
+    return base == '.' ? 'fd --type file --follow' : printf('fd --type file --follow | proximity-sort %s', shellescape(expand('%')))
 endfunction
 
 " Old Files command with smaller view that doesn't take up the whole screen
@@ -482,7 +558,7 @@ endfunction
 " 			\ call fzf#vim#files(<q-args>, {'source': s:list_cmd(),
 " 			\                               'options': '--tiebreak=index'}, <bang>0)
 command! -bang -nargs=? -complete=dir Files
-			\ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+            \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
 
 
 
@@ -514,27 +590,6 @@ nnoremap k gk
 " Increment with control i because control a is tmux
 vnoremap <C-i> <C-a>
 nnoremap <C-i> <C-a>
-0
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" use <Tab> as trigger keys
-imap <Tab> <Plug>(completion_smart_tab)
-imap <S-Tab> <Plug>(completion_smart_s_tab)
-
-" Enable type inlay hints
-autocmd CursorHold,CursorHoldI *.rs :lua require'lsp_extensions'.inlay_hints{
-			\ prefix = '=> ', highlight = "Constant", 
-			\ enabled = {"TypeHint", "ChainingHint", "ParameterHint"}}
-
-" Use <TAB> for selections ranges.
-" nmap <silent> <TAB> <Plug>(coc-range-select)
-" xmap <silent> <TAB> <Plug>(coc-range-select)
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " <leader><leader> toggles between buffers
 nnoremap <leader><leader> <c-^>
@@ -566,6 +621,14 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 " Autoclose brackets the way I want them to
 inoremap {<Enter> {}<Left><Return><Up><Esc>A<Return> 
 
+nnoremap <leader>rd :RustDebuggables<CR>
+nnoremap <leader>rr :RustRunnables<CR>
+nnoremap <leader>db :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <leader>dc :lua require'dap'.continue()<CR>
+nnoremap <leader>do :lua require'dap'.step_over()<CR>
+nnoremap <leader>di :lua require'dap'.step_into()<CR>
+nnoremap <leader>dd :lua require'dap'.repl.open()<CR>
+
 " =============================================================================
 " # Autocommands
 " =============================================================================
@@ -579,8 +642,8 @@ autocmd InsertLeave * set nopaste
 
 " Jump to last edit position on opening file
 if has("autocmd")
-	" https://stackoverflow.com/questions/31449496/vim-ignore-specifc-file-in-autocommand
-	au BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    " https://stackoverflow.com/questions/31449496/vim-ignore-specifc-file-in-autocommand
+    au BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
 " Follow Rust code style rules
@@ -604,5 +667,5 @@ autocmd Filetype html,xml,xsl,php source ~/.config/nvim/scripts/closetag.vim
 
 " nvim
 if has('nvim')
-	runtime! plugin/python_setup.vim
+    runtime! plugin/python_setup.vim
 endif
