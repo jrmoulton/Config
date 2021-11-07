@@ -26,8 +26,7 @@ source $ZSH/oh-my-zsh.sh
 export STARTSHIP_CONFIG="$HOME/.config/starship.toml"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
-<<<<<<< HEAD
-if [[ "$(uname -s)" =="Darwin" ]]; then
+if [[ "$(uname -s)" == "Darwin" ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 else
     echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/jaredmoulton/.zprofile
