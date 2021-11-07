@@ -23,7 +23,6 @@ get_folders() {
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    
     selected=$(get_folders | fzf)
 fi
 
@@ -34,13 +33,12 @@ fi
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected_name -c $selected
+    tmux new-session -ds $selected_name -c $selected
     if [[ -d "$selected/worktrees" ]]; then
         for tree in $(basename $(fd . $selected/worktrees -d 1)); do
             tmux new-window -t $selected_name -n $tree -c $selected/$tree
         done
     fi
-    exit 0
 fi
 
 if ! tmux has-session -t $selected_name 2> /dev/null; then
