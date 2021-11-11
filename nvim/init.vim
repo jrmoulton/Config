@@ -240,22 +240,14 @@ dap = {
 
 require('rust-tools').setup(rust_opts)
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = true,
-    signs = true,
-    update_in_insert = true,
-    }
-)
-
 local servers = { "pyright", "clangd", }
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
         on_attach = on_attach,
+        capabilities = capabilities,
         flags = {
             debounce_text_changes = 150,
             },
-        capabilities = capabilities,
         }
 
 end
@@ -264,7 +256,7 @@ require('lspconfig').texlab.setup{capabilities = capabilities,}
 
 END
 
-autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight =  "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs,*.py :lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight =  "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
 
 " This is my java configuration 
 if has('nvim-0.5')

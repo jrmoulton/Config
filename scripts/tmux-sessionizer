@@ -12,10 +12,12 @@ get_folders() {
         folders+="$(pwd)\n"
     done
 
-    for file_path in $(fd worktrees $search_path -t d -H -I -a); do
+    for file_path in $(fd refs $search_path -t d -H -I -a); do
         cd $file_path
         cd ..
-        folders+="$(pwd)\n"
+        if [[ $(git rev-parse --is-bare-repository) == "true" ]]; then
+            folders+="$(pwd)\n"
+        fi
     done
     echo -e $folders
 }
@@ -34,18 +36,40 @@ selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     tmux new-session -ds $selected_name -c $selected
-    if [[ -d "$selected/worktrees" ]]; then
-        for tree in $(basename $(fd . $selected/worktrees -d 1)); do
-            tmux new-window -t $selected_name -n $tree -c $selected/$tree
+    if [[ -d "$selected/refs" ]]; then
+        trees=$(fd . $selected/worktrees -d 1 2> /dev/null)
+        if [[ -z $trees ]]; then
+            cd $selected
+            branches=$(git branch --list)
+            if [[ "$branches" == *"main"* ]]; then
+                git worktree add main &> /dev/null
+            elif [[ "$branches" == *"master"* ]]; then
+                git worktree add master &> /dev/null
+            fi
+        fi
+        for tree in $(fd . $selected/worktrees -d 1); do
+            base=$(basename $tree)
+            tmux new-window -t $selected_name -n $base -c $selected/$base
         done
     fi
 fi
 
 if ! tmux has-session -t $selected_name 2> /dev/null; then
     tmux new-session -ds $selected_name -c $selected
-    if [[ -d "$selected/worktrees" ]]; then
-        for tree in $(basename $(fd . $selected/worktrees -d 1)); do
-            tmux new-window -t $selected_name -n $tree -c $selected/$tree
+    if [[ -d "$selected/refs" ]]; then
+        trees=$(fd . $selected/worktrees -d 1 2> /dev/null)
+        if [[ -z $trees ]]; then
+            cd $selected
+            branches=$(git branch --list)
+            if [[ "$branches" == *"main"* ]]; then
+                git worktree add main &> /dev/null
+            elif [[ "$branches" == *"master"* ]]; then
+                git worktree add master &> /dev/null
+            fi
+            fi
+        for tree in $(fd . $selected/worktrees -d 1); do
+            base=$(basename $tree)
+            tmux new-window -t $selected_name -n $base -c $selected/$base
         done
     fi
 fi

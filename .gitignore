@@ -1,4 +1,5 @@
 tmux-resurrect/
+clangd/
 rust-analyzer
 plugged/
 solaar/

@@ -42,6 +42,7 @@ alias cd=z
 alias tec="tectonic -X"
 alias tms=tmux-sessionizer
 eval $(thefuck --alias)
+alias pythonten="/opt/homebrew/opt/python@3.10/bin/python3.10"
 
 # Git alaiases
 alias gaa="git add --all"
@@ -58,7 +59,7 @@ alias gss="git status -s"
 alias glogg="git log --graph --pretty=oneline --decorate --abbrev-commit"
 alias glog="git log --pretty=oneline --decorate --abbrev-commit -n 10"
 alias gk="git commit -m"
-alias gwa="git worktree add"
+alias gwa="git-worktree-add"
 
 
 
