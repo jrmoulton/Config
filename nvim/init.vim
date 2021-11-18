@@ -382,6 +382,22 @@ set ignorecase
 set smartcase
 set gdefault
 
+
+lua << EOF
+require('telescope').setup{
+  defaults = {
+    mappings = {
+      i = {
+        ["<C-k>"] = "close",
+      },
+      n = {
+        ["<C-k>"] = "close",
+      },
+    }
+  },
+}
+EOF
+
 " =============================================================================
 " # GUI settings
 " =============================================================================
@@ -580,7 +596,7 @@ autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs,
 " # Footer
 " =============================================================================
 
-" nvim
-if has('nvim')
-    runtime! plugin/python_setup.vim
-endif
+" " nvim
+" if has('nvim')
+"     runtime! plugin/python_setup.vim
+" endif
