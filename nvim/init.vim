@@ -29,13 +29,6 @@ Plug 'luochen1990/rainbow'
 Plug 'psliwka/vim-smoothie'
 Plug 'luukvbaal/stabilize.nvim'
 
-
-" Fuzzy finder
-Plug 'airblade/vim-rooter'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-
-
 " Semantic language support
 " Plug 'github/copilot.vim'
 Plug 'neovim/nvim-lspconfig'
@@ -50,12 +43,12 @@ Plug 'ray-x/lsp_signature.nvim'
 Plug 'hrsh7th/cmp-vsnip', {'branch': 'main'}
 Plug 'hrsh7th/vim-vsnip'
 
-" Debugging
+" Telescope
 Plug 'nvim-lua/plenary.nvim'
-Plug 'mfussenegger/nvim-dap'
-Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'kyazdani42/nvim-web-devicons'
 
 " Syntactic language support
 Plug 'cespare/vim-toml'
@@ -78,7 +71,9 @@ if has('nvim')
     noremap <C-q> :confirm qall<CR>
 endif
 
-" deal with colors
+" =============================================================================
+" # Colors
+" =============================================================================
 " onedark.vim override: Don't set a background color when running in a terminal;
 if (has("autocmd") && !has("gui_running"))
     augroup colorset
@@ -114,11 +109,11 @@ let g:rainbow_conf = {
             \	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
             \}
 
-" LSP configuration
-let g:LanguageClient_serverCommands = {
-            \ 'sh': ['bash-language-server', 'start']
-            \ }
 
+
+" =============================================================================
+" # LSP CONFIG
+" =============================================================================
 lua << END
 local cmp = require'cmp'
 
@@ -149,7 +144,6 @@ end,
        },
    }) 
 
- -- Enable completing paths in :
  cmp.setup.cmdline(':', {
      sources = cmp.config.sources({
      { name = 'path' }
@@ -213,29 +207,17 @@ local rust_opts = {
         },
     },
 
--- all the opts to send to nvim-lspconfig
--- these override the defaults set by rust-tools.nvim
--- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
 server = {
     capabilities = capabilities,
     on_attach = on_attach,
-    -- on_attach is a callback called when the language server attachs to the buffer
-    -- on_attach = on_attach,
-    settings = {
-        -- to enable rust-analyzer settings visit:
-        -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-        ["rust-analyzer"] = {
-            -- enable clippy on save
             checkOnSave = {
+    settings = {
+        ["rust-analyzer"] = {
                 command = "clippy"
                 },
             }
         }
     },
-dap = {
-    adapter = require('rust-tools.dap').get_codelldb_adapter(
-    codelldb_path, liblldb_path)
-    }
 }
 
 require('rust-tools').setup(rust_opts)
@@ -253,10 +235,11 @@ for _, lsp in ipairs(servers) do
 end
 require'lspconfig'.bashls.setup{capabilities = capabilities,}
 require('lspconfig').texlab.setup{capabilities = capabilities,}
+require('telescope').load_extension('fzf')
 
 END
 
-autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs,*.py :lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight =  "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+
 
 " This is my java configuration 
 if has('nvim-0.5')
@@ -266,7 +249,18 @@ if has('nvim-0.5')
     augroup end
 endif
 
-" Plugin settings
+let g:LanguageClient_serverCommands = {
+            \ 'sh': ['bash-language-server', 'start']
+            \ }
+
+" =============================================================================
+" # End of LSP CONFIG
+" =============================================================================
+
+
+" =============================================================================
+" # Editor Settings
+" =============================================================================
 let g:secure_modelines_allowed_items = [
             \ "textwidth",   "tw",
             \ "softtabstop", "sts",
@@ -296,16 +290,6 @@ function! LightlineFilename()
     return expand('%:t') !=# '' ? @% : '[No Name]'
 endfunction
 
-
-" from http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
-if executable('ag')
-    set grepprg=ag\ --nogroup\ --nocolor
-endif
-if executable('rg')
-    set grepprg=rg\ --no-heading\ --vimgrep
-    set grepformat=%f:%l:%c:%m
-endif
-
 " Javascript
 let javaScript_fold=0
 
@@ -317,14 +301,6 @@ let g:latex_indent_enabled = 1
 let g:latex_fold_envs = 0
 let g:latex_fold_sections = []
 
-" Open hotkeys
-" control p is a fuzzy search over the project files names
-map <C-p> :Files<CR>
-" leader ; is a fuzzy search over open buffers
-nmap <leader>; :Buffers<CR>
-
-" Quick-save
-nmap <leader>w :w<CR>
 
 " Don't confirm .lvimrc
 let g:localvimrc_ask = 0
@@ -334,9 +310,6 @@ let g:rustfmt_autosave = 1
 let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
 let g:rust_clip_command = 'xclip -selection clipboard'
-
-" Completion
-" Better completion
 
 " noinsert: Do not insert text until a selection is made
 " noselect: Do not select, force user to select one from the menu
@@ -352,9 +325,6 @@ let g:go_fmt_fail_silently = 1
 let g:go_fmt_command = "goimports"
 let g:go_bin_path = expand("~/dev/go/bin")
 
-" =============================================================================
-" # Editor settings
-" =============================================================================
 filetype plugin indent on
 set autoindent
 " set timeoutlen=300 " http://stackoverflow.com/questions/2158516/delay-before-o-opens-a-new-line
@@ -412,24 +382,6 @@ set ignorecase
 set smartcase
 set gdefault
 
-" Search results centered please
-nnoremap <silent> n nzz
-nnoremap <silent> N Nzz
-nnoremap <silent> * *zz
-nnoremap <silent> # #zz
-nnoremap <silent> g* g*zz
-
-" Very magic by default
-nnoremap ? ?\v
-nnoremap / /\v
-cnoremap %s/ %sm/
-
-" use <tab> for trigger completion and navigate to the next complete item
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
 " =============================================================================
 " # GUI settings
 " =============================================================================
@@ -467,7 +419,6 @@ inoremap <C-;> :echo hi
 nnoremap ; :
 
 " Ctrl+k as Esc
-
 nnoremap <C-k> <Esc>
 inoremap <C-k> <Esc>
 vnoremap <C-k> <Esc>
@@ -501,58 +452,13 @@ map H ^
 map L $
 
 " Neat X clipboard integration
-" ,p will paste clipboard into buffer
-" ,c will copy entire buffer into clipboard
-noremap <leader>p :read !pbpaste<cr>
-noremap <leader>c :w !pbcopy<cr><cr>
-
+" Linux
 noremap <leader>p :read !xsel --clipboard --output<cr>
 noremap <leader>c :w !xsel -ib<cr><cr>
 
-" <leader>s for Rg search
-noremap <leader>s :Rg 
-" let g:fzf_layout = { 'down': '~20%' }
-let g:fzf_tags_command = 'ctags -R'
-" Border color
-let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp' } }
-
-" Customize fzf colors to match your color scheme
-let g:fzf_colors =
-            \ { 'fg':      ['fg', 'Normal'],
-            \ 'bg':      ['bg', 'Normal'],
-            \ 'hl':      ['fg', 'Comment'],
-            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-            \ 'hl+':     ['fg', 'Statement'],
-            \ 'info':    ['fg', 'PreProc'],
-            \ 'border':  ['fg', 'Ignore'],
-            \ 'prompt':  ['fg', 'Conditional'],
-            \ 'pointer': ['fg', 'Exception'],
-            \ 'marker':  ['fg', 'Keyword'],
-            \ 'spinner': ['fg', 'Label'],
-            \ 'header':  ['fg', 'Comment'] }
-
-command! -bang -nargs=* Rg
-            \ call fzf#vim#grep(
-            \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-            \   <bang>0 ? fzf#vim#with_preview('up:60%')
-            \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-            \   <bang>0)
-
-function! s:list_cmd()
-    let base = fnamemodify(expand('%'), ':h:.:S')
-    return base == '.' ? 'fd --type file --follow' : printf('fd --type file --follow | proximity-sort %s', shellescape(expand('%')))
-endfunction
-
-" Old Files command with smaller view that doesn't take up the whole screen
-"  and has no preview
-" command! -bang -nargs=? -complete=dir Files
-" 			\ call fzf#vim#files(<q-args>, {'source': s:list_cmd(),
-" 			\                               'options': '--tiebreak=index'}, <bang>0)
-command! -bang -nargs=? -complete=dir Files
-            \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
-
-
+" MacOS
+noremap <leader>p :read !pbpaste<cr>
+noremap <leader>c :w !pbcopy<cr><cr>
 
 " Open new file adjacent to current file
 nnoremap <leader>o :e <C-R>=expand("%:p:h") . "/" <CR>
@@ -564,12 +470,6 @@ inoremap <up> <nop>
 inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
-
-" No repeated use of movement keys
-" noremap jj <nop>
-" noremap kk <nop>
-" noremap hh <nop>
-" noremap ll <nop>
 
 " Left and right can switch buffers
 nnoremap <left> :bp<CR>
@@ -621,6 +521,26 @@ nnoremap <leader>do :lua require'dap'.step_over()<CR>
 nnoremap <leader>di :lua require'dap'.step_into()<CR>
 nnoremap <leader>dd :lua require'dap'.repl.open()<CR>
 
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" Search results centered please
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
+nnoremap <silent> g* g*zz
+
+" Very magic by default
+nnoremap ? ?\v
+nnoremap / /\v
+cnoremap %s/ %sm/
+
+" Quick-save
+nmap <leader>w :w<CR>
+
 " =============================================================================
 " # Autocommands
 " =============================================================================
@@ -652,6 +572,9 @@ autocmd BufRead *.xlsx.axlsx set filetype=ruby
 
 " Script plugins
 autocmd Filetype html,xml,xsl,php source ~/.config/nvim/scripts/closetag.vim
+
+" Inlay hint
+autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs,*.py :lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight =  "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
 
 " =============================================================================
 " # Footer
