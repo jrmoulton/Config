@@ -29,16 +29,16 @@ eval "$(zoxide init zsh)"
 if [[ "$(uname -s)" == "Darwin" ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 else
-    echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/jaredmoulton/.zprofile
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    source /home/linuxbrew/.linuxbrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
 # Add aliases
 alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim=nvim
 alias ls=exa
-alias j=z
-alias cd=z
+alias z=zoxide
 alias tec="tectonic -X"
 alias tms=tmux-sessionizer
 eval $(thefuck --alias)
@@ -98,7 +98,7 @@ if [ "$TERM_PROGRAM" = "vscode" ];  then
 	tmux attach-session -t $SESSION
 elif ! { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
  	# if tmux is not running then start a session
- 	tmux new-session -A -s .config -c $HOME/.config
+ 	tmux new-session -A -s _config -c $HOME/.config
 fi
 
 tmux source-file ~/.config/tmux/.tmux.conf

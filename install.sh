@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 installer="sudo apt install"
@@ -9,7 +8,7 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 
 echo "install neovim\n"
-`$installer neovim`
+brew install neovim --HEAD
 # `$installer ninja-build gettext libtool libtool-bin autoconf automake \
 # 	cmake g++ pkg-config unzip doxygen`
 # git clone https://github.com/neovim/neovim.git

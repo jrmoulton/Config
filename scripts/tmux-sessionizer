@@ -4,7 +4,7 @@
 
 get_folders() {
     folders="$HOME/.config/\n"
-    search_path="$HOME/programming"
+    search_path="$HOME/Programming"
     for file_path in $(fd ".git$" $search_path -t d -H -I -a) 
     do
         cd $file_path

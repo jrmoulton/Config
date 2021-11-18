@@ -86,3 +86,6 @@ font:
   bold:
     family: FiraCode Nerd Font Mono
     style: Regular
+
+shell:
+    program: /bin/zsh
