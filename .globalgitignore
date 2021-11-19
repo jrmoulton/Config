@@ -11,3 +11,7 @@ callgrind*
 .swp
 env/
 __pycache__/
+*.sim/
+*.hw/
+*.cache/
+*ip_user_files/

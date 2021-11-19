@@ -13,6 +13,7 @@ call plug#begin()
 Plug 'ciaranm/securemodelines'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'preservim/nerdtree'
+Plug 'airblade/vim-rooter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'vim-scripts/BufOnly.vim'
@@ -24,10 +25,13 @@ Plug 'ThePrimeagen/git-worktree.nvim'
 Plug 'itchyny/lightline.vim'
 Plug 'machakann/vim-highlightedyank'
 Plug 'andymass/vim-matchup'
-Plug 'joshdick/onedark.vim'
+Plug 'monsonjeremy/onedark.nvim'
 Plug 'luochen1990/rainbow'
 Plug 'psliwka/vim-smoothie'
 Plug 'luukvbaal/stabilize.nvim'
+Plug 'airblade/vim-gitgutter'
+Plug 'conornewton/vim-pandoc-markdown-preview'
+Plug 'skywind3000/asyncrun.vim'
 
 " Semantic language support
 " Plug 'github/copilot.vim'
@@ -74,23 +78,12 @@ endif
 " =============================================================================
 " # Colors
 " =============================================================================
-" onedark.vim override: Don't set a background color when running in a terminal;
-if (has("autocmd") && !has("gui_running"))
-    augroup colorset
-        autocmd!
-        let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-        autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
-    augroup END
-endif
-
-hi Comment cterm=italic
-let g:onedark_hide_endofbuffer=1
-let g:onedark_terminal_italics=1
-let g:onedark_termcolors=256
-
-syntax on
-colorscheme onedark
-
+lua << EOF
+require("onedark").setup({
+    transparent = true,
+})
+EOF
+let g:lightline = {'colorscheme': 'onedark'}
 
 " checks if your terminal has 24-bit color support
 if (has("termguicolors"))
@@ -109,7 +102,7 @@ let g:rainbow_conf = {
             \	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
             \}
 
-
+syntax on
 
 " =============================================================================
 " # LSP CONFIG
@@ -468,13 +461,14 @@ map H ^
 map L $
 
 " Neat X clipboard integration
-" Linux
-noremap <leader>p :read !xsel --clipboard --output<cr>
-noremap <leader>c :w !xsel -ib<cr><cr>
 
 " MacOS
 noremap <leader>p :read !pbpaste<cr>
 noremap <leader>c :w !pbcopy<cr><cr>
+"
+" Linux
+noremap <leader>p :read !xsel --clipboard --output<cr>
+noremap <leader>c :w !xsel -ib<cr><cr>
 
 " Open new file adjacent to current file
 nnoremap <leader>o :e <C-R>=expand("%:p:h") . "/" <CR>
