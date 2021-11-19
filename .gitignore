@@ -1,5 +1,6 @@
 tmux-resurrect/
 clangd/
+fontforge/
 rust-analyzer
 plugged/
 solaar/
