@@ -23,16 +23,18 @@ Plug 'wakatime/vim-wakatime'
 Plug 'ThePrimeagen/git-worktree.nvim'
 
 " GUI enhancements
-Plug 'itchyny/lightline.vim'
+Plug 'nvim-lualine/lualine.nvim'
 Plug 'machakann/vim-highlightedyank'
 Plug 'andymass/vim-matchup'
-Plug 'monsonjeremy/onedark.nvim'
+Plug 'navarasu/onedark.nvim'
+Plug 'ap/vim-css-color'
 Plug 'luochen1990/rainbow'
 Plug 'psliwka/vim-smoothie'
 Plug 'luukvbaal/stabilize.nvim'
 Plug 'airblade/vim-gitgutter'
 Plug 'conornewton/vim-pandoc-markdown-preview'
 Plug 'skywind3000/asyncrun.vim'
+Plug 'f-person/git-blame.nvim'
 
 " Semantic language support
 " Plug 'github/copilot.vim'
@@ -79,18 +81,22 @@ endif
 " =============================================================================
 " # Colors
 " =============================================================================
+colorscheme onedark
 lua << EOF
-require("onedark").setup({
-    transparent = true,
-})
+vim.g.onedark_transparent_background = true
+vim.g.onedark_italic_comment = true
+require('lualine').setup {
+  options = {
+    theme = 'onedark'
+    -- ... your lualine config
+  }
+}
 EOF
-let g:lightline = {'colorscheme': 'onedark'}
 
 " checks if your terminal has 24-bit color support
-if (has("termguicolors"))
-    set termguicolors
-    hi LineNr ctermbg=NONE guibg=NONE
-end
+set termguicolors
+syntax on
+"hi LineNr ctermbg=NONE guibg=NONE
 
 " Rainbow Parantheses settings
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
@@ -102,8 +108,6 @@ let g:rainbow_conf = {
             \	'operators': '_,_',
             \	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
             \}
-
-syntax on
 
 " =============================================================================
 " # LSP CONFIG
@@ -268,22 +272,6 @@ let g:secure_modelines_allowed_items = [
             \ "colorcolumn"
             \ ]
 
-" Lightline
-let g:lightline = {
-            \ 'colorscheme': 'onedark',
-            \ 'active': {
-                \   'left': [ [ 'mode', 'paste' ],
-                \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
-                \ },
-                \ 'component_function': {
-                    \   'filename': 'LightlineFilename',
-                    \   'cocstatus': 'coc#status'
-                    \ },
-                    \ }
-function! LightlineFilename()
-    return expand('%:t') !=# '' ? @% : '[No Name]'
-endfunction
-
 " Javascript
 let javaScript_fold=0
 
@@ -391,6 +379,8 @@ require('telescope').setup{
   },
 }
 EOF
+
+let g:gitblame_enabled = 0
 
 " =============================================================================
 " # GUI settings
@@ -552,6 +542,7 @@ cnoremap %s/ %sm/
 " Quick-save
 nmap <leader>w :w<CR>
 
+nnoremap <C-g> :GitBlameToggle<CR>
 " =============================================================================
 " # Autocommands
 " =============================================================================

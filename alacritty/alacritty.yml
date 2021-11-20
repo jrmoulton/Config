@@ -89,3 +89,6 @@ font:
 
 shell:
     program: /bin/zsh
+
+env:
+  TERM: xterm-256color
