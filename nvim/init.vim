@@ -69,6 +69,7 @@ Plug 'jakewvincent/texmagic.nvim'
 Plug 'simrat39/rust-tools.nvim'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'vim-python/python-syntax'
+Plug 'RustemB/sixtyfps-vim'
 
 call plug#end()
 
@@ -81,7 +82,6 @@ endif
 " =============================================================================
 " # Colors
 " =============================================================================
-colorscheme onedark
 lua << EOF
 vim.g.onedark_transparent_background = true
 vim.g.onedark_italic_comment = true
@@ -92,6 +92,7 @@ require('lualine').setup {
   }
 }
 EOF
+colorscheme onedark
 
 " checks if your terminal has 24-bit color support
 set termguicolors
@@ -220,7 +221,7 @@ server = {
 
 require('rust-tools').setup(rust_opts)
 
-local servers = { "pyright", "clangd", }
+local servers = { "pyright", "clangd" }
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
         on_attach = on_attach,
@@ -234,7 +235,7 @@ end
 require'lspconfig'.bashls.setup{capabilities = capabilities,}
 require('lspconfig').texlab.setup{capabilities = capabilities,}
 require('telescope').load_extension('fzf')
-
+require'lspconfig'.sixtyfps.setup{capabilities = capabilities,}
 END
 
 

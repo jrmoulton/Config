@@ -96,7 +96,7 @@ if [ "$TERM_PROGRAM" = "vscode" ];  then
 		tmux send-keys -t $SESSION 'source .venv/bin/activate' Enter
 	fi
 	tmux attach-session -t $SESSION
-elif ! { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
+elif [ "$TERM_PROGRAM" != "tmux" ]; then
  	# if tmux is not running then start a session
  	tmux new-session -A -s _config -c $HOME/.config
 fi
