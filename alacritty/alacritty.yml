@@ -81,7 +81,7 @@ window:
 
 font:
   normal:
-    family: OperatorMono Nerd Font
+    family: Operator Mono SSm Lig
     style:  Book
 
 shell:
