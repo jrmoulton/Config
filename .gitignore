@@ -1,4 +1,5 @@
 tmux-resurrect/
+packer_compiled.lua
 clangd/
 fontforge/
 rust-analyzer
