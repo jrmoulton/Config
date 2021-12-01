@@ -83,9 +83,9 @@ font:
   normal:
     family: OperatorMono Nerd Font
     style:  Book
-  italic:
-    family: OperatorMono Nerd Font
-    style:  Italic
+  # italics:
+  #   family: OperatorMono Nerd Font
+  #   style:  Italic
 
 shell:
     program: /bin/zsh

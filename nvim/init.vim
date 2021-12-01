@@ -26,15 +26,15 @@ Plug 'ThePrimeagen/git-worktree.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'machakann/vim-highlightedyank'
 Plug 'andymass/vim-matchup'
-Plug 'navarasu/onedark.nvim'
-Plug 'ap/vim-css-color'
+Plug 'jrmoulton/onedark.nvim'
 Plug 'luochen1990/rainbow'
-Plug 'psliwka/vim-smoothie'
+" Plug 'psliwka/vim-smoothie'
 Plug 'luukvbaal/stabilize.nvim'
 Plug 'airblade/vim-gitgutter'
 Plug 'conornewton/vim-pandoc-markdown-preview'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'f-person/git-blame.nvim'
+Plug 'norcalli/nvim-colorizer.lua'
 
 " Semantic language support
 " Plug 'github/copilot.vim'
@@ -51,7 +51,6 @@ Plug 'hrsh7th/cmp-vsnip', {'branch': 'main'}
 Plug 'hrsh7th/vim-vsnip'
 
 " Telescope
-Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
@@ -83,21 +82,22 @@ endif
 " # Colors
 " =============================================================================
 lua << EOF
-vim.g.onedark_transparent_background = true
-vim.g.onedark_italic_comment = true
+require("onedark").setup({
+    functionStyle = "italic",
+    transparent = true,
+    })
 require('lualine').setup {
   options = {
     theme = 'onedark'
-    -- ... your lualine config
   }
 }
 EOF
+lua require'colorizer'.setup()
 colorscheme onedark
 
 " checks if your terminal has 24-bit color support
 set termguicolors
-syntax on
-"hi LineNr ctermbg=NONE guibg=NONE
+" syntax on
 
 " Rainbow Parantheses settings
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
@@ -135,8 +135,8 @@ end,
    sources = cmp.config.sources({
    -- TODO: currently snippets from lsp end up getting prioritized -- stop that!
    { name = 'nvim_lsp' },
-   }, {
    { name = 'path' },
+   { name = 'crates' },
    }),
    experimental = {
        ghost_text = true,
@@ -164,10 +164,10 @@ end,
  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
  -- go to definition
- buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+ buf_set_keymap('n', 'J', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
  -- brind up a window to show dodumentation
  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+ buf_set_keymap('n', '<C-j>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
  -- rename the current token
  buf_set_keymap('n', '<space>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
@@ -214,8 +214,13 @@ server = {
         ["rust-analyzer"] = {
                 command = "clippy"
                 },
-            }
-        }
+            },
+        completion = {
+             postfix = {
+                  enable = false,
+                 },
+            },
+        },
     },
 }
 
@@ -232,10 +237,19 @@ for _, lsp in ipairs(servers) do
         }
 
 end
-require'lspconfig'.bashls.setup{capabilities = capabilities,}
-require('lspconfig').texlab.setup{capabilities = capabilities,}
+require'lspconfig'.bashls.setup{
+    capabilities = capabilities,
+    on_attach = on_attach,
+}
+require('lspconfig').texlab.setup{
+    capabilities = capabilities,
+    on_attach = on_attach,
+}
 require('telescope').load_extension('fzf')
-require'lspconfig'.sixtyfps.setup{capabilities = capabilities,}
+require'lspconfig'.sixtyfps.setup{
+    capabilities = capabilities,
+    on_attach = on_attach,
+}
 END
 
 
@@ -453,14 +467,13 @@ map H ^
 map L $
 
 " Neat X clipboard integration
+" Linux
+noremap <leader>p :read !xsel --clipboard --output<cr>
+noremap <leader>c :w !xsel -ib<cr><cr>
 
 " MacOS
 noremap <leader>p :read !pbpaste<cr>
 noremap <leader>c :w !pbcopy<cr><cr>
-"
-" Linux
-noremap <leader>p :read !xsel --clipboard --output<cr>
-noremap <leader>c :w !xsel -ib<cr><cr>
 
 " Open new file adjacent to current file
 nnoremap <leader>o :e <C-R>=expand("%:p:h") . "/" <CR>
@@ -504,11 +517,6 @@ imap <F1> <Esc>
 " Toggle NERDTree
 nmap <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
-
-nnoremap J :m .+1<CR>==
-nnoremap K :m .-2<CR>==
-nnoremap J :m '>+1<CR>gv==gv
-nnoremap K :m '<-2<CR>gv==gv
 
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
@@ -562,7 +570,6 @@ if has("autocmd")
 endif
 
 " Follow Rust code style rules
-au Filetype rust source ~/.config/nvim/scripts/spacetab.vim
 au Filetype rust set colorcolumn=100
 
 " Help filetype detection
@@ -577,13 +584,5 @@ autocmd BufRead *.xlsx.axlsx set filetype=ruby
 autocmd Filetype html,xml,xsl,php source ~/.config/nvim/scripts/closetag.vim
 
 " Inlay hint
-autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs,*.py :lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight =  "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.py :lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight =  'Comment', enabled = {'TypeHint', 'ChainingHint', 'ParameterHint'} }
 
-" =============================================================================
-" # Footer
-" =============================================================================
-
-" " nvim
-" if has('nvim')
-"     runtime! plugin/python_setup.vim
-" endif
