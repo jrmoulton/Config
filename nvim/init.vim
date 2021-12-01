@@ -1,76 +1,7 @@
-set shell=/bin/bash
-let mapleader = "\<Space>"
 
-" =============================================================================
-" # PLUGINS
-" =============================================================================
-set nocompatible
-filetype off
-call plug#begin()
+lua require "plugins"
+lua require "options"
 
-" Load plugins
-" VIM enhancements
-Plug 'ciaranm/securemodelines'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'preservim/nerdtree'
-Plug 'airblade/vim-rooter'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-rooter'
-Plug 'tpope/vim-commentary'
-Plug 'vim-scripts/BufOnly.vim'
-Plug 'mfussenegger/nvim-dap'
-Plug 'wakatime/vim-wakatime'
-Plug 'ThePrimeagen/git-worktree.nvim'
-
-" GUI enhancements
-Plug 'nvim-lualine/lualine.nvim'
-Plug 'machakann/vim-highlightedyank'
-Plug 'andymass/vim-matchup'
-Plug 'jrmoulton/onedark.nvim'
-Plug 'luochen1990/rainbow'
-" Plug 'psliwka/vim-smoothie'
-Plug 'luukvbaal/stabilize.nvim'
-Plug 'airblade/vim-gitgutter'
-Plug 'conornewton/vim-pandoc-markdown-preview'
-Plug 'skywind3000/asyncrun.vim'
-Plug 'f-person/git-blame.nvim'
-Plug 'norcalli/nvim-colorizer.lua'
-
-" Semantic language support
-" Plug 'github/copilot.vim'
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/lsp_extensions.nvim'
-Plug 'hrsh7th/cmp-nvim-lsp', {'branch': 'main'}
-Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}
-Plug 'hrsh7th/cmp-path', {'branch': 'main'}
-Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}
-Plug 'ray-x/lsp_signature.nvim'
-
-" Only because nvim-cmp _requires_ snippets
-Plug 'hrsh7th/cmp-vsnip', {'branch': 'main'}
-Plug 'hrsh7th/vim-vsnip'
-
-" Telescope
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'kyazdani42/nvim-web-devicons'
-
-" Syntactic language support
-Plug 'cespare/vim-toml'
-Plug 'stephpy/vim-yaml'
-Plug 'rust-lang/rust.vim'
-Plug 'mfussenegger/nvim-jdtls'
-Plug 'rhysd/vim-clang-format'
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
-Plug 'jakewvincent/texmagic.nvim'
-Plug 'simrat39/rust-tools.nvim'
-Plug 'jackguo380/vim-lsp-cxx-highlight'
-Plug 'vim-python/python-syntax'
-Plug 'RustemB/sixtyfps-vim'
-
-call plug#end()
 
 if has('nvim')
     set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
@@ -81,23 +12,9 @@ endif
 " =============================================================================
 " # Colors
 " =============================================================================
-lua << EOF
-require("onedark").setup({
-    functionStyle = "italic",
-    transparent = true,
-    })
-require('lualine').setup {
-  options = {
-    theme = 'onedark'
-  }
-}
-EOF
-lua require'colorizer'.setup()
-colorscheme onedark
-
 " checks if your terminal has 24-bit color support
 set termguicolors
-" syntax on
+syntax on
 
 " Rainbow Parantheses settings
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
@@ -356,9 +273,22 @@ set undodir=~/.vimdid
 set undofile
 
 " Decent wildmenu
-set wildmenu
-set wildmode=list:longest
 set wildignore=.hg,.svn,*~,*.png,*.jpg,*.gif,*.settings,Thumbs.db,*.min.js,*.swp,publish/*,intermediate/*,*.o,*.hi,Zend,vendor
+call wilder#setup({
+      \ 'modes': [':', '/', '?'],
+      \ 'next_key': '<C-d>',
+      \ 'previous_key': '<C-u>',
+      \ })
+call wilder#set_option('renderer', wilder#popupmenu_renderer(wilder#popupmenu_border_theme({
+      \ 'highlights': {
+      \   'border': 'Normal',
+      \ },
+      \ 'left': [
+      \   ' ', wilder#popupmenu_devicons(),
+      \ ],
+      \ 'border': 'rounded',
+      \ 'max_height': '20%',
+      \ })))
 
 " Use wide tabs
 set shiftwidth=4
@@ -552,6 +482,17 @@ cnoremap %s/ %sm/
 nmap <leader>w :w<CR>
 
 nnoremap <C-g> :GitBlameToggle<CR>
+
+" Move to previous/next buffer
+nnoremap <leader>, :BufferPrevious<CR>
+nnoremap <leader>. :BufferNext<CR>
+" Pin/unpin buffer
+nnoremap <leader>bp :BufferPin<CR>
+" Close buffer
+nnoremap <leader>bc :BufferClose<CR>
+" obvvious - buffer force
+nnoremap <leader>bf :BufferCloseAllButCurrent<CR>
+nnoremap <leader>bc :BufferCloseAllButPinned<CR>
 " =============================================================================
 " # Autocommands
 " =============================================================================
