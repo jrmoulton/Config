@@ -81,11 +81,8 @@ window:
 
 font:
   normal:
-    family: Fira Code Nerd Font
-    style:  regular
-  # italic:
-  #   family: OperatorMono Nerd Font
-  #   style:  Italic
+    family: OperatorMono Nerd Font
+    style:  Book
 
 shell:
     program: /bin/zsh
