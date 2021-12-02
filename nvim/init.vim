@@ -1,4 +1,5 @@
 
+let mapleader = "\<Space>"
 
 lua require "plugins"
 lua require "options"
