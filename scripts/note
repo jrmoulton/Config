@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# old_session=$(tmux display-message -p '#S')
+# old_window=$(tmux display-message -p '#I')
+
+# tmux new-session -c "~/notes/" -s "note" "vim $1"
+
+file=$(basename $1)
+path=$(echo $1 | sd "$file" "" | sd "/\s*$" "" )
+if [[ "$path" != "" ]]; then
+    path="$HOME/notes/$path/"
+    if [[ ! -d $path ]]; then
+        mkdir -p $path
+    fi
+else 
+    path="$HOME/notes/"
+fi
+if [[ "$file" != *".md"* ]]; then
+    file="$file.md"
+fi
+
+nvim $path$file
+
+
