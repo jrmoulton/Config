@@ -1,6 +1,7 @@
 
 let mapleader = "\<Space>"
 
+
 lua require "plugins"
 lua require "options"
 
@@ -119,7 +120,7 @@ local rust_opts = {
     autoSetHints = true,
     hover_with_actions = true,
     inlay_hints = {
-        show_parameter_hints = false,
+        show_parameter_hints = true,
         parameter_hints_prefix = "",
         other_hints_prefix = "",
         },
@@ -296,7 +297,7 @@ call wilder#set_option('renderer', wilder#popupmenu_renderer(wilder#popupmenu_bo
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
-set expandtab
+"set expandtab
 
 " Wrapping options
 set formatoptions=tc " wrap text and comments using textwidth
@@ -488,13 +489,15 @@ nnoremap <C-g> :GitBlameToggle<CR>
 " Move to previous/next buffer
 nnoremap <leader>, :BufferPrevious<CR>
 nnoremap <leader>. :BufferNext<CR>
+nnoremap <BS>, :BufferPrevious<CR>
+nnoremap <BS>. :BufferNext<CR>
 " Pin/unpin buffer
 nnoremap <leader>bp :BufferPin<CR>
 " Close buffer
 nnoremap <leader>bc :BufferClose<CR>
 " obvvious - buffer force
 nnoremap <leader>bf :BufferCloseAllButCurrent<CR>
-nnoremap <leader>bc :BufferCloseAllButPinned<CR>
+nnoremap <leader>bx :BufferCloseAllButPinned<CR>
 " =============================================================================
 " # Autocommands
 " =============================================================================
@@ -527,5 +530,5 @@ autocmd BufRead *.xlsx.axlsx set filetype=ruby
 autocmd Filetype html,xml,xsl,php source ~/.config/nvim/scripts/closetag.vim
 
 " Inlay hint
-autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.py :lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight =  'Comment', enabled = {'TypeHint', 'ChainingHint', 'ParameterHint'} }
+" autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.py :lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight =  'Comment', enabled = {'TypeHint', 'ChainingHint', 'ParameterHint'} }
 

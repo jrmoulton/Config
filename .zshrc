@@ -77,6 +77,7 @@ bindkey '^ ' autosuggest-accept
 export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs --follow'
 export FZF_DEFAULT_OPTS='--bind=ctrl-u:up,ctrl-d:down'
 
+tmux source-file ~/.config/tmux/.tmux.conf
 
 ###### Really don't put stuff beneath this. What happens after this won't
 # necessarily affecty the current running shell
@@ -100,6 +101,4 @@ elif [ "$TERM_PROGRAM" != "tmux" ]; then
  	# if tmux is not running then start a session
  	tmux new-session -A -s _config -c $HOME/.config
 fi
-
-tmux source-file ~/.config/tmux/.tmux.conf
 

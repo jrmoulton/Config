@@ -1,9 +1,13 @@
 #!/bin/bash
 
-# old_session=$(tmux display-message -p '#S')
-# old_window=$(tmux display-message -p '#I')
-
-# tmux new-session -c "~/notes/" -s "note" "vim $1"
+if [[ $* == *-p* ]]; then
+    file=$(echo $@ | rg "[a-zA-Z/._\d]+\s?$" -o)
+    if [[ "$file" != *".md"* ]]; then
+        file="$file.md"
+    fi
+    prevmark $HOME/notes/$file
+    exit 0
+fi
 
 file=$(basename $1)
 path=$(echo $1 | sd "$file" "" | sd "/\s*$" "" )

@@ -26,7 +26,21 @@ return require('packer').startup(function()
   use 'luochen1990/rainbow'
   use 'airblade/vim-gitgutter'
   use 'f-person/git-blame.nvim'
-  use { 'jrmoulton/onedark.nvim', config=function() require'onedark'.setup() end, }
+  use { 'jrmoulton/onedark.nvim', config=function() require'onedark'.setup({
+       functionStyle = "italic",
+       commentStyle = "NONE",
+       transparent = true,
+
+  }) end, }
+  use {
+  'nvim-lualine/lualine.nvim',
+    requires = {'kyazdani42/nvim-web-devicons', opt = true},
+    config=function() require'lualine'.setup({
+      options = {
+        theme = 'onedark'
+      }
+    }) end,
+  }
   use {
     'norcalli/nvim-colorizer.lua', config=function() require'colorizer'.setup() end,
     }
@@ -35,6 +49,12 @@ return require('packer').startup(function()
     requires = {'kyazdani42/nvim-web-devicons'}
   }
   use 'gelguy/wilder.nvim'
+  use {
+      'AckslD/nvim-neoclip.lua',
+      config = function()
+          require('neoclip').setup()
+      end,
+  }
 
 -- Semantic language support
   use 'neovim/nvim-lspconfig'
@@ -53,6 +73,7 @@ return require('packer').startup(function()
   'nvim-telescope/telescope.nvim',
     requires = { {'nvim-lua/plenary.nvim'} },
     config=function() require'telescope'.load_extension('fzf') end,
+    config=function() require'telescope'.load_extension('neoclip') end,
   }
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   use {'pwntester/octo.nvim', config=function()
@@ -68,7 +89,7 @@ return require('packer').startup(function()
   use 'plasticboy/vim-markdown'
   use 'jakewvincent/texmagic.nvim'
   use 'simrat39/rust-tools.nvim'
-  use 'jackguo380/vim-lsp-cxx-highlight'
+  use 'rust-lang/rust.vim'
   use 'vim-python/python-syntax'
   use 'RustemB/sixtyfps-vim'
 

@@ -96,30 +96,30 @@ local rust_opts = {
         show_parameter_hints = false,
         parameter_hints_prefix = "",
         other_hints_prefix = "",
-        },
     },
+},
 
 server = {
     capabilities = capabilities,
     on_attach = on_attach,
-            checkOnSave = {
-    settings = {
-        ["rust-analyzer"] = {
+    checkOnSave = {
+        settings = {
+            ["rust-analyzer"] = {
                 command = "clippy"
-                },
             },
+        },
         completion = {
-             postfix = {
-                  enable = false,
-                 },
+            postfix = {
+                enable = false,
             },
         },
     },
+},
 }
 
 require('rust-tools').setup(rust_opts)
 
-local servers = { "pyright", "clangd" }
+local servers = { "clangd" }
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
         on_attach = on_attach,
