@@ -83,9 +83,9 @@ end,
  })
 end
 
-local extension_path = '/Users/jaredmoulton/.vscode-insiders/extensions/vadimcn.vscode-lldb-1.6.9/'
-local codelldb_path = extension_path .. 'adapter/codelldb'
-local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
+-- local extension_path = '/Users/jaredmoulton/.vscode-insiders/extensions/vadimcn.vscode-lldb-1.6.9/'
+-- local codelldb_path = extension_path .. 'adapter/codelldb'
+-- local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 local rust_opts = {
@@ -119,7 +119,7 @@ server = {
 
 require('rust-tools').setup(rust_opts)
 
-local servers = { "clangd" }
+local servers = { "clangd", "sixtyfps", "texlab", "bashls", "pyright" }
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
         on_attach = on_attach,
@@ -130,15 +130,41 @@ for _, lsp in ipairs(servers) do
         }
 
 end
-require'lspconfig'.bashls.setup{
-    capabilities = capabilities,
-    on_attach = on_attach,
+
+-- require'lspconfig'.jdtls.setup{
+-- 	 capabilities = capabilities,
+-- 	 on_attach = on_attach,
+-- 	 config = {
+-- 		  bundles = {
+-- 			vim.fn.glob("/Users/jaredmoulton/.local/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar")
+-- 		  },
+-- 	 }
+-- }
+
+require'lspconfig'.sumneko_lua.setup{
+  capabilties = capabilties,
+  on_attach = on_attach,
+  settings = {
+    Lua = {
+      runtime = {
+	    -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+	    version = 'LuaJIT',
+	    -- Setup your lua path
+	    -- path = runtime_path,
+	  },
+	  diagnostics = {
+	    -- Get the language server to recognize the `vim` global
+	    globals = {'vim', 'use'},
+	  },
+	  workspace = {
+	    -- Make the server aware of Neovim runtime files
+	    library = vim.api.nvim_get_runtime_file("", true),
+	  },
+	  -- Do not send telemetry data containing a randomized but unique identifier
+	  telemetry = {
+	    enable = false,
+      },
+    },
+  },
 }
-require('lspconfig').texlab.setup{
-    capabilities = capabilities,
-    on_attach = on_attach,
-}
-require'lspconfig'.sixtyfps.setup{
-    capabilities = capabilities,
-    on_attach = on_attach,
-}
+

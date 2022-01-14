@@ -7,6 +7,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.config/scripts:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export JDTLS_HOME="$HOME/Downloads/jdt-language-server-1.7.0-202112161541/"
 
 # Environment variables
 export EDITOR=nvim

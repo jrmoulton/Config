@@ -19,7 +19,7 @@ return require('packer').startup(function()
   use 'tpope/vim-fugitive'
   use 'tpope/vim-commentary'
   use 'wakatime/vim-wakatime'
-  
+
 -- Gui enhancements
   use 'preservim/nerdtree'
   use 'andymass/vim-matchup'
@@ -67,6 +67,10 @@ return require('packer').startup(function()
   use 'hrsh7th/cmp-vsnip'
   use 'hrsh7th/vim-vsnip'
   use 'ray-x/lsp_signature.nvim'
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate'
+  }
 
   -- Telescope config
   use {
@@ -92,6 +96,14 @@ return require('packer').startup(function()
   use 'rust-lang/rust.vim'
   use 'vim-python/python-syntax'
   use 'RustemB/sixtyfps-vim'
+
+  -- Debugger
+  use 'mfussenegger/nvim-dap'
+  use { 'theHamsta/nvim-dap-virtual-text', config=function() require("nvim-dap-virtual-text").setup() end, }
+  use { "rcarriga/nvim-dap-ui", 
+  requires = {"mfussenegger/nvim-dap"},
+  config=function() require("dapui").setup() end,
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

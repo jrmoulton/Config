@@ -4,6 +4,7 @@ let mapleader = "\<Space>"
 
 lua require "plugins"
 lua require "options"
+lua require "treesitter.lua"
 
 
 if has('nvim')
@@ -145,42 +146,7 @@ server = {
 }
 
 require('rust-tools').setup(rust_opts)
-
-local servers = { "pyright", "clangd" }
-for _, lsp in ipairs(servers) do
-    lspconfig[lsp].setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        flags = {
-            debounce_text_changes = 150,
-            },
-        }
-
-end
-require'lspconfig'.bashls.setup{
-    capabilities = capabilities,
-    on_attach = on_attach,
-}
-require('lspconfig').texlab.setup{
-    capabilities = capabilities,
-    on_attach = on_attach,
-}
-require('telescope').load_extension('fzf')
-require'lspconfig'.sixtyfps.setup{
-    capabilities = capabilities,
-    on_attach = on_attach,
-}
 END
-
-
-
-" This is my java configuration 
-if has('nvim-0.5')
-    augroup lsp
-        au!
-        au FileType java lua require('jdtls').start_or_attach({cmd = {'java-lsp.sh'}})
-    augroup end
-endif
 
 let g:LanguageClient_serverCommands = {
             \ 'sh': ['bash-language-server', 'start']
@@ -529,6 +495,26 @@ autocmd BufRead *.xlsx.axlsx set filetype=ruby
 " Script plugins
 autocmd Filetype html,xml,xsl,php source ~/.config/nvim/scripts/closetag.vim
 
-" Inlay hint
-" autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.py :lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight =  'Comment', enabled = {'TypeHint', 'ChainingHint', 'ParameterHint'} }
+" Debugging
+nnoremap <leader>db :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <S-k> :lua require'dap'.step_out()<CR>
+nnoremap <S-> :lua require 'dap'.step_into()<CR>
+" nnoremap <S-j> :lua require'dap'.step_over()<CR>
+nnoremap <leader>ds :lua require'dap'.stop()<CR>
+nnoremap <leader>dc :lua require'dap.continue()<CR>
+nnoremap <leader>dk :lua require'dap.up()<CR>
+nnoremap <leader>dj :lua require' dap.down()<CR>
+nnoremap <leader>d_ :lua require'dap'.run_last()<CR>
+nnoremap <leader>dr :lua require'dap'.repl.open({}, 'vsplit')<CR><C-w>l
+nnoremap <leader>di :lua require'dap.ui.widgets'.hover()<CR>
+vnoremap <leader>di :lua require'dap.ui.variables'.visual_hover()<CR>
+nnoremap <leader>d? :lua local widgets=require'dap.ui.widgets';widgets.centered_float(widgets, scopes)<CR>
+nnoremap <leader>de :lua require' dap.set_exception_breakpoints({"all"})<CR>
+nnoremap <leader>da :lua require'debugHelper'.attach()<CR>
+nnoremap <leader>dA :lua require'debugHelper'.attachToRemote()<CR>
+let g:dap_virtual_text = v:true
+nnoremap <leader>dq :lua require('dapui').toggle()<CR>
 
+
+nnoremap <leader>df <Cmd>lua require'jdtls'.test_class()<CR>
+nnoremap <leader>dn <Cmd>lua require'jdtls'.test_nearest_method()<CR>
