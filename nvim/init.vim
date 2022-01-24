@@ -352,6 +352,16 @@ cnoremap <esc> <nop>
 lnoremap <esc> <nop>
 tnoremap <esc> <nop>
 
+" Period just gets in the way of my changing buffers
+inoremap . <nop>
+nnoremap . <nop>
+vnoremap . <nop>
+snoremap . <nop>
+xnoremap . <nop>
+cnoremap . <nop>
+lnoremap . <nop>
+tnoremap . <nop>
+
 " Ctrl+h to stop searching
 vnoremap <C-h> :nohlsearch<cr>
 nnoremap <C-h> :nohlsearch<cr>
