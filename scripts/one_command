@@ -4,6 +4,8 @@ sleep 0.5
 sessions=$(tmux list-sessions -F '#{session_name}')
 current_session=$(tmux display-message -p '#S')
 star="*"
-sessions=$(echo $sessions | sd $current_session $current_session$star)
+white="\s"
+space=" "
+sessions=$(echo $sessions | sd $current_session$white "$current_session$star ")
 echo $sessions
 

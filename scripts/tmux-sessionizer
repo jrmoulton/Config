@@ -37,7 +37,7 @@ tmux_running=$(pgrep tmux)
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     tmux new-session -ds $selected_name -c $selected
     if [[ -d "$selected/refs" ]]; then
-        trees=$(fd . $selected/worktrees -d 1 2> /dev/null)
+        trees=$(fd . "$selected/worktrees" -d 1 2> /dev/null)
         if [[ -z $trees ]]; then
             cd $selected
             branches=$(git branch --list)
@@ -47,17 +47,18 @@ if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
                 git worktree add master &> /dev/null
             fi
         fi
-        for tree in $(fd . $selected/worktrees -d 1); do
+        for tree in $(fd . "$selected/worktrees" -d 1); do
+			full_path=$(cat "$tree/gitdir" | sd "\.git" "")
             base=$(basename $tree)
-            tmux new-window -t $selected_name -n $base -c $selected/$base
+            tmux new-window -t $selected_name -n $base -c $full_path
         done
     fi
 fi
 
-if ! tmux has-session -t $selected_name 2> /dev/null; then
+if ! tmux has-session -t "$selected_name " 2> /dev/null; then
     tmux new-session -ds $selected_name -c $selected
     if [[ -d "$selected/refs" ]]; then
-        trees=$(fd . $selected/worktrees -d 1 2> /dev/null)
+        trees=$(fd . "$selected/worktrees" -d 1 2> /dev/null)
         if [[ -z $trees ]]; then
             cd $selected
             branches=$(git branch --list)
@@ -67,9 +68,10 @@ if ! tmux has-session -t $selected_name 2> /dev/null; then
                 git worktree add master &> /dev/null
             fi
             fi
-        for tree in $(fd . $selected/worktrees -d 1); do
+        for tree in $(fd . "$selected/worktrees" -d 1); do
+			full_path=$(cat "$tree/gitdir" | sd "\.git" "")
             base=$(basename $tree)
-            tmux new-window -t $selected_name -n $base -c $selected/$base
+            tmux new-window -t $selected_name -n $base -c $full_path
         done
     fi
 fi
