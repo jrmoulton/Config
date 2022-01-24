@@ -4,7 +4,6 @@ let mapleader = "\<Space>"
 
 lua require "plugins"
 lua require "options"
-lua require "treesitter.lua"
 
 
 if has('nvim')
