@@ -26,7 +26,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 export STARTSHIP_CONFIG="$HOME/.config/starship.toml"
 eval "$(starship init zsh)"
-eval "$(zoxide init zsh --cmd j)"
+eval "$(zoxide init zsh --cmd cdd)"
 if [[ "$(uname -s)" == "Darwin" ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 else
@@ -39,7 +39,6 @@ fi
 alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim=nvim
 alias ls=exa
-alias z=zoxide
 alias tec="tectonic -X"
 alias tms=tmux-sessionizer
 eval $(thefuck --alias)
