@@ -10,7 +10,7 @@ for file_path in $(fd ".git$" $search_path -t d -H -I -a)
 do
     cd $file_path
     cd ..
-    git_status=$(/usr/bin/git status -s)
+    git_status=$(git status -s)
     if [[ "$git_status" != "" ]]; then
         echo $file_path
         echo $git_status
@@ -24,7 +24,7 @@ for file_path in $(fd worktrees $search_path -t d -H -I -a); do
     cd ..
     for tree in $(basename $(fd . worktrees/ -d 1)); do
         cd $tree
-        git_status=$(/usr/bin/git status -s)
+        git_status=$(git status -s)
         if [[ "$git_status" != "" ]]; then
             echo "$(pwd)/$tree"
             echo $git_status
@@ -36,7 +36,7 @@ done
 
 file_path="$HOME/.config/"
 cd $file_path
-git_status=$(/usr/bin/git status -s)
+git_status=$(git status -s)
 if [[ "$git_status" != "" ]]; then
     echo $file_path
     echo $git_status

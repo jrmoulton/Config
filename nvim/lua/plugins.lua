@@ -23,10 +23,11 @@ return require('packer').startup(function()
 -- Gui enhancements
   use 'preservim/nerdtree'
   use 'andymass/vim-matchup'
-  use 'luochen1990/rainbow'
+  use 'p00f/nvim-ts-rainbow'
   use 'airblade/vim-gitgutter'
   use 'f-person/git-blame.nvim'
-  use { 'jrmoulton/onedark.nvim', config=function() require'onedark'.setup({
+  use { 'j-hui/fidget.nvim', config=function() require'fidget'.setup({}) end, }
+  use { '~/Programming/onedark.nvim', config=function() require'onedark'.setup({
        functionStyle = "italic",
        commentStyle = "NONE",
        transparent = true,
@@ -100,11 +101,7 @@ return require('packer').startup(function()
   -- Debugger
   use 'mfussenegger/nvim-dap'
   use { 'theHamsta/nvim-dap-virtual-text', config=function() require("nvim-dap-virtual-text").setup() end, }
-  use { "rcarriga/nvim-dap-ui", 
-  requires = {"mfussenegger/nvim-dap"},
-  config=function() require("dapui").setup() end,
-  }
-
+  use { 'nvim-telescope/telescope-dap.nvim', config=function() require('telescope').load_extension('dap') end, }
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then

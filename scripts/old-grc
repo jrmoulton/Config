@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/bin/bash
 
 path=`gh repo list -l 100 | fzf | rg '[^\s]+' -o | head -n 1 `
 repo=`echo $path | rg '/[^\s]+' -o | rg '[^/]+' -o `

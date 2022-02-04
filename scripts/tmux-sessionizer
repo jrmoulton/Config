@@ -22,10 +22,10 @@ get_folders() {
     echo -e $folders
 }
 
-if [[ $# -eq 1 ]]; then
-    selected=$1
-else
+if [[ -z "$1" ]]; then
     selected=$(get_folders | fzf)
+else
+    selected="$HOME/Programming/$1"
 fi
 
 if [[ -z $selected ]]; then

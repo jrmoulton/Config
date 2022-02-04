@@ -4,6 +4,7 @@ let mapleader = "\<Space>"
 
 lua require "plugins"
 lua require "options"
+lua require "treesitter"
 
 
 if has('nvim')
@@ -20,7 +21,6 @@ set termguicolors
 syntax on
 
 " Rainbow Parantheses settings
-let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
 let g:rainbow_conf = {
             \	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
             \	'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
@@ -176,7 +176,7 @@ let g:secure_modelines_allowed_items = [
 let javaScript_fold=0
 
 " Java
-let java_ignore_javadoc=1
+" let java_ignore_javadoc=1
 
 " Latex
 let g:latex_indent_enabled = 1
@@ -353,14 +353,8 @@ lnoremap <esc> <nop>
 tnoremap <esc> <nop>
 
 " Period just gets in the way of my changing buffers
-inoremap . <nop>
 nnoremap . <nop>
 vnoremap . <nop>
-snoremap . <nop>
-xnoremap . <nop>
-cnoremap . <nop>
-lnoremap . <nop>
-tnoremap . <nop>
 
 " Ctrl+h to stop searching
 vnoremap <C-h> :nohlsearch<cr>
@@ -431,13 +425,6 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 " Autoclose brackets the way I want them to
 inoremap {<Enter> {}<Left><Return><Up><Esc>A<Return> 
 
-nnoremap <leader>rd :RustDebuggables<CR>
-nnoremap <leader>rr :RustRunnables<CR>
-nnoremap <leader>db :lua require'dap'.toggle_breakpoint()<CR>
-nnoremap <leader>dc :lua require'dap'.continue()<CR>
-nnoremap <leader>do :lua require'dap'.step_over()<CR>
-nnoremap <leader>di :lua require'dap'.step_into()<CR>
-nnoremap <leader>dd :lua require'dap'.repl.open()<CR>
 
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
@@ -500,30 +487,31 @@ autocmd BufRead *.lds set filetype=ld
 autocmd BufRead *.tex set filetype=tex
 autocmd BufRead *.trm set filetype=c
 autocmd BufRead *.xlsx.axlsx set filetype=ruby
+autocmd FileType dap-float nnoremap <buffer><silent> <C-k> <cmd>close!<CR>
 
 " Script plugins
 autocmd Filetype html,xml,xsl,php source ~/.config/nvim/scripts/closetag.vim
 
 " Debugging
-nnoremap <leader>db :lua require'dap'.toggle_breakpoint()<CR>
-nnoremap <S-k> :lua require'dap'.step_out()<CR>
-nnoremap <S-> :lua require 'dap'.step_into()<CR>
-" nnoremap <S-j> :lua require'dap'.step_over()<CR>
-nnoremap <leader>ds :lua require'dap'.stop()<CR>
-nnoremap <leader>dc :lua require'dap.continue()<CR>
-nnoremap <leader>dk :lua require'dap.up()<CR>
-nnoremap <leader>dj :lua require' dap.down()<CR>
-nnoremap <leader>d_ :lua require'dap'.run_last()<CR>
-nnoremap <leader>dr :lua require'dap'.repl.open({}, 'vsplit')<CR><C-w>l
+nnoremap <leader>rd :RustDebuggables<CR>
+nnoremap <leader>rr :RustRunnables<CR>
+nnoremap <leader>dbb :lua require'dap'.clear_breakpoints()<CR>
 nnoremap <leader>di :lua require'dap.ui.widgets'.hover()<CR>
-vnoremap <leader>di :lua require'dap.ui.variables'.visual_hover()<CR>
-nnoremap <leader>d? :lua local widgets=require'dap.ui.widgets';widgets.centered_float(widgets, scopes)<CR>
-nnoremap <leader>de :lua require' dap.set_exception_breakpoints({"all"})<CR>
-nnoremap <leader>da :lua require'debugHelper'.attach()<CR>
-nnoremap <leader>dA :lua require'debugHelper'.attachToRemote()<CR>
+nnoremap <leader>dc :lua require'dap.ui.widgets'.hover().close()<CR>
+nnoremap <leader>d? :lua local widgets=require'dap.ui.widgets';widgets.centered_float(widgets.scopes)<CR>
+nnoremap <F3> :lua require'dap'.clear_breakpoints()<CR>
+nnoremap <F4> :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <F5> :lua require'dap'.continue()<CR>
+nnoremap <F6> :lua require'dap'.step_over()<CR>
+nnoremap <F7> :lua require'dap'.step_into()<CR>
+nnoremap <F8> :lua require'dap'.step_out()<CR>
+nnoremap <F9> :lua require'dap'.run_last()<CR>
+nnoremap <F10> :lua require'dap'.terminate()<CR>
+nnoremap <leader>dd :lua require'dap'.repl.toggle()<CR>
+nnoremap <leader>df :lua require'telescope'.extensions.dap.frames()<CR>
+nnoremap <leader>dlb :require'telescope'.extensions.dap.list_breakpoints()<CR>
 let g:dap_virtual_text = v:true
-nnoremap <leader>dq :lua require('dapui').toggle()<CR>
+lua require ('dap.ext.vscode').load_launchjs()
 
-
-nnoremap <leader>df <Cmd>lua require'jdtls'.test_class()<CR>
+nnoremap <leader>dtc <Cmd>lua require'jdtls'.test_class()<CR>
 nnoremap <leader>dn <Cmd>lua require'jdtls'.test_nearest_method()<CR>
