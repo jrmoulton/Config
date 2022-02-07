@@ -72,10 +72,9 @@ local config = {
   -- Here you can configure eclipse.jdt.ls specific settings
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
   -- for a list of options
-  settings = {
-    java = {
-    }
-  },
+	settings = {
+		java = {signatureHelp = {enabled = true}, contentProvider = {preferred = 'fernflower'}}
+	},
 
   -- Language server `initializationOptions`
   -- You need to extend the `bundles` with paths to jar files
@@ -90,6 +89,7 @@ local config = {
   require('jdtls.setup').add_commands()
 }
 config['on_attach'] = function (client, bufnr)
+	require "lsp_signature".on_attach()
 	require('jdtls').setup_dap({hotcodereplace = 'auto' })
 end
 -- This starts a new client & server,
