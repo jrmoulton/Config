@@ -4,13 +4,11 @@ vim.g.mapleader = " "
 HOME = os.getenv("HOME")
 
 require "plugins"
-require "options"
 require "treesitter"
-require "rust-analyzer"
 require "lspconfiguration"
 require "telescopeconfig"
 require "nvim-cmp"
-require "luaconfig"
+require "dapconfig"
 
 local set = vim.opt
 
@@ -32,6 +30,12 @@ vim.cmd [[
 -- -- =============================================================================
 -- -- # Editor Settings
 -- -- =============================================================================
+vim.cmd([[if has('nvim')
+    set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+    set inccommand=nosplit
+    noremap <C-q> :confirm qall<CR>
+endif
+]])
 
 
 -- I don't know if I need this
@@ -179,7 +183,7 @@ set.shortmess:append('c') -- don't give |ins-completion-menu| messages.
 -- # Keyboard shortcuts
 -- -- =============================================================================
 
-local map = function(key)
+Map = function(key)
 	-- get the extra options
 	local opts = {noremap = true}
 	for i, v in pairs(key) do
@@ -198,84 +202,84 @@ local map = function(key)
 end
 
 -- I miss shift ; for : all the time
-map { 'i', '<C-;>', ':echo hi' }
+Map { 'i', '<C-;>', ':echo hi' }
 -- ; as :
-map { 'n', ';', ':' }
+Map { 'n', ';', ':' }
 
 -- Ctrl+k as Esc
-map { 'n', '<C-k>', '<Esc>' }
-map { 'i', '<C-k>', '<Esc>' }
-map { 'v', '<C-k>', '<Esc>' }
-map { 's', '<C-k>', '<Esc>' }
-map { 'x', '<C-k>', '<Esc>' }
-map { 'c', '<C-k>', '<C-c>' }
-map { 'o', '<C-k>', '<Esc>' }
-map { 'l', '<C-k>', '<Esc>' }
-map { 't', '<C-k>', '<Esc>' }
+Map { 'n', '<C-k>', '<Esc>' }
+Map { 'i', '<C-k>', '<Esc>' }
+Map { 'v', '<C-k>', '<Esc>' }
+Map { 's', '<C-k>', '<Esc>' }
+Map { 'x', '<C-k>', '<Esc>' }
+Map { 'c', '<C-k>', '<C-c>' }
+Map { 'o', '<C-k>', '<Esc>' }
+Map { 'l', '<C-k>', '<Esc>' }
+Map { 't', '<C-k>', '<Esc>' }
 
 -- No esc key use <^k>
-map { 'i', '<esc>', '<nop>' }
-map { 'n', '<esc>', '<nop>' }
-map { 'v', '<esc>', '<nop>' }
-map { 's', '<esc>', '<nop>' }
-map { 'x', '<esc>', '<nop>' }
-map { 'c', '<esc>', '<nop>' }
-map { 'l', '<esc>', '<nop>' }
-map { 't', '<esc>', '<nop>' }
+Map { 'i', '<esc>', '<nop>' }
+Map { 'n', '<esc>', '<nop>' }
+Map { 'v', '<esc>', '<nop>' }
+Map { 's', '<esc>', '<nop>' }
+Map { 'x', '<esc>', '<nop>' }
+Map { 'c', '<esc>', '<nop>' }
+Map { 'l', '<esc>', '<nop>' }
+Map { 't', '<esc>', '<nop>' }
 
 -- Period just gets in the way of my changing buffers
-map { 'n', '.', '<nop>' }
-map { 'v', '.', '<nop>' }
+Map { 'n', '.', '<nop>' }
+Map { 'v', '.', '<nop>' }
 
 -- Ctrl+h to stop searching
-map { 'v', '<C-h>', ':nohlsearch<cr>' }
-map { 'n', '<C-h>', ':nohlsearch<cr>' }
+Map { 'v', '<C-h>', ':nohlsearch<cr>' }
+Map { 'n', '<C-h>', ':nohlsearch<cr>' }
 
 -- Suspend '<ith ', 'trl+f
-map { 'i', '<C-f>', ':sus<cr>' }
-map { 'v', '<C-f>', ':sus<cr>' }
-map { 'n', '<C-f>', ':sus<cr>' }
+Map { 'i', '<C-f>', ':sus<cr>' }
+Map { 'v', '<C-f>', ':sus<cr>' }
+Map { 'n', '<C-f>', ':sus<cr>' }
 
 -- Jump to start and end of line using the home row keys
 vim.cmd [[
 	map H ^
 	map L $
+    nnoremap <leader>o :e <C-R>=expand("%:p:h") . "/" <CR>
 ]]
 
 set.clipboard:append('unnamedplus')
 
 -- Open new file adjacent to current file
 -- This may not work because of the expand...
-map { 'n', '<leader>o', ':e <C-R>=expand("%:p:h") . "/-- <CR>' }
 
 -- No arrow keys --- force yourself to use the home row
-map { 'n', '<up>', '<nop>' }
-map { 'n', '<down>', '<nop>' }
-map { 'i', '<up>', '<nop>' }
-map { 'i', '<down>', '<nop>' }
-map { 'i', '<left>', '<nop>' }
-map { 'i', '<right>', '<nop>' }
+Map { 'n', '<up>', '<nop>' }
+Map { 'n', '<down>', '<nop>' }
+Map { 'i', '<up>', '<nop>' }
+Map { 'i', '<down>', '<nop>' }
+Map { 'i', '<left>', '<nop>' }
+Map { 'i', '<right>', '<nop>' }
 
 -- Left and right can switch buffers
-map { 'n', '<left>', ':bp<CR>' }
-map { 'n', '<right>', ':bn<CR>' }
+Map { 'n', '<left>', ':bp<CR>' }
+Map { 'n', '<right>', ':bn<CR>' }
 
 -- Move by line
-map { 'n', 'j', 'gj' }
-map { 'n', 'k', 'gk' }
+Map { 'n', 'j', 'gj' }
+Map { 'n', 'k', 'gk' }
 
 -- Increment with control i because control a is tmux
-map { 'v', '<C-i>', '<C-a>' }
-map { 'n', '<C-i>', '<C-a>' }
+Map { 'v', '<C-i>', '<C-a>' }
+Map { 'n', '<C-i>', '<C-a>' }
 
 -- <leader><leader> toggles between buffers
-map { 'n', '<leader><leader>', '<c-^>' }
+Map { 'n', '<leader><leader>', '<c-^>' }
 
 -- <leader>, shows/hides hidden characters
-map { 'n', '<leader>', ':set.invlist<cr>' }
+Map { 'n', '<leader>', ':set.invlist<cr>' }
 
 -- <leader>q shows stats
-map { 'n', '<leader>q', 'g<c-g>' }
+Map { 'n', '<leader>q', 'g<c-g>' }
 
 -- Keymap for replacing up to next _ or -
 vim.cmd [[
@@ -294,48 +298,48 @@ vim.cmd [[
 ]]
 
 -- vim.o.NERDTreeShowHidden = 1
-map { 'n', '<leader>sv', ':source $MYVIMRC<CR>' }
+Map { 'n', '<leader>sv', ':source $MYVIMRC<CR>' }
 
 -- Autoclose brackets the way I want them to
-map { 'i', '{<Enter>', '{}<Left><Return><Up><Esc>A<Return>' }
+Map { 'i', '{<Enter>', '{}<Left><Return><Up><Esc>A<Return>' }
 
 
-map { 'n', '<leader>ff', '<cmd>Telescope find_files<cr>' }
-map { 'n', '<leader>fg', '<cmd>Telescope live_grep<cr>' }
-map { 'n', '<leader>fb', '<cmd>Telescope buffers<cr>' }
-map { 'n', '<leader>fh', '<cmd>Telescope help_tags<cr>' }
+Map { 'n', '<leader>ff', '<cmd>Telescope find_files<cr>' }
+Map { 'n', '<leader>fg', '<cmd>Telescope live_grep<cr>' }
+Map { 'n', '<leader>fb', '<cmd>Telescope buffers<cr>' }
+Map { 'n', '<leader>fh', '<cmd>Telescope help_tags<cr>' }
 
 -- Search results centered please
-map { 'n', '<silent> n', 'nzz' }
-map { 'n', '<silent> N', 'Nzz' }
-map { 'n', '<silent> *', '*zz' }
-map { 'n', '<silent> #', '#zz' }
-map { 'n', '<silent> g*', 'g*zz' }
+Map { 'n', '<silent> n', 'nzz' }
+Map { 'n', '<silent> N', 'Nzz' }
+Map { 'n', '<silent> *', '*zz' }
+Map { 'n', '<silent> #', '#zz' }
+Map { 'n', '<silent> g*', 'g*zz' }
 
 -- Very magic by default
--- map { 'n', '?', '?\v' }
--- map { 'n', '/', '/\v' }
--- map { 'c', '%s/', '%sm/' }
+-- Map { 'n', '?', '?\v' }
+-- Map { 'n', '/', '/\v' }
+-- Map { 'c', '%s/', '%sm/' }
 
 -- Quick-save
 vim.cmd [[
     nmap <leader>w :w<CR>
 ]]
 
-map { 'n', '<C-g>', ':GitBlameToggle<CR>' }
+Map { 'n', '<C-g>', ':GitBlameToggle<CR>' }
 
 -- Move to previous/next buffer
-map { 'n', '<leader>,', ':BufferPrevious<CR>' }
-map { 'n', '<leader>.', ':BufferNext<CR>' }
-map { 'n', '<BS>,', ':BufferPrevious<CR>' }
-map { 'n', '<BS>.', ':BufferNext<CR>' }
+Map { 'n', '<leader>,', ':BufferPrevious<CR>' }
+Map { 'n', '<leader>.', ':BufferNext<CR>' }
+Map { 'n', '<BS>,', ':BufferPrevious<CR>' }
+Map { 'n', '<BS>.', ':BufferNext<CR>' }
 -- Pin/unpin buffer
-map { 'n', '<leader>bp', ':BufferPin<CR>' }
+Map { 'n', '<leader>bp', ':BufferPin<CR>' }
 -- Close buffer
-map { 'n', '<leader>bc', ':BufferClose<CR>' }
+Map { 'n', '<leader>bc', ':BufferClose<CR>' }
 -- obvvious - buffer force
-map { 'n', '<leader>bf', ':BufferCloseAllButCurrent<CR>' }
-map { 'n', '<leader>bx', ':BufferCloseAllButPinned<CR>' }
+Map { 'n', '<leader>bf', ':BufferCloseAllButCurrent<CR>' }
+Map { 'n', '<leader>bx', ':BufferCloseAllButPinned<CR>' }
 -- =============================================================================
 -- # Autocommands
 -- =============================================================================
@@ -353,9 +357,6 @@ vim.cmd [[
         au BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
     endif
 
-    " Follow Rust code style rules
-    au Filetype rust set colorcolumn=100
-
     " Help filetype detection
     autocmd BufRead *.plot set filetype=gnuplot
     autocmd BufRead *.md set filetype=markdown
@@ -370,24 +371,22 @@ vim.cmd [[
 ]]
 
 -- Debugging
-map { 'n', '<leader>rd', ':RustDebuggables<CR>' }
-map { 'n', '<leader>rr', ':RustRunnables<CR>' }
-map { 'n', '<leader>dbb', ':lua require"dap".clear_breakpoints()<CR>' }
-map { 'n', '<leader>di', ':lua require"dap.ui.widgets".hover()<CR>' }
-map { 'n', '<leader>dc', ':lua require"dap.ui.widgets".hover().close()<CR>' }
-map { 'n', '<leader>d?', ':lua local widgets=require"dap.ui.widgets";widgets.centered_float(widgets.scopes)<CR>' }
-map { 'n', '<F3>', ':lua require"dap".clear_breakpoints()<CR>' }
-map { 'n', '<F4>', ':lua require"dap".toggle_breakpoint()<CR>' }
-map { 'n', '<F5>', ':lua require"dap".continue()<CR>' }
-map { 'n', '<F6>', ':lua require"dap".step_over()<CR>' }
-map { 'n', '<F7>', ':lua require"dap".step_into()<CR>' }
-map { 'n', '<F8>', ':lua require"dap".step_out()<CR>' }
-map { 'n', '<F9>', ':lua require"dap".run_last()<CR>' }
-map { 'n', '<F10>', ':lua require"dap".terminate()<CR>' }
-map { 'n', '<leader>dd', ':lua require"dap".repl.toggle()<CR>' }
-map { 'n', '<leader>df', ':lua require"telescope".extensions.dap.frames()<CR>' }
-map { 'n', '<leader>dlb', ':require"telescope".extensions.dap.list_breakpoints()<CR>' }
-
-map { 'n', '<leader>dtc', '<Cmd>lua require"jdtls".test_class()<CR>' }
-map { 'n', '<leader>dn', '<Cmd>lua require"jdtls".test_nearest_method()<CR>' }
+Map { 'n', '<leader>rd', ':RustDebuggables<CR>' }
+Map { 'n', '<leader>rr', ':RustRunnables<CR>' }
+Map { 'n', '<leader>dbb', ':lua require"dap".clear_breakpoints()<CR>' }
+Map { 'n', '<leader>di', ':lua require"dap.ui.widgets".hover()<CR>' }
+Map { 'n', '<leader>dc', ':lua require"dap.ui.widgets".hover().close()<CR>' }
+Map { 'n', '<leader>d?', ':lua local widgets=require"dap.ui.widgets";widgets.centered_float(widgets.scopes)<CR>' }
+Map { 'n', '<F3>', ':lua require"dap".clear_breakpoints()<CR>' }
+Map { 'n', '<F4>', ':lua require"dap".toggle_breakpoint()<CR>' }
+Map { 'n', '<F5>', ':lua require"dap".continue()<CR>' }
+Map { 'n', '<F6>', ':lua require"dap".step_over()<CR>' }
+Map { 'n', '<F7>', ':lua require"dap".step_into()<CR>' }
+Map { 'n', '<F8>', ':lua require"dap".step_out()<CR>' }
+Map { 'n', '<F9>', ':lua require"dap".run_last()<CR>' }
+Map { 'n', '<F10>', ':lua require"dap".terminate()<CR>' }
+Map { 'n', '<leader>dd', ':lua require"dap".repl.toggle()<CR>' }
+Map { 'n', '<leader>df', ':lua require"telescope".extensions.dap.frames()<CR>' }
+Map { 'n', '<leader>dlb', ':require"telescope".extensions.dap.list_breakpoints()<CR>' }
+Map { 'n', '<C-l>', ':on<CR>' }
 

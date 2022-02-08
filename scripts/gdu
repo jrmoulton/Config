@@ -29,7 +29,7 @@ else
 	do 
 	folder_line=`gdrive list --query \
 		"mimeType = 'application/vnd.google-apps.folder' and trashed = false"\
-		| fzf`;
+		| fzy`;
 	folder_id=`echo $folder_line | awk '{ print $1 }'`
 	echo "folder_id is $folder_id"
 	folder_name=`echo $folder_line | rg "\s.*" -o | rg ".*[\d]{4}-" -o | rg "[^\s].*" -o`

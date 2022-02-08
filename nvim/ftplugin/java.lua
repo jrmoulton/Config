@@ -1,6 +1,4 @@
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local workspace_dir = '/Users/jaredmoulton/Programming/java_workspaces/' .. project_name
 local bundles = {
@@ -67,7 +65,7 @@ local config = {
   -- This is the default if not provided, you can remove it. Or adjust as needed.
   -- One dedicated LSP server & client will be started per unique root_dir
   root_dir = require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'}),
-  capabilities = capabilities,
+  capabilities = Capabilities,
 
   -- Here you can configure eclipse.jdt.ls specific settings
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
@@ -89,12 +87,13 @@ local config = {
   require('jdtls.setup').add_commands()
 }
 config['on_attach'] = function (client, bufnr)
-	require "lsp_signature".on_attach()
+	require "lsp_signature".on_attach({}, bufnr)
 	require('jdtls').setup_dap({hotcodereplace = 'auto' })
 end
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 require('jdtls').start_or_attach(config)
+require ('dap.ext.vscode').load_launchjs()
 
 -- Mappings.
 local opts = { noremap=true, silent=true }
@@ -119,4 +118,7 @@ vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>'
 vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 vim.api.nvim_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 -- format the whole document
+
+Map { 'n', '<leader>dtc', '<Cmd>lua require"jdtls".test_class()<CR>' }
+Map { 'n', '<leader>dn', '<Cmd>lua require"jdtls".test_nearest_method()<CR>' }
 

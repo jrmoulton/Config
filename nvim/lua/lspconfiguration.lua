@@ -1,5 +1,7 @@
 
-On_attach = function(client, bufnr)
+local on_attach = function(client, bufnr)
+
+    require "lsp_signature".on_attach({}, bufnr)
 
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -32,19 +34,13 @@ On_attach = function(client, bufnr)
     -- format the whole document
 
     -- Get signatures (and _only_ signatures) when in argument lists.
-    require "lsp_signature".on_attach({
-        doc_lines = 0,
-        handler_opts = {
-            border = "rounded"
-        },
-    })
 end
 
 local servers = { "clangd", "sixtyfps", "texlab", "bashls", "pyright" }
 local lspconfig = require'lspconfig'
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
-        on_attach = On_attach,
+        on_attach = on_attach,
         capabilities = Capabilities,
         opts = {
             inlay_hints = {
@@ -59,3 +55,69 @@ for _, lsp in ipairs(servers) do
     }
 end
 
+local extension_path = HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.6.10/'
+local codelldb_path = extension_path .. 'adapter/codelldb'
+local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
+
+local rust_opts = {
+    tools = { -- rust-tools options
+        autoSetHints = true,
+        hover_with_actions = true,
+        inlay_hints = {
+            show_parameter_hints = true,
+            parameter_hints_prefix = "",
+            other_hints_prefix = "",
+        },
+    },
+
+    server = {
+        capabilities = Capabilities,
+        on_attach = on_attach,
+        checkOnSave = {
+            settings = {
+                ["rust-analyzer"] = {
+                    command = "clippy"
+                },
+            },
+            completion = {
+                postfix = {
+                    enable = false,
+                },
+            },
+        },
+    },
+
+    dap = {
+        adapter = require('rust-tools.dap').get_codelldb_adapter(
+            codelldb_path, liblldb_path)
+    },
+}
+
+require('rust-tools').setup(rust_opts)
+
+require'lspconfig'.sumneko_lua.setup{
+  capabilties = Capabilities,
+  on_attach = on_attach,
+  settings = {
+    Lua = {
+      runtime = {
+	    -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+	    version = 'LuaJIT',
+	    -- Setup your lua path
+	    -- path = runtime_path,
+	  },
+	  diagnostics = {
+	    -- Get the language server to recognize the `vim` global
+	    globals = {'vim', 'use'},
+	  },
+	  workspace = {
+	    -- Make the server aware of Neovim runtime files
+	    library = vim.api.nvim_get_runtime_file("", true),
+	  },
+	  -- Do not send telemetry data containing a randomized but unique identifier
+	  telemetry = {
+	    enable = false,
+      },
+    },
+  },
+}

@@ -3,7 +3,7 @@
 if [[ $# -eq 1 ]]; then
     branch=$1
 else
-    branch=$(git branch --list | rg "([*|+].*$)" -v --trim | fzf)
+    branch=$(git branch --list | rg "([*|+].*$)" -v --trim | fzy)
 fi
 
 while [ "$(git rev-parse --is-bare-repository)" != "true" ]

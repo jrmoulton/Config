@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-file_line=`gdrive list -m 1000 | fzf `
+file_line=`gdrive list -m 1000 | fzy `
 file_type=`echo $file_line | rg "(bin|dir|doc)" -o`
 file_id=`echo $file_line | awk '{ print $1 }'`
 
@@ -12,7 +12,7 @@ do
 		gdrive download -r $file_id
 		exit
 	else
-		file_line=`gdrive list -m 1000 --query "'$file_id' in parents" | fzf`
+		file_line=`gdrive list -m 1000 --query "'$file_id' in parents" | fzy`
 		file_type=`echo $file_line | rg "(bin|dir|doc)" -o`
 		file_id=`echo $file_line | awk '{ print $1 }'`
 	fi

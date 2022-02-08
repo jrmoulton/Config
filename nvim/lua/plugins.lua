@@ -77,13 +77,9 @@ return require('packer').startup(function()
 	use {
 		'nvim-telescope/telescope.nvim',
 		requires = { {'nvim-lua/plenary.nvim'} },
-		config=function() require'telescope'.load_extension('fzf') end,
-		config=function() require'telescope'.load_extension('neoclip') end,
 	}
 
-
-
-	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+	use {'nvim-telescope/telescope-fzy-native.nvim' }
 	use {'pwntester/octo.nvim', config=function()
 		require"octo".setup()
 	end}
@@ -105,6 +101,7 @@ return require('packer').startup(function()
 	use 'mfussenegger/nvim-dap'
 	use { 'theHamsta/nvim-dap-virtual-text', config=function() require("nvim-dap-virtual-text").setup() end, }
 	use { 'nvim-telescope/telescope-dap.nvim', config=function() require('telescope').load_extension('dap') end, }
+    use 'mfussenegger/nvim-dap-python'
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
 	if packer_bootstrap then
