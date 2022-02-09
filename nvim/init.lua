@@ -3,13 +3,6 @@ vim.g.mapleader = " "
 
 HOME = os.getenv("HOME")
 
-require "plugins"
-require "treesitter"
-require "lspconfiguration"
-require "telescopeconfig"
-require "nvim-cmp"
-require "dapconfig"
-
 local set = vim.opt
 
 -- -- =============================================================================
@@ -36,27 +29,6 @@ vim.cmd([[if has('nvim')
     noremap <C-q> :confirm qall<CR>
 endif
 ]])
-
-
--- I don't know if I need this
--- vim.g.secure_modelines_allowed_items = [
---             \ "textwidth",   "tw",
---             \ "softtabstop", "sts",
---             \ "tabstop",     "ts",
---             \ "shiftwidth",  "sw",
---             \ "expandtab",   "et",   "noexpandtab", "noet",
---             \ "filetype",    "ft",
---             \ "foldmethod",  "fdm",
---             \ "readonly",    "ro",   "noreadonly", "noro",
---             \ "rightleft",   "rl",   "norightleft", "norl",
---             \ "colorcolumn"
---             \ ]
-
--- Javascript
--- vim.o.javaScript_fold = 0
-
--- Java
--- vim.o.java_ignore_javadoc=1
 
 -- Latex
 vim.g.latex_indent_enabled = 1
@@ -183,62 +155,43 @@ set.shortmess:append('c') -- don't give |ins-completion-menu| messages.
 -- # Keyboard shortcuts
 -- -- =============================================================================
 
-Map = function(key)
-	-- get the extra options
-	local opts = {noremap = true}
-	for i, v in pairs(key) do
-		if type(i) == 'string' then opts[i] = v end
-	end
+-- Map = function(key)
+-- 	-- get the extra options
+-- 	local opts = {noremap = true}
+-- 	for i, v in pairs(key) do
+-- 		if type(i) == 'string' then opts[i] = v end
+-- 	end
 
-	-- basic support for buffer-scoped keybindings
-	local buffer = opts.buffer
-	opts.buffer = nil
+-- 	-- basic support for buffer-scoped keybindings
+-- 	local buffer = opts.buffer
+-- 	opts.buffer = nil
 
-	if buffer then
-		vim.api.nvim_buf_set_keymap(0, key[1], key[2], key[3], opts)
-	else
-		vim.api.nvim_set_keymap(key[1], key[2], key[3], opts)
-	end
-end
+-- 	if buffer then
+-- 		vim.api.nvim_buf_set_keymap(0, key[1], key[2], key[3], opts)
+-- 	else
+-- 		vim.api.nvim_set_keymap(key[1], key[2], key[3], opts)
+-- 	end
+-- end
 
 -- I miss shift ; for : all the time
-Map { 'i', '<C-;>', ':echo hi' }
+vim.keymap.set( 'i', '<C-;>', ':echo hi' )
 -- ; as :
-Map { 'n', ';', ':' }
+vim.keymap.set( 'n', ';', ':' )
 
 -- Ctrl+k as Esc
-Map { 'n', '<C-k>', '<Esc>' }
-Map { 'i', '<C-k>', '<Esc>' }
-Map { 'v', '<C-k>', '<Esc>' }
-Map { 's', '<C-k>', '<Esc>' }
-Map { 'x', '<C-k>', '<Esc>' }
-Map { 'c', '<C-k>', '<C-c>' }
-Map { 'o', '<C-k>', '<Esc>' }
-Map { 'l', '<C-k>', '<Esc>' }
-Map { 't', '<C-k>', '<Esc>' }
+vim.keymap.set( {'i', 'n', 'v', 's', 'x', 'c', 'l', 't'}, '<C-k>', '<Esc>' )
 
 -- No esc key use <^k>
-Map { 'i', '<esc>', '<nop>' }
-Map { 'n', '<esc>', '<nop>' }
-Map { 'v', '<esc>', '<nop>' }
-Map { 's', '<esc>', '<nop>' }
-Map { 'x', '<esc>', '<nop>' }
-Map { 'c', '<esc>', '<nop>' }
-Map { 'l', '<esc>', '<nop>' }
-Map { 't', '<esc>', '<nop>' }
+vim.keymap.set( {'i', 'n', 'v', 's', 'x', 'c', 'l', 't'}, '<esc>', '<nop>' )
 
 -- Period just gets in the way of my changing buffers
-Map { 'n', '.', '<nop>' }
-Map { 'v', '.', '<nop>' }
+vim.keymap.set( {'n', 'v'}, '.', '<nop>' )
 
 -- Ctrl+h to stop searching
-Map { 'v', '<C-h>', ':nohlsearch<cr>' }
-Map { 'n', '<C-h>', ':nohlsearch<cr>' }
+vim.keymap.set( {'v', 'n'}, '<C-h>', ':nohlsearch<cr>' )
 
 -- Suspend '<ith ', 'trl+f
-Map { 'i', '<C-f>', ':sus<cr>' }
-Map { 'v', '<C-f>', ':sus<cr>' }
-Map { 'n', '<C-f>', ':sus<cr>' }
+vim.keymap.set( {'i', 'v', 'n'}, '<C-f>', ':sus<cr>' )
 
 -- Jump to start and end of line using the home row keys
 vim.cmd [[
@@ -253,33 +206,26 @@ set.clipboard:append('unnamedplus')
 -- This may not work because of the expand...
 
 -- No arrow keys --- force yourself to use the home row
-Map { 'n', '<up>', '<nop>' }
-Map { 'n', '<down>', '<nop>' }
-Map { 'i', '<up>', '<nop>' }
-Map { 'i', '<down>', '<nop>' }
-Map { 'i', '<left>', '<nop>' }
-Map { 'i', '<right>', '<nop>' }
-
--- Left and right can switch buffers
-Map { 'n', '<left>', ':bp<CR>' }
-Map { 'n', '<right>', ':bn<CR>' }
+vim.keymap.set( {'n', 'i'}, '<up>', '<nop>' )
+vim.keymap.set( {'n', 'i'}, '<down>', '<nop>' )
+vim.keymap.set( {'n', 'i'}, '<left>', '<nop>' )
+vim.keymap.set( {'n', 'i'}, '<right>', '<nop>' )
 
 -- Move by line
-Map { 'n', 'j', 'gj' }
-Map { 'n', 'k', 'gk' }
+vim.keymap.set( 'n', 'j', 'gj' )
+vim.keymap.set( 'n', 'k', 'gk' )
 
 -- Increment with control i because control a is tmux
-Map { 'v', '<C-i>', '<C-a>' }
-Map { 'n', '<C-i>', '<C-a>' }
+vim.keymap.set( {'v', 'n'}, '<C-i>', '<C-a>' )
 
 -- <leader><leader> toggles between buffers
-Map { 'n', '<leader><leader>', '<c-^>' }
+vim.keymap.set( 'n', '<leader><leader>', '<c-^>' )
 
 -- <leader>, shows/hides hidden characters
-Map { 'n', '<leader>', ':set.invlist<cr>' }
+vim.keymap.set( 'n', '<leader>', ':set.invlist<cr>' )
 
 -- <leader>q shows stats
-Map { 'n', '<leader>q', 'g<c-g>' }
+vim.keymap.set( 'n', '<leader>q', 'g<c-g>' )
 
 -- Keymap for replacing up to next _ or -
 vim.cmd [[
@@ -298,48 +244,67 @@ vim.cmd [[
 ]]
 
 -- vim.o.NERDTreeShowHidden = 1
-Map { 'n', '<leader>sv', ':source $MYVIMRC<CR>' }
+vim.keymap.set( 'n', '<leader>sv', ':source $MYVIMRC<CR>' )
 
 -- Autoclose brackets the way I want them to
-Map { 'i', '{<Enter>', '{}<Left><Return><Up><Esc>A<Return>' }
+vim.keymap.set( 'i', '{<Enter>', '{}<Left><Return><Up><Esc>A<Return>' )
 
-
-Map { 'n', '<leader>ff', '<cmd>Telescope find_files<cr>' }
-Map { 'n', '<leader>fg', '<cmd>Telescope live_grep<cr>' }
-Map { 'n', '<leader>fb', '<cmd>Telescope buffers<cr>' }
-Map { 'n', '<leader>fh', '<cmd>Telescope help_tags<cr>' }
+vim.keymap.set( 'n', '<leader>ff', '<cmd>Telescope find_files<cr>' )
+vim.keymap.set( 'n', '<leader>fg', '<cmd>Telescope live_grep<cr>' )
+vim.keymap.set( 'n', '<leader>fb', '<cmd>Telescope buffers<cr>' )
+vim.keymap.set('n', '<leader>fh', '<cmd>Telescope help_tags<cr>')
 
 -- Search results centered please
-Map { 'n', '<silent> n', 'nzz' }
-Map { 'n', '<silent> N', 'Nzz' }
-Map { 'n', '<silent> *', '*zz' }
-Map { 'n', '<silent> #', '#zz' }
-Map { 'n', '<silent> g*', 'g*zz' }
+vim.keymap.set( 'n', '<silent> n', 'nzz' )
+vim.keymap.set( 'n', '<silent> N', 'Nzz' )
+vim.keymap.set( 'n', '<silent> *', '*zz' )
+vim.keymap.set( 'n', '<silent> #', '#zz' )
+vim.keymap.set( 'n', '<silent> g*', 'g*zz' )
 
 -- Very magic by default
--- Map { 'n', '?', '?\v' }
--- Map { 'n', '/', '/\v' }
--- Map { 'c', '%s/', '%sm/' }
+-- vim.keymap.set( 'n', '?', '?\v' )
+-- vim.keymap.set( 'n', '/', '/\v' )
+-- vim.keymap.set( 'c', '%s/', '%sm/' )
 
 -- Quick-save
 vim.cmd [[
     nmap <leader>w :w<CR>
 ]]
 
-Map { 'n', '<C-g>', ':GitBlameToggle<CR>' }
+vim.keymap.set( 'n', '<C-g>', ':GitBlameToggle<CR>' )
 
 -- Move to previous/next buffer
-Map { 'n', '<leader>,', ':BufferPrevious<CR>' }
-Map { 'n', '<leader>.', ':BufferNext<CR>' }
-Map { 'n', '<BS>,', ':BufferPrevious<CR>' }
-Map { 'n', '<BS>.', ':BufferNext<CR>' }
+vim.keymap.set( 'n', '<leader>,', ':BufferPrevious<CR>' )
+vim.keymap.set( 'n', '<leader>.', ':BufferNext<CR>' )
+vim.keymap.set( 'n', '<BS>,', ':BufferPrevious<CR>' )
+vim.keymap.set( 'n', '<BS>.', ':BufferNext<CR>' )
 -- Pin/unpin buffer
-Map { 'n', '<leader>bp', ':BufferPin<CR>' }
+vim.keymap.set( 'n', '<leader>bp', ':BufferPin<CR>' )
 -- Close buffer
-Map { 'n', '<leader>bc', ':BufferClose<CR>' }
+vim.keymap.set( 'n', '<leader>bc', ':BufferClose<CR>' )
 -- obvvious - buffer force
-Map { 'n', '<leader>bf', ':BufferCloseAllButCurrent<CR>' }
-Map { 'n', '<leader>bx', ':BufferCloseAllButPinned<CR>' }
+vim.keymap.set( 'n', '<leader>bf', ':BufferCloseAllButCurrent<CR>' )
+vim.keymap.set( 'n', '<leader>bx', ':BufferCloseAllButPinned<CR>' )
+
+-- Debugging
+vim.keymap.set( 'n', '<leader>rd', ':RustDebuggables<CR>' )
+vim.keymap.set( 'n', '<leader>rr', ':RustRunnables<CR>' )
+vim.keymap.set( 'n', '<leader>di', ':lua require"dap.ui.widgets".hover()<CR>' )
+vim.keymap.set( 'n', '<leader>dc', ':lua require"dap.ui.widgets".hover().close()<CR>' )
+vim.keymap.set( 'n', '<leader>d?', ':lua local widgets=require"dap.ui.widgets";widgets.centered_float(widgets.scopes)<CR>' )
+vim.keymap.set( {'n', 'i', 'v'}, '<F3>', '<cmd>lua require"dap".clear_breakpoints()<CR>' )
+vim.keymap.set( {'n', 'i', 'v'}, '<F4>', '<cmd>lua require"dap".toggle_breakpoint()<CR>' )
+vim.keymap.set( {'n', 'i', 'v'}, '<F5>', '<cmd>lua require"dap".continue()<CR>' )
+vim.keymap.set( {'n', 'i', 'v'}, '<F6>', '<cmd>lua require"dap".step_over()<CR>' )
+vim.keymap.set( {'n', 'i', 'v'}, '<F7>', '<cmd>lua require"dap".step_into()<CR>' )
+vim.keymap.set( {'n', 'i', 'v'}, '<F8>', '<cmd>lua require"dap".step_out()<CR>' )
+vim.keymap.set( {'n', 'i', 'v'}, '<F9>', '<cmd>lua require"dap".run_last()<CR>' )
+vim.keymap.set( {'n', 'i', 'v'}, '<F10>', '<cmd>lua require"dap".terminate()<CR>' )
+vim.keymap.set( 'n', '<leader>dd', ':lua require"dap".repl.toggle()<CR>' )
+vim.keymap.set( 'n', '<leader>df', ':lua require"telescope".extensions.dap.frames()<CR>' )
+vim.keymap.set( 'n', '<leader>dlb', ':require"telescope".extensions.dap.list_breakpoints()<CR>' )
+vim.keymap.set( 'n', '<C-c>', ':on<CR>' )
+
 -- =============================================================================
 -- # Autocommands
 -- =============================================================================
@@ -370,23 +335,11 @@ vim.cmd [[
     autocmd Filetype html,xml,xsl,php source ~/.config/nvim/scripts/closetag.vim
 ]]
 
--- Debugging
-Map { 'n', '<leader>rd', ':RustDebuggables<CR>' }
-Map { 'n', '<leader>rr', ':RustRunnables<CR>' }
-Map { 'n', '<leader>dbb', ':lua require"dap".clear_breakpoints()<CR>' }
-Map { 'n', '<leader>di', ':lua require"dap.ui.widgets".hover()<CR>' }
-Map { 'n', '<leader>dc', ':lua require"dap.ui.widgets".hover().close()<CR>' }
-Map { 'n', '<leader>d?', ':lua local widgets=require"dap.ui.widgets";widgets.centered_float(widgets.scopes)<CR>' }
-Map { 'n', '<F3>', ':lua require"dap".clear_breakpoints()<CR>' }
-Map { 'n', '<F4>', ':lua require"dap".toggle_breakpoint()<CR>' }
-Map { 'n', '<F5>', ':lua require"dap".continue()<CR>' }
-Map { 'n', '<F6>', ':lua require"dap".step_over()<CR>' }
-Map { 'n', '<F7>', ':lua require"dap".step_into()<CR>' }
-Map { 'n', '<F8>', ':lua require"dap".step_out()<CR>' }
-Map { 'n', '<F9>', ':lua require"dap".run_last()<CR>' }
-Map { 'n', '<F10>', ':lua require"dap".terminate()<CR>' }
-Map { 'n', '<leader>dd', ':lua require"dap".repl.toggle()<CR>' }
-Map { 'n', '<leader>df', ':lua require"telescope".extensions.dap.frames()<CR>' }
-Map { 'n', '<leader>dlb', ':require"telescope".extensions.dap.list_breakpoints()<CR>' }
-Map { 'n', '<C-l>', ':on<CR>' }
+require "plugins"
+require "treesitter"
+require "lspconfiguration"
+require "telescopeconfig"
+require "nvim-cmp"
+require "dapconfig"
+require "luasnipconfig"
 

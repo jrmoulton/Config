@@ -1,4 +1,6 @@
 tmux-resurrect/
+*deleteme*
+*.ipynb*
 packer_compiled.lua
 clangd/
 plugin/
