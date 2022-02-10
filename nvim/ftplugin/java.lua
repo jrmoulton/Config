@@ -87,7 +87,7 @@ local config = {
   require('jdtls.setup').add_commands()
 }
 config['on_attach'] = function (client, bufnr)
-	require "lsp_signature".on_attach({}, bufnr)
+	require "lsp_signature".on_attach({doc_lines = 0}, bufnr)
 	require('jdtls').setup_dap({hotcodereplace = 'auto' })
 end
 -- This starts a new client & server,

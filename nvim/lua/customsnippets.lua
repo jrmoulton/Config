@@ -15,6 +15,10 @@ ls.snippets = {
 
     lua = {
         s( "req", fmt("local {} = require('{}')", {i(1), rep(1)}) )
+    },
+
+    java = {
+        s( "doc", fmt("/**\n* {}\n*/", {i(1)}) )
     }
 }
 

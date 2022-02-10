@@ -8,6 +8,21 @@ require'nvim-treesitter.configs'.setup {
 	-- List of parsers to ignore installing
 	ignore_install = { "javascript" },
 
+    ensure_installed = {
+        "rust",
+        "java",
+        "bash",
+        "c",
+        "cpp",
+        "latex",
+        "lua",
+        "make",
+        "markdown",
+        "python",
+        "toml",
+        "vim",
+    },
+
 	highlight = {
 		-- `false` will disable the whole extension
 		enable = true,
@@ -24,6 +39,10 @@ require'nvim-treesitter.configs'.setup {
 	indent = {
 		enable = true
 	},
+    fold = {
+        enable = true
+    },
+
 	rainbow = {
 		enable = true,
 		-- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
@@ -36,6 +55,6 @@ require'nvim-treesitter.configs'.setup {
 			-- '#c678dd',
 			-- '#e86671',
 		}, -- table of hex strings
-		-- termcolors = {} -- table of colour name strings
+		-- termcolors = {"blue", "green", "orange"} -- table of colour name strings
 	}
 }
