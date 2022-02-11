@@ -27,7 +27,7 @@ plugins=(
 
 # Start oh-my-zsh and starship
 source $ZSH/oh-my-zsh.sh
-export STARTSHIP_CONFIG="$HOME/.config/starship.toml"
+export STARTSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh --cmd cdd)"
 if [[ "$(uname -s)" == "Darwin" ]]; then
