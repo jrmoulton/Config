@@ -56,6 +56,7 @@ return require('packer').startup(function()
 			require('neoclip').setup()
 		end,
 	}
+    -- use "lukas-reineke/indent-blankline.nvim"
 
 	-- Semantic language support
 	use 'neovim/nvim-lspconfig'
@@ -103,6 +104,7 @@ return require('packer').startup(function()
 	use { 'theHamsta/nvim-dap-virtual-text', config=function() require("nvim-dap-virtual-text").setup() end, }
 	use { 'nvim-telescope/telescope-dap.nvim', config=function() require('telescope').load_extension('dap') end, }
     use 'mfussenegger/nvim-dap-python'
+    use 'jbyuki/one-small-step-for-vimkind'
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
 	if packer_bootstrap then

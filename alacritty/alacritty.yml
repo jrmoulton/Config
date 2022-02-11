@@ -53,7 +53,9 @@ font:
   normal:
     family: Operator Mono SSm Lig
     style:  Book
-
+    use_thin_strokes: true
+    offset:
+      y: 8
 shell:
     program: /bin/zsh
 

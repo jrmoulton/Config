@@ -10,10 +10,11 @@ local set = vim.opt
 -- -- checks if your terminal has 24-bit color support
 set.termguicolors = true
 
-vim.cmd([[if has('nvim')
-    set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
-    set inccommand=nosplit
-endif
+vim.cmd([[
+    if has('nvim')
+        set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+        set inccommand=nosplit
+    endif
 ]])
 
 -- Latex
@@ -191,8 +192,8 @@ vim.keymap.set( 'n', '<leader>rr', ':RustRunnables<CR>' )
 vim.keymap.set( 'n', '<leader>di', ':lua require"dap.ui.widgets".hover()<CR>' )
 vim.keymap.set( 'n', '<leader>dc', ':lua require"dap.ui.widgets".hover().close()<CR>' )
 vim.keymap.set( 'n', '<leader>d?', ':lua local widgets=require"dap.ui.widgets";widgets.centered_float(widgets.scopes)<CR>' )
-vim.keymap.set( {'n', 'i', 'v'}, '<F3>', '<cmd>lua require"dap".clear_breakpoints();store_breakpoints()<CR>' )
-vim.keymap.set( {'n', 'i', 'v'}, '<F4>', '<cmd>lua require"dap".toggle_breakpoint();store_breakpoints()<CR>' )
+vim.keymap.set( {'n', 'i', 'v'}, '<F3>', '<cmd>lua require"dap".clear_breakpoints();store_breakpoints(true)<CR>' )
+vim.keymap.set( {'n', 'i', 'v'}, '<F4>', '<cmd>lua require"dap".toggle_breakpoint();store_breakpoints(false)<CR>' )
 vim.keymap.set( {'n', 'i', 'v'}, '<F5>', '<cmd>lua require"dap".continue()<CR>' )
 vim.keymap.set( {'n', 'i', 'v'}, '<F6>', '<cmd>lua require"dap".step_over()<CR>' )
 vim.keymap.set( {'n', 'i', 'v'}, '<F7>', '<cmd>lua require"dap".step_into()<CR>' )
@@ -203,7 +204,6 @@ vim.keymap.set( 'n', '<leader>dd', ':lua require"dap".repl.toggle()<CR>' )
 vim.keymap.set( 'n', '<leader>df', ':lua require"telescope".extensions.dap.frames()<CR>' )
 vim.keymap.set( 'n', '<leader>dlb', '<cmd>lua require"telescope".extensions.dap.list_breakpoints()<CR>' )
 vim.keymap.set( 'n', '<C-c>', ':on<CR>' )
-vim.keymap.set( 'n', '<leader>drb', '<cmd>lua load_breakpoints()<CR>' )
 
 -- =============================================================================
 -- # Autocommands
@@ -233,6 +233,8 @@ vim.cmd [[
 
     " Script plugins
     autocmd Filetype html,xml,xsl,php source ~/.config/nvim/scripts/closetag.vim
+
+    autocmd BufRead * :lua load_breakpoints()
 ]]
 
 require "plugins"
@@ -243,4 +245,3 @@ require "nvim-cmp"
 require "dapconfig"
 require "luasnipconfig"
 require "wildmenu"
-
