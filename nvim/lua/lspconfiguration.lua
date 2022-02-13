@@ -26,7 +26,7 @@ local on_attach = function(client, bufnr)
     -- Code actions are code suggestions maybe clippy?
     buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
     buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
     buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
     buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
@@ -36,7 +36,7 @@ local on_attach = function(client, bufnr)
     -- Get signatures (and _only_ signatures) when in argument lists.
 end
 
-local servers = { "clangd", "sixtyfps", "texlab", "bashls", "pyright" }
+local servers = { "texlab", "bashls", "pyright" }
 local lspconfig = require'lspconfig'
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
@@ -54,10 +54,32 @@ for _, lsp in ipairs(servers) do
         },
     }
 end
+require("clangd_extensions").setup {
+    server = {
+        on_attach = on_attach,
+        capabilities = Capabilities,
+    },
+    extensions = {
+        inlay_hints = {
+            -- Only show inlay hints for the current line
+            show_parameter_hints = true,
+            -- whether to show variable name before type hints with the inlay hints or not
+            show_variable_name = true,
+        }
+    }
+}
+
+require'lspconfig'.slint_lsp.setup{
+    on_attach = on_attach,
+    capabilities = Capabilities,
+    cmd = { "slint_lsp" },
+    filetypes = { "slint" },
+    single_file_support = true,
+}
 
 local extension_path = HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.6.10/'
 local codelldb_path = extension_path .. 'adapter/codelldb'
-local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
+local liblldb_path = extension_path .. 'lldb/lib/liblldb.dylib'
 
 local rust_opts = {
     tools = { -- rust-tools options
@@ -121,3 +143,4 @@ require'lspconfig'.sumneko_lua.setup{
     },
   },
 }
+

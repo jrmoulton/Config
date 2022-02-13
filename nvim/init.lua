@@ -187,8 +187,6 @@ vim.keymap.set( {'n', 'v'}, '.', '<nop>' )
 vim.keymap.set( 'n', '<leader><leader>', '<c-^>' )
 
 -- Debugging
-vim.keymap.set( 'n', '<leader>rd', ':RustDebuggables<CR>' )
-vim.keymap.set( 'n', '<leader>rr', ':RustRunnables<CR>' )
 vim.keymap.set( 'n', '<leader>di', ':lua require"dap.ui.widgets".hover()<CR>' )
 vim.keymap.set( 'n', '<leader>dc', ':lua require"dap.ui.widgets".hover().close()<CR>' )
 vim.keymap.set( 'n', '<leader>d?', ':lua local widgets=require"dap.ui.widgets";widgets.centered_float(widgets.scopes)<CR>' )
@@ -229,6 +227,7 @@ vim.cmd [[
     autocmd BufRead *.tex set filetype=tex
     autocmd BufRead *.trm set filetype=c
     autocmd BufRead *.xlsx.axlsx set filetype=ruby
+    autocmd BufRead *.slint set filetype=slint
     autocmd FileType dap-float nnoremap <buffer><silent> <C-k> <cmd>close!<CR>
 
     " Script plugins

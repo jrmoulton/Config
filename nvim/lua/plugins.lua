@@ -97,7 +97,8 @@ return require('packer').startup(function()
 	use 'simrat39/rust-tools.nvim'
 	use 'rust-lang/rust.vim'
 	use 'vim-python/python-syntax'
-	use 'RustemB/sixtyfps-vim'
+	use 'hunger/vim-slint'
+    use 'p00f/clangd_extensions.nvim'
 
 	-- Debugger
 	use 'mfussenegger/nvim-dap'

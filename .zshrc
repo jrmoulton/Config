@@ -8,6 +8,7 @@ export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.config/scripts:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export JDTLS_HOME="$HOME/Downloads/jdt-language-server-1.9.0-202201270134/"
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
 alias j16="export JAVA_HOME=`/usr/libexec/java_home -v 16`; java -version"
 alias j11="export JAVA_HOME=`/usr/libexec/java_home -v 11`; java -version"

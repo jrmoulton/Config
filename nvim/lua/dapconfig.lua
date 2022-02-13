@@ -53,9 +53,9 @@ function _G.load_breakpoints()
     end
 end
 
--- # Breakpoints
-
--- Get a list of all of the current buffers
--- For each of those buffers get the name of the buffer
--- If that name is in the history file:
---     set the breakpoints
+-- local dap = require('dap')
+-- dap.adapters.lldb = {
+--   type = 'executable',
+--   command = '/usr/bin/lldb-vscode', -- adjust as needed
+--   name = "lldb"
+-- }
