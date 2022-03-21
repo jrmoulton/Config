@@ -3,6 +3,7 @@
 *.ip_user_files/
 *.runs/
 *.sim/
+*.class
 .vscode/
 target/
 .DS_Store

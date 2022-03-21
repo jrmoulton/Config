@@ -32,16 +32,16 @@ colors:
     cyan:    '#5699af'
     white:   '#202328'
 
-  # Bright colors
-  bright:
-    black:   '#5b6268'
-    red:     '#da8548'
-    green:   '#4db5bd'
-    yellow:  '#ecbe7b'
-    blue:    '#3071db'   # This is 2257a0 in Doom Emacs but I lightened it.
-    magenta: '#a9a1e1'
-    cyan:    '#46d9ff'
-    white:   '#dfdfdf'
+  # # Bright colors
+  # bright:
+  #   black:   '#5b6268'
+  #   red:     '#da8548'
+  #   green:   '#4db5bd'
+  #   yellow:  '#ecbe7b'
+  #   blue:    '#3071db'   # This is 2257a0 in Doom Emacs but I lightened it.
+  #   magenta: '#a9a1e1'
+  #   cyan:    '#46d9ff'
+  #   white:   '#dfdfdf'
 
 window:
     padding:

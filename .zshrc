@@ -7,14 +7,17 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.config/scripts:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export JDTLS_HOME="$HOME/Downloads/jdt-language-server-1.9.0-202201270134/"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
 alias j16="export JAVA_HOME=`/usr/libexec/java_home -v 16`; java -version"
 alias j11="export JAVA_HOME=`/usr/libexec/java_home -v 11`; java -version"
 
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-16.0.1.jdk/Contents/Home/"
+export JDTLS_HOME="$HOME/Downloads/jdt-language-server-1.9.0-202201270134/"
+
 # Environment variables
 export EDITOR=nvim
+export RUSTC_FORCE_INCREMENTAL=1
 
 ZSH_THEME="robbyrussell"
 zstyle ':completion:*' menu select
@@ -31,6 +34,7 @@ source $ZSH/oh-my-zsh.sh
 export STARTSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh --cmd cdd)"
+# eval "$(op signin my)
 if [[ "$(uname -s)" == "Darwin" ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 else
@@ -42,10 +46,11 @@ fi
 # Add aliases
 alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim=nvim
+alias vim.="nvim ."
 alias ls=exa
 alias tec="tectonic -X"
 alias tms=tmux-sessionizer
-eval $(thefuck --alias)
+alias tmk=tmux-kill-session
 alias pythonten="/opt/homebrew/opt/python@3.10/bin/python3.10"
 
 # Git alaiases
@@ -58,8 +63,8 @@ alias gcm="git checkout main"
 alias gf="git fetch"
 alias gm="git merge"
 alias gp="git push"
-alias gs="git status"
-alias gss="git status -s"
+alias gss="git status"
+alias gs="git status -s"
 alias glogg="git log --graph --pretty=oneline --decorate --abbrev-commit"
 alias glog="git log --pretty=oneline --decorate --abbrev-commit -n 10"
 alias gk="git commit -m"
@@ -81,7 +86,7 @@ bindkey '^ ' autosuggest-accept
 export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs --follow'
 export FZF_DEFAULT_OPTS='--bind=ctrl-u:up,ctrl-d:down'
 
-tmux source-file ~/.config/tmux/.tmux.conf
+tmux source-file ~/.config/tmux/tmux.conf
 
 ###### Really don't put stuff beneath this. What happens after this won't
 # necessarily affecty the current running shell

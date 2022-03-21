@@ -66,6 +66,7 @@ local config = {
   -- One dedicated LSP server & client will be started per unique root_dir
   root_dir = require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'}),
   capabilities = Capabilities,
+  autostart = true,
 
   -- Here you can configure eclipse.jdt.ls specific settings
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
@@ -87,36 +88,36 @@ local config = {
   require('jdtls.setup').add_commands()
 }
 config['on_attach'] = function (client, bufnr)
-	require "lsp_signature".on_attach({doc_lines = 0}, bufnr)
-	require('jdtls').setup_dap({hotcodereplace = 'auto' })
+	require "lsp_signature".on_attach({doc_lines = 1}, bufnr)
+    require('jdtls').setup_dap({hotcodereplace = 'auto' })
+    -- Mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    vim.keymap.set('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
+    vim.keymap.set('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
+    -- go to definition
+    vim.keymap.set('n', 'J', '<Cmd>lua vim.lsp.buf.hover()<CR>')
+    -- brind up a window to show dodumentation
+    vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
+    vim.keymap.set('n', '<C-j>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+    vim.keymap.set('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+    -- rename the current token
+    vim.keymap.set('n', '<leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>')
+    -- Code actions are code suggestions maybe clippy?
+    vim.keymap.set('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+    vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+    vim.keymap.set('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>')
+    vim.keymap.set('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+    vim.keymap.set('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+    vim.keymap.set('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
+    vim.keymap.set("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting_seq_sync()<CR>")
+    -- format the whole document
+
+    vim.keymap.set( 'n', '<leader>dtc', '<Cmd>lua require"jdtls".test_class()<CR>' )
+    vim.keymap.set( 'n', '<leader>dn', '<Cmd>lua require"jdtls".test_nearest_method()<CR>' )
 end
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 require('jdtls').start_or_attach(config)
 require ('dap.ext.vscode').load_launchjs()
 
--- Mappings.
--- See `:help vim.lsp.*` for documentation on any of the below functions
-vim.keymap.set('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
-vim.keymap.set('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
--- go to definition
-vim.keymap.set('n', 'J', '<Cmd>lua vim.lsp.buf.hover()<CR>')
--- brind up a window to show dodumentation
-vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-vim.keymap.set('n', '<C-j>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-vim.keymap.set('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
--- rename the current token
-vim.keymap.set('n', '<space>r', '<cmd>lua vim.lsp.buf.rename()<CR>')
--- Code actions are code suggestions maybe clippy?
-vim.keymap.set('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-vim.keymap.set('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
-vim.keymap.set('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-vim.keymap.set('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-vim.keymap.set('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
-vim.keymap.set("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
--- format the whole document
-
-vim.keymap.set( 'n', '<leader>dtc', '<Cmd>lua require"jdtls".test_class()<CR>' )
-vim.keymap.set( 'n', '<leader>dn', '<Cmd>lua require"jdtls".test_nearest_method()<CR>' )
 

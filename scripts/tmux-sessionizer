@@ -36,27 +36,34 @@ selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     tmux new-session -ds $selected_name -c $selected
-    if [[ -d "$selected/refs" ]]; then
-        trees=$(fd . "$selected/worktrees" -d 1 2> /dev/null)
-        if [[ -z $trees ]]; then
-            cd $selected
-            branches=$(git branch --list)
-            if [[ "$branches" == *"main"* ]]; then
-                git worktree add main &> /dev/null
-            elif [[ "$branches" == *"master"* ]]; then
-                git worktree add master &> /dev/null
-            fi
-        fi
-        for tree in $(fd . "$selected/worktrees" -d 1); do
-			full_path=$(cat "$tree/gitdir" | sd "\.git" "")
-            base=$(basename $tree)
-            tmux new-window -t $selected_name -n $base -c $full_path
-        done
-    fi
+    # if [[ -d "$selected/refs" ]]; then
+    #     trees=$(fd . "$selected/worktrees" -d 1 2> /dev/null)
+    #     if [[ -z $trees ]]; then
+    #         cd $selected
+    #         branches=$(git branch --list)
+    #         if [[ "$branches" == *"main"* ]]; then
+    #             git worktree add main &> /dev/null
+    #         elif [[ "$branches" == *"master"* ]]; then
+    #             git worktree add master &> /dev/null
+    #         fi
+    #     fi
+    #     for tree in $(fd . "$selected/worktrees" -d 1); do
+			# full_path=$(cat "$tree/gitdir" | sd "\.git" "")
+    #         base=$(basename $tree)
+    #         tmux new-window -t $selected_name -n $base -c $full_path
+    #         if [[-d "$full_path/venv" ]]; then
+    #             tmux send-keys -t $selected_name "source $full_path/venv/bin/activate" Enter
+    #         fi
+    #     done
+    # fi
 fi
 
 if ! tmux has-session -t "$selected_name " 2> /dev/null; then
     tmux new-session -ds $selected_name -c $selected
+    if [[ -d "$selected/venv" ]]; then
+        tmux send-keys -t $selected_name "source $selected/venv/bin/activate" Enter
+        tmux send-keys -t $selected_name "clear" Enter
+    fi
     if [[ -d "$selected/refs" ]]; then
         trees=$(fd . "$selected/worktrees" -d 1 2> /dev/null)
         if [[ -z $trees ]]; then
@@ -72,6 +79,10 @@ if ! tmux has-session -t "$selected_name " 2> /dev/null; then
 			full_path=$(cat "$tree/gitdir" | sd "\.git" "")
             base=$(basename $tree)
             tmux new-window -t $selected_name -n $base -c $full_path
+            if [[ -d "$selected/venv" ]]; then
+                tmux send-keys -t $selected_name:$tree.1 "source $selected/venv/bin/activate" Enter
+                tmux send-keys -t $selected_name "clear" Enter
+            fi
         done
     fi
 fi
