@@ -9,8 +9,6 @@ export PATH="$HOME/.config/scripts:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
-alias j16="export JAVA_HOME=`/usr/libexec/java_home -v 16`; java -version"
-alias j11="export JAVA_HOME=`/usr/libexec/java_home -v 11`; java -version"
 
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-16.0.1.jdk/Contents/Home/"
 export JDTLS_HOME="$HOME/Downloads/jdt-language-server-1.9.0-202201270134/"
@@ -35,12 +33,18 @@ export STARTSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh --cmd cdd)"
 # eval "$(op signin my)
+eval "$(op completion zsh)"; compdef _op op
 if [[ "$(uname -s)" == "Darwin" ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
+    alias j16="export JAVA_HOME=`/usr/libexec/java_home -v 16`; java -version"
+    alias j11="export JAVA_HOME=`/usr/libexec/java_home -v 11`; java -version"
 else
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     source /home/linuxbrew/.linuxbrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
     source /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    export PATH="/media/jaredmoulton/9a125138-5627-477a-8b01-6d090b2f61bc/tools/Xilinx/Vivado/2021.1/bin:$PATH"
+    # alias j16="export JAVA_HOME=`/usr/libexec/java_home -v 16`; java -version"
+    # alias j11="export JAVA_HOME=`/usr/libexec/java_home -v 11`; java -version"
 fi
 
 # Add aliases
@@ -111,3 +115,4 @@ elif [ -z $TMUX ]; then
  	tmux new-session -A -s _config -c $HOME/.config
 fi
 
+export PATH="/home/linuxbrew/.linuxbrew/opt/python@3.10/bin:$PATH"
