@@ -1,0 +1,9 @@
+#!/bin/bash
+
+install -m 600 /dev/null tempid
+install -m 600 /dev/null tempid.pub
+op item get "$2" --fields "private key" > tempid
+sd "\"" "" tempid
+ssh-keygen -y -f tempid > tempid.pub
+ssh-copy-id -i "tempid" $1
+# rm -f tempid tempid.pub

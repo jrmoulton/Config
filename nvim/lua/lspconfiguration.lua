@@ -11,10 +11,10 @@ local on_attach = function(_, bufnr)
     -- format the whole document
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    vim.keymap.set('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
-    vim.keymap.set('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
+    vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
+    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
     -- go to definition
-    vim.keymap.set('n', 'J', '<Cmd>lua vim.lsp.buf.hover()<CR>')
+    vim.keymap.set('n', 'J', '<cmd>lua vim.lsp.buf.hover()<CR>')
     -- brind up a window to show dodumentation
     vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
     vim.keymap.set('n', '<C-j>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
@@ -22,7 +22,7 @@ local on_attach = function(_, bufnr)
     -- rename the current token
     vim.keymap.set('n', '<leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>')
     -- Code actions are code suggestions maybe clippy?
-    vim.keymap.set('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+    vim.keymap.set('n', '<leader>a', '<cmd>lua telescope.builtin.lsp_code_actions()<CR>')
     vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
     vim.keymap.set('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>')
     vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
@@ -60,7 +60,7 @@ require("clangd_extensions").setup {
     extensions = {
         inlay_hints = {
             -- Only show inlay hints for the current line
-            show_parameter_hints = true,
+            show_parameter_hints = false,
             -- whether to show variable name before type hints with the inlay hints or not
             show_variable_name = true,
         }

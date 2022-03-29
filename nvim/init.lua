@@ -125,7 +125,7 @@ vim.keymap.set( 'n', '<leader>sv', ':source $MYVIMRC<CR>' )
 vim.keymap.set( 'i', '{<Enter>', '{}<Left><Return><Up><Esc>A<Return>' )
 
 -- Telescope keympaps
-vim.keymap.set( 'n', '<leader>ff', '<cmd>Telescope find_files<cr>' )
+vim.keymap.set( 'n', '<leader>ff', '<cmd>:Telescope find_files<cr>' )
 vim.keymap.set( 'n', '<leader>fg', '<cmd>Telescope live_grep<cr>' )
 vim.keymap.set( 'n', '<leader>fb', '<cmd>Telescope buffers<cr>' )
 vim.keymap.set( 'n', '<leader>fh', '<cmd>Telescope help_tags<cr>')
@@ -171,7 +171,7 @@ vim.keymap.set( 'n', '<leader>dd', '<cmd>lua require"dap".repl.toggle()<CR>' )
 vim.keymap.set( 'n', '<leader>df', '<cmd>lua require"telescope".extensions.dap.frames()<CR>' )
 vim.keymap.set( 'n', '<leader>dlb', '<cmd>lua require"telescope".extensions.dap.list_breakpoints()<CR>' )
 -- Use Ctrl C to hide all buffers but the current one
-vim.keymap.set( 'n', '<C-c>', ':on<CR>' )
+vim.keymap.set( 'n', '<C-c>', '<cmd>on<CR>' )
 
 -- =============================================================================
 -- # Autocommands

@@ -7,6 +7,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.config/scripts:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="/usr/local/bin:$PATH"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
 alias j16="export JAVA_HOME=`/usr/libexec/java_home -v 16`; java -version"
@@ -83,7 +84,8 @@ bindkey '^ ' autosuggest-accept
 
 # set up fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs --follow'
+export FZF_DEFAULT_COMMAND='fd --type file'
+# export FZF_DEFAULT_OPTS="--ansi"
 export FZF_DEFAULT_OPTS='--bind=ctrl-u:up,ctrl-d:down'
 
 tmux source-file ~/.config/tmux/tmux.conf

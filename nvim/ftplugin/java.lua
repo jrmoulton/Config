@@ -92,10 +92,10 @@ config['on_attach'] = function (client, bufnr)
     require('jdtls').setup_dap({hotcodereplace = 'auto' })
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    vim.keymap.set('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
-    vim.keymap.set('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
+    vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
+    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
     -- go to definition
-    vim.keymap.set('n', 'J', '<Cmd>lua vim.lsp.buf.hover()<CR>')
+    vim.keymap.set('n', 'J', '<cmd>lua vim.lsp.buf.hover()<CR>')
     -- brind up a window to show dodumentation
     vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
     vim.keymap.set('n', '<C-j>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')

@@ -48,6 +48,8 @@ window:
         x: 5
         y: 2
     title: Alacritty
+    dynamic_title: false
+    decorations: full
 
 font:
   normal:

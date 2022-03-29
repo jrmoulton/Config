@@ -1,0 +1,3 @@
+#!/bin/bash
+
+printf "`op item get 'usu' --fields 'username'`\n`op item get 'usu' --fields 'password'`\ny" | vpn -s connect sslvpn.usu.edu
