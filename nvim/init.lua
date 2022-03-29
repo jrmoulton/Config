@@ -177,7 +177,7 @@ vim.keymap.set( 'n', '<C-c>', '<cmd>on<CR>' )
 -- # Autocommands
 -- =============================================================================
 --
-vim.api.nvim_create_autocmd("bufreadpost", {
+vim.api.nvim_create_autocmd("BufReadPost", {
     callback = function()
         local row, col = unpack(vim.api.nvim_buf_get_mark(0, '"'))
         if row > 0 and row <= vim.api.nvim_buf_line_count(0) then

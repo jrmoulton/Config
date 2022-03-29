@@ -1,5 +1,5 @@
 #!/bin/bash
 
-mkdir "$HOME/Programming/$1"
+mkdir "$HOME/Deverloper/$1"
 tmux-sessionizer $1
 
