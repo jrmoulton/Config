@@ -196,6 +196,7 @@ vim.cmd [[
     autocmd BufWritePre * :lua vim.lsp.buf.formatting_seq_sync()
 ]]
 
+require"impatient"
 require "plugins"
 require "telescopeconfig"
 require "treesitter"

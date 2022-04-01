@@ -1,6 +1,6 @@
 
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
-local workspace_dir = '/Users/jaredmoulton/Programming/java_workspaces/' .. project_name
+local workspace_dir = '/Users/jaredmoulton/Developer/java_workspaces/' .. project_name
 local bundles = {
 	vim.fn.glob("/Users/jaredmoulton/workspace/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-0.35.0.jar")
 };

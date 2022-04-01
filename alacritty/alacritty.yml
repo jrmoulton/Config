@@ -52,12 +52,24 @@ window:
     decorations: full
 
 font:
+  size: 12.0
   normal:
-    family: Operator Mono SSm Lig
-    style:  Book
-    use_thin_strokes: true
-    offset:
-      y: 8
+    family: OperatorMono Nerd Font
+    style:  Light
+
+  bold:
+    family: OperatorMono Nerd Font
+    style: Book
+
+  italic:
+    family: OperatorMono Nerd Font
+    style: Light Italic
+
+  bold_italic:
+    family: OperatorMono Nerd Font
+    style: Book Italic
+
+
 shell:
     program: /bin/zsh
 

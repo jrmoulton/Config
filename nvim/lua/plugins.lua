@@ -2,7 +2,7 @@
 local fn = vim.fn
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-	packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+	Packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
 
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
@@ -12,6 +12,8 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function()
 	-- Packer can manage itself
 	use 'wbthomason/packer.nvim'
+
+    use 'lewis6991/impatient.nvim'
 
 	-- Vim Enhancements
 	use '9mm/vim-closer'
@@ -90,6 +92,9 @@ return require('packer').startup(function()
 	use {'pwntester/octo.nvim', config=function()
 		require"octo".setup()
 	end}
+    use 'nvim-telescope/telescope-ui-select.nvim'
+    use 'tami5/sqlite.lua'
+    use 'nvim-telescope/telescope-cheat.nvim'
 
 	-- Syntactic language support
 	use 'cespare/vim-toml'
@@ -115,7 +120,7 @@ return require('packer').startup(function()
     use 'jbyuki/one-small-step-for-vimkind'
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
-	if packer_bootstrap then
+	if Packer_bootstrap then
 		require('packer').sync()
 	end
 end)

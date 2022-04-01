@@ -22,7 +22,7 @@ local on_attach = function(_, bufnr)
     -- rename the current token
     vim.keymap.set('n', '<leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>')
     -- Code actions are code suggestions maybe clippy?
-    vim.keymap.set('n', '<leader>a', '<cmd>lua telescope.builtin.lsp_code_actions()<CR>')
+    vim.keymap.set('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
     vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
     vim.keymap.set('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>')
     vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
@@ -85,7 +85,9 @@ local rust_opts = {
         autoSetHints = true,
         hover_with_actions = true,
         inlay_hints = {
+            only_current_line = false,
             show_parameter_hints = true,
+            show_variable_name = true,
             parameter_hints_prefix = "",
             other_hints_prefix = "",
         },
