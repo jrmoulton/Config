@@ -58,6 +58,7 @@ alias tms=tmux-sessionizer
 alias tmk=tmux-kill-session
 alias pythonten="/opt/homebrew/opt/python@3.10/bin/python3.10"
 alias sqlite=sqlite3
+alias email="cmdg -sign"
 
 # Git alaiases
 alias gaa="git add --all"

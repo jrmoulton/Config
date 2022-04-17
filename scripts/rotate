@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 rotation=$(displayplacer list | rg "id:024993E4-9359-AABE-0857-D6964E3302DB.*?degree:\d+" -o | sd "id:.*?degree:" "")
 if [[ $rotation == 0 ]]; then
 	displayplacer "id:024993E4-9359-AABE-0857-D6964E3302DB res:1920x1080 hz:60 color_depth:8 scaling:on origin:(0,0) degree:90"

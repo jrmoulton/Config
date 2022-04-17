@@ -34,14 +34,14 @@ vim.api.nvim_create_autocmd( { "BufRead", "BufNewFile" }, {
     group = set_filetypes_group,
 })
 
-local dap_group = vim.api.nvim_create_augroup("dap", { clear = true })
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "dap-float" },
-    callback = function()
-        vim.keymap.set( 'n', '<buffer><silent> <C-k> <cmd>close!<CR>' )
-    end,
-    group = dap_group,
-})
+-- local dap_group = vim.api.nvim_create_augroup("dapp", { clear = true })
+-- vim.api.nvim_create_autocmd("FileType", {
+--     pattern = { "dap-float" },
+--     callback = function()
+--         vim.keymap.set( 'n', '<buffer><silent> <C-k>', '<cmd>close!<CR>' )
+--     end,
+--     group = dap_group,
+-- })
 vim.api.nvim_create_autocmd("Filetype", {
     pattern = {"dap-repl" },
     callback = function ()
