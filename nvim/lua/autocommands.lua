@@ -1,4 +1,3 @@
-
 local set = vim.opt
 
 -- Prevent accidental writes to buffers that shouldn't be edited
@@ -12,21 +11,21 @@ vim.api.nvim_create_autocmd("BufRead", {
 })
 
 local set_filetypes_group = vim.api.nvim_create_augroup("set_filetypes", { clear = true })
-vim.api.nvim_create_autocmd( { "BufRead", "BufNewFile" }, {
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     pattern = { "*.md" },
     callback = function()
         set.filetype = "markdown"
     end,
     group = set_filetypes_group,
 })
-vim.api.nvim_create_autocmd( { "BufRead", "BufNewFile" }, {
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     pattern = { "*.tex" },
     callback = function()
         set.filetype = "tex"
     end,
     group = set_filetypes_group,
 })
-vim.api.nvim_create_autocmd( { "BufRead", "BufNewFile" }, {
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     pattern = { "*.wgsl" },
     callback = function()
         set.filetype = "wgsl"
@@ -43,8 +42,8 @@ vim.api.nvim_create_autocmd( { "BufRead", "BufNewFile" }, {
 --     group = dap_group,
 -- })
 vim.api.nvim_create_autocmd("Filetype", {
-    pattern = {"dap-repl" },
-    callback = function ()
-        require'dap.ext.autocompl'.attach()
+    pattern = { "dap-repl" },
+    callback = function()
+        require 'dap.ext.autocompl'.attach()
     end
 })

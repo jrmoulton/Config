@@ -16,20 +16,66 @@ return require('packer').startup(function()
 
     -- Vim Enhancements
     use 'airblade/vim-rooter'
-    use 'tpope/vim-fugitive'
     use 'tpope/vim-commentary'
-    use 'wakatime/vim-wakatime'
+    -- use 'wakatime/vim-wakatime'
     use { 'windwp/nvim-autopairs', config = function() require 'nvim-autopairs'.setup {} end, }
+    -- use 'andweeb/presence.nvim'
 
     -- Gui enhancements
-    use 'preservim/nerdtree'
-    use { 'karb94/neoscroll.nvim', config = function()
-    end }
+    use {
+        "luukvbaal/stabilize.nvim",
+        config = function() require("stabilize").setup() end
+    }
+    use {
+        "folke/trouble.nvim",
+        requires = "kyazdani42/nvim-web-devicons",
+    }
+    use {
+        "folke/todo-comments.nvim",
+        requires = "nvim-lua/plenary.nvim",
+        config = function()
+            require("todo-comments").setup {
+                highlight = {
+                    pattern = [[.*<(KEYWORDS)\s*:]],
+                },
+                search = {
+                    pattern = [[\b(KEYWORDS)[:]+]], -- ripgrep regex
+                },
+                keywords = {
+                    FIX = {
+                        icon = " ", -- icon used for the sign, and in search results
+                        color = "error", -- can be a hex color, or a named color (see below)
+                        alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
+                        -- signs = false, -- configure signs for some keywords individually
+                    },
+                    TODO = { icon = "", color = "info" },
+                    HACK = { icon = " ", color = "warning" },
+                    WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+                    PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+                    NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+                },
+            }
+        end
+    }
+    use {
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v2.x",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
+            "MunifTanjim/nui.nvim",
+        }
+    }
+    use { 'karb94/neoscroll.nvim', }
+    use { "lukas-reineke/virt-column.nvim", config = function() require 'virt-column'.setup() end }
     use 'andymass/vim-matchup'
     use 'p00f/nvim-ts-rainbow'
-    use 'airblade/vim-gitgutter'
+    -- use { 'lewis6991/gitsigns.nvim', config = function()
+    --     require('gitsigns').setup()
+    -- end
+    -- }
     use 'f-person/git-blame.nvim'
-    use { 'j-hui/fidget.nvim', config = function() require 'fidget'.setup({}) end, }
+    use { 'j-hui/fidget.nvim', config = function() require 'fidget'.setup({ char = "|" }) end, }
     use {
         'nvim-lualine/lualine.nvim',
         after = "onedark.nvim",
@@ -65,12 +111,13 @@ return require('packer').startup(function()
             require('neoclip').setup()
         end,
     }
-    -- use "lukas-reineke/indent-blankline.nvim"
+
+    use 'dstein64/vim-startuptime'
 
     -- Semantic language support
     use 'neovim/nvim-lspconfig'
     use 'nvim-lua/lsp_extensions.nvim'
-    use 'hrsh7th/cmp-nvim-lsp'
+    use { 'hrsh7th/cmp-nvim-lsp' }
     use 'hrsh7th/cmp-buffer'
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
@@ -91,12 +138,8 @@ return require('packer').startup(function()
     }
 
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-    use { 'pwntester/octo.nvim', config = function()
-        require "octo".setup()
-    end }
     use 'nvim-telescope/telescope-ui-select.nvim'
     use 'tami5/sqlite.lua'
-    use 'nvim-telescope/telescope-cheat.nvim'
 
     -- Syntactic language support
     use 'cespare/vim-toml'

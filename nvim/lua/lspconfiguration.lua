@@ -1,7 +1,6 @@
-
 local on_attach = function(_, bufnr)
 
-    require "lsp_signature".on_attach({doc_lines = 1}, bufnr)
+    require "lsp_signature".on_attach({ doc_lines = 1 }, bufnr)
 
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -11,31 +10,31 @@ local on_attach = function(_, bufnr)
     -- format the whole document
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
-    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+    vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end)
+    vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end)
     -- go to definition
-    vim.keymap.set('n', 'J', '<cmd>lua vim.lsp.buf.hover()<CR>')
+    vim.keymap.set('n', 'J', function() vim.lsp.buf.hover() end)
     -- brind up a window to show dodumentation
-    vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-    vim.keymap.set('n', '<C-j>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-    vim.keymap.set('n', '<leader>td', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+    vim.keymap.set('n', 'gi', function() vim.lsp.buf.implementation() end)
+    vim.keymap.set('n', '<C-j>', function() vim.lsp.buf.signature_help() end)
+    vim.keymap.set('n', '<leader>td', function() vim.lsp.buf.type_definition() end)
     -- rename the current token
-    vim.keymap.set('n', '<leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>')
+    vim.keymap.set('n', '<leader>r', function() vim.lsp.buf.rename() end)
     -- Code actions are code suggestions maybe clippy?
-    vim.keymap.set('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-    vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-    vim.keymap.set('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>')
-    vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
-    vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>')
-    vim.keymap.set('n', '<leader>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>')
-    vim.keymap.set("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting_seq_sync()<CR>")
+    vim.keymap.set('n', '<leader>a', function() vim.lsp.buf.code_action() end)
+    vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end)
+    vim.keymap.set('n', '<leader>e', function() vim.diagnostic.open_float() end)
+    vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end)
+    vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end)
+    -- vim.keymap.set('n', '<leader>q', function() vim.diagnostic.set_loclist() end) // conficts with quick quit
+    -- vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.formatting_seq_sync() end) // I format on save
     -- format the whole document
 
     -- Get signatures (and _only_ signatures) when in argument lists.
 end
 
 local servers = { "texlab", "bashls", "pyright", "denols" }
-local lspconfig = require'lspconfig'
+local lspconfig = require 'lspconfig'
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
         on_attach = on_attach,
@@ -67,7 +66,13 @@ require("clangd_extensions").setup {
     }
 }
 
-require'lspconfig'.slint_lsp.setup{
+require 'lspconfig'.sourcekit.setup {
+    on_attach = on_attach,
+    capabilities = Capabilities,
+    filetypes = { "swift" },
+}
+
+require 'lspconfig'.slint_lsp.setup {
     on_attach = on_attach,
     capabilities = Capabilities,
     cmd = { "slint-lsp" },
@@ -88,18 +93,25 @@ local rust_opts = {
             only_current_line = false,
             show_parameter_hints = true,
             show_variable_name = true,
-            parameter_hints_prefix = "",
-            other_hints_prefix = "",
+            highlight = "Comment",
         },
     },
 
     server = {
         capabilities = Capabilities,
         on_attach = on_attach,
-        checkOnSave = {
-            settings = {
-                ["rust-analyzer"] = {
-                    command = "clippy"
+        settings = {
+            ["rust-analyzer"] = {
+                checkOnSave = {
+                    allFeatures = true,
+                    overrideCommand = {
+                        "cargo",
+                        "clippy",
+                        "--workspace",
+                        "--message-format=json",
+                        "--all-targets",
+                        "--all-features",
+                    },
                 },
             },
             completion = {
@@ -118,10 +130,10 @@ local rust_opts = {
 
 require('rust-tools').setup(rust_opts)
 
-require'lspconfig'.sumneko_lua.setup{
+require 'lspconfig'.sumneko_lua.setup {
     capabilties = Capabilities,
     on_attach = on_attach,
-    cmd = {"lua-language-server", "--preview"},
+    cmd = { "lua-language-server", "--preview" },
     settings = {
         Lua = {
             runtime = {
@@ -132,7 +144,7 @@ require'lspconfig'.sumneko_lua.setup{
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
-                globals = {'vim', 'use'},
+                globals = { 'vim', 'use' },
             },
             workspace = {
                 -- Make the server aware of Neovim runtime files
@@ -146,7 +158,7 @@ require'lspconfig'.sumneko_lua.setup{
     },
 }
 
-require'lspconfig'.sourcekit.setup{
+require 'lspconfig'.sourcekit.setup {
     capabilities = Capabilities,
     on_attach = on_attach,
     filetypes = { "swift", "objective-c", "objective-cpp" },

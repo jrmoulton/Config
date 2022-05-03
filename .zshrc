@@ -54,8 +54,7 @@ alias vim=nvim
 alias vim.="nvim ."
 alias ls=exa
 alias tec="tectonic -X"
-alias tms=tmux-sessionizer
-alias tmk=tmux-kill-session
+alias tmk="tms kill"
 alias pythonten="/opt/homebrew/opt/python@3.10/bin/python3.10"
 alias sqlite=sqlite3
 alias email="cmdg -sign"
@@ -100,23 +99,23 @@ tmux source-file ~/.config/tmux/tmux.conf
 # necessarily affecty the current running shell
 
 # # if we are in vscode then create/ attach to vscode session and create new window
-if [ "$TERM_PROGRAM" = "vscode" ];  then
-	#Get the current working directory to use as the session name
-	# The exec stuff is so that if there is a duplicate session the error is not
-	# printed to stdout
-	SESSION=`pwd | rg "[^/]+$" -o`
-	exec 3>&2
-	exec 2> /dev/null
-	tmux new-session -s $SESSION -d
-	exec 2>&3
-	tmux new-window -t $SESSION
-	if [ -d ".venv" ]; then
-		tmux send-keys -t $SESSION 'source .venv/bin/activate' Enter
-	fi
-	tmux attach-session -t $SESSION
-elif [ -z $TMUX ]; then
- 	# if tmux is not running then start a session
- 	tmux new-session -A -s _config -c $HOME/.config
-fi
+#if [ "$TERM_PROGRAM" = "vscode" ];  then
+#	#Get the current working directory to use as the session name
+#	# The exec stuff is so that if there is a duplicate session the error is not
+#	# printed to stdout
+#	SESSION=`pwd | rg "[^/]+$" -o`
+#	exec 3>&2
+#	exec 2> /dev/null
+#	tmux new-session -s $SESSION -d
+#	exec 2>&3
+#	tmux new-window -t $SESSION
+#	if [ -d ".venv" ]; then
+#		tmux send-keys -t $SESSION 'source .venv/bin/activate' Enter
+#	fi
+#	tmux attach-session -t $SESSION
+#elif [ -z $TMUX ]; then
+# 	# if tmux is not running then start a session
+# 	tmux new-session -A -s _config -c $HOME/.config
+#fi
 
 export PATH="/home/linuxbrew/.linuxbrew/opt/python@3.10/bin:$PATH"

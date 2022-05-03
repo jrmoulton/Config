@@ -1,10 +1,9 @@
-
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 
 parser_config.objc = {
     install_info = {
         url = "https://github.com/merico-dev/tree-sitter-objc", -- local path or git repo
-        files = {"src/parser.c"},
+        files = { "src/parser.c" },
         -- optional entries:
         branch = "master", -- default branch in case of git repo if different from master
         generate_requires_npm = false, -- if stand-alone parser without npm dependencies
@@ -15,7 +14,7 @@ parser_config.objc = {
 parser_config.wgsl = {
     install_info = {
         url = "https://github.com/szebniok/tree-sitter-wgsl",
-        files = {"src/parser.c"}
+        files = { "src/parser.c" }
     },
     filetype = "wgsl",
 }
@@ -31,7 +30,14 @@ parser_config.wgsl = {
 --     }
 -- }
 
-require'nvim-treesitter.configs'.setup {
+parser_config.swift = {
+    install_info = {
+        url = HOME .. "/Developer/tree-sitter-swift",
+        files = { "src/parser.c", "src/scanner.c" }
+    }
+}
+
+require 'nvim-treesitter.configs'.setup {
     -- One of "all", "maintained" (parsers with maintainers), or a list of languages
     -- ensure_installed = "maintained",
 

@@ -81,9 +81,22 @@ set.clipboard:append('unnamedplus')
 -- # Keyboard shortcuts
 -- =============================================================================
 
+local function set_write_mode()
+    vim.opt.textwidth = 0;
+    vim.opt.wrapmargin = 0;
+    vim.opt.linebreak = true;
+    vim.opt.columns = 100;
+    vim.opt.spell = true;
+    vim.opt.wrap = true;
+    set.colorcolumn = "100"
+    vim.notify("cool")
+end
+
+vim.keymap.set('n', '<leader>wm', set_write_mode)
+
 -- Ctrl+k as Esc and No esc key use <C-k>
 vim.keymap.set({ 'i', 'n', 'v', 's', 'x', 'c', 'l', 't' }, '<C-k>', '<Esc>')
-vim.keymap.set({ 'i', 'n', 'v', 's', 'x', 'c', 'l', 't' }, '<esc>', '<nop>')
+-- vim.keymap.set({ 'i', 'n', 'v', 's', 'x', 'c', 'l', 't' }, '<esc>', '<nop>')
 
 -- No arrow keys --- force yourself to use the home row
 -- Allowing because I use the vim keys on the launch_1
@@ -115,20 +128,16 @@ vim.keymap.set({ 'v', 'n' }, '<C-i>', '<C-a>')
 vim.keymap.set('n', '<leader>m', 'ct_')
 vim.keymap.set('n', '<leader>n', 'ct-')
 
--- Toggle NERDTree
-vim.keymap.set('n', '<C-n>', '<cmd>NERDTreeToggle<CR>')
-vim.g.NERDTreeShowHidden = 1
-
 vim.keymap.set('n', '<leader>sv', ':source $MYVIMRC<CR>')
 
 -- Autoclose brackets the way I want them to
 -- vim.keymap.set( 'i', '{<Enter>', '{}<Left><Return><Up><Esc>A<Return>' )
 
 -- Telescope keympaps
-vim.keymap.set('n', '<leader>ff', '<cmd>:Telescope find_files<cr>')
-vim.keymap.set('n', '<leader>fg', '<cmd>Telescope live_grep<cr>')
-vim.keymap.set('n', '<leader>fb', '<cmd>Telescope buffers<cr>')
-vim.keymap.set('n', '<leader>fh', '<cmd>Telescope help_tags<cr>')
+vim.keymap.set('n', '<leader>ff', function() require('telescope.builtin').find_files() end)
+vim.keymap.set('n', '<leader>fg', function() require('telescope.builtin').live_grep() end)
+vim.keymap.set('n', '<leader>fb', function() require('telescope.builtin').buffers() end)
+vim.keymap.set('n', '<leader>fh', function() require('telescope.builtin').help_tags() end)
 
 -- Search results centered please
 vim.keymap.set('n', '<silent> n', 'nzz')
@@ -139,10 +148,10 @@ vim.keymap.set('n', '<silent> g*', 'g*zz')
 
 -- Quick-save
 vim.keymap.set('n', '<leader>w', ':w<CR>')
+vim.keymap.set('n', '<leader>q', ':q<CR>')
 
 -- Git blame
-vim.keymap.set('n', '<C-g>', ':GitBlameToggle<CR>')
-
+vim.keymap.set('n', '<C-g>', function() require('gitblame').init() end)
 -- -- Buffers
 vim.keymap.set('n', '<leader>,', ':BufferPrevious<CR>')
 vim.keymap.set('n', '<leader>.', ':BufferNext<CR>')
@@ -157,21 +166,24 @@ vim.keymap.set({ 'n', 'v' }, '.', '<nop>')
 
 -- Debugging
 vim.keymap.set('n', "<leader>di", "<cmd>lua require'dap.ui.widgets'.hover()<CR>")
--- vim.keymap.set( 'n', '<leader>dc', '<cmd>lua require"dap.ui.widgets".hover().close()<CR>' )
-vim.keymap.set('n', '<leader>d?', '<cmd>lua local widgets=require"dap.ui.widgets";widgets.centered_float(widgets.scopes)<CR>')
-vim.keymap.set({ 'n', 'i', 'v' }, '<F3>', '<cmd>lua require"dap".clear_breakpoints();store_breakpoints(true)<CR>')
-vim.keymap.set({ 'n', 'i', 'v' }, '<F4>', '<cmd>lua require"dap".toggle_breakpoint();store_breakpoints(false)<CR>')
-vim.keymap.set({ 'n', 'i', 'v' }, '<F5>', '<cmd>lua require"dap".continue()<CR>')
-vim.keymap.set({ 'n', 'i', 'v' }, '<F6>', '<cmd>lua require"dap".step_over()<CR>')
-vim.keymap.set({ 'n', 'i', 'v' }, '<F7>', '<cmd>lua require"dap".step_into()<CR>')
-vim.keymap.set({ 'n', 'i', 'v' }, '<F8>', '<cmd>lua require"dap".step_out()<CR>')
-vim.keymap.set({ 'n', 'i', 'v' }, '<F9>', '<cmd>lua require"dap".run_last()<CR>')
-vim.keymap.set({ 'n', 'i', 'v' }, '<F10>', '<cmd>lua require"dap".terminate()<CR>')
-vim.keymap.set('n', '<leader>dd', '<cmd>lua require"dap".repl.toggle()<CR>')
-vim.keymap.set('n', '<leader>df', '<cmd>lua require"telescope".extensions.dap.frames()<CR>')
-vim.keymap.set('n', '<leader>dlb', '<cmd>lua require"telescope".extensions.dap.list_breakpoints()<CR>')
+-- vim.keymap.set( 'n', '<leader>dc', function()  require"dap.ui.widgets".hover().close() end )
+vim.keymap.set('n', '<leader>d?', function() local widgets = require "dap.ui.widgets"; widgets.centered_float(widgets.scopes) end)
+vim.keymap.set({ 'n', 'i', 'v' }, '<F3>', function() require "dap".clear_breakpoints(); store_breakpoints(true) end)
+vim.keymap.set({ 'n', 'i', 'v' }, '<F4>', function() require "dap".toggle_breakpoint(); store_breakpoints(false) end)
+vim.keymap.set({ 'n', 'i', 'v' }, '<F5>', function() require "dap".continue() end)
+vim.keymap.set({ 'n', 'i', 'v' }, '<F6>', function() require "dap".step_over() end)
+vim.keymap.set({ 'n', 'i', 'v' }, '<F7>', function() require "dap".step_into() end)
+vim.keymap.set({ 'n', 'i', 'v' }, '<F8>', function() require "dap".step_out() end)
+vim.keymap.set({ 'n', 'i', 'v' }, '<F9>', function() require "dap".run_last() end)
+vim.keymap.set({ 'n', 'i', 'v' }, '<F10>', function() require "dap".terminate() end)
+vim.keymap.set('n', '<leader>dd', function() require "dap".repl.toggle() end)
+vim.keymap.set('n', '<leader>df', function() require "telescope".extensions.dap.frames() end)
+vim.keymap.set('n', '<leader>dlb', function() require "telescope".extensions.dap.list_breakpoints() end)
 -- Use Ctrl C to hide all buffers but the current one
 vim.keymap.set('n', '<C-c>', '<cmd>on<CR>')
+
+vim.keymap.set('n', '<C-n>', '<cmd>NeoTreeFloatToggle<CR>')
+vim.keymap.set('n', '<C-t>', function() require("trouble").next({ skip_groups = true, jump = true }) end)
 
 -- =============================================================================
 -- # Autocommands
@@ -185,12 +197,13 @@ vim.api.nvim_create_autocmd("BufReadPost", {
         end
     end
 })
+
 -- Leave paste mode when leaving insert mode
 -- autocmd InsertLeave * set nopaste
 vim.cmd [[
     " Jump to last edit position on opening file
 
-    autocmd BufRead * :lua load_breakpoints()
+    " autocmd BufEnter * :lua load_breakpoints()
 
     autocmd BufWritePre * :lua vim.lsp.buf.formatting_seq_sync()
     autocmd FileType dap-float nnoremap <buffer><silent> <C-k> <cmd>close!<CR>
@@ -207,5 +220,6 @@ require "wildmenu"
 require "luasnipconfig"
 require "autocommands"
 require "neoscrollsetup"
-
-vim.cmd [[highlight WinSeparator guifg=White]]
+require "neotreesetup"
+require "troubleconfig"
+require "troubleconfig"

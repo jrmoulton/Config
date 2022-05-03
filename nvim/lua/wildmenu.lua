@@ -1,6 +1,5 @@
-
 -- Decent wildmenu
-vim.opt.wildignore = {'.hg', '.svn', '*~', '*.png', '*.jpg', '*.gif', '*.settings', 'Thumbs.db', '*.min.js', '*.swp',' publish/*', 'intermediate/*', '*.o', '*.hi', 'Zend', 'vendor' }
+vim.opt.wildignore = { '.hg', '.svn', '*~', '*.png', '*.jpg', '*.gif', '*.settings', 'Thumbs.db', '*.min.js', '*.swp', ' publish/*', 'intermediate/*', '*.o', '*.hi', 'Zend', 'vendor' }
 vim.cmd [[
     call wilder#setup({
     \ 'modes': [':', '/', '?'],
