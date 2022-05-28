@@ -58,9 +58,9 @@ require("clangd_extensions").setup {
     },
     extensions = {
         inlay_hints = {
-            -- Only show inlay hints for the current line
-            show_parameter_hints = false,
-            -- whether to show variable name before type hints with the inlay hints or not
+            --     -- Only show inlay hints for the current line
+            --     show_parameter_hints = false,
+            --     -- whether to show variable name before type hints with the inlay hints or not
             show_variable_name = true,
         }
     }

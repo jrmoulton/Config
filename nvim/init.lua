@@ -108,7 +108,7 @@ vim.keymap.set({ 'i', 'n', 'v', 's', 'x', 'c', 'l', 't' }, '<C-k>', '<Esc>')
 -- Ctrl+h to stop searching
 vim.keymap.set({ 'v', 'n' }, '<C-h>', ':nohlsearch<cr>')
 -- Suspend '<with ', 'Ctrl+f
-vim.keymap.set({ 'i', 'v', 'n' }, '<C-f>', ':sus<cr>')
+vim.keymap.set({ 'i', 'v', 'n' }, '<C-f>', '<cmd>sus<cr>')
 
 -- Jump to start and end of line using the home row keys
 vim.keymap.set({ 'n', 'v' }, 'H', '^')

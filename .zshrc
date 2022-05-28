@@ -113,9 +113,7 @@ tmux source-file ~/.config/tmux/tmux.conf
 #		tmux send-keys -t $SESSION 'source .venv/bin/activate' Enter
 #	fi
 #	tmux attach-session -t $SESSION
-#elif [ -z $TMUX ]; then
-# 	# if tmux is not running then start a session
-# 	tmux new-session -A -s _config -c $HOME/.config
-#fi
-
-export PATH="/home/linuxbrew/.linuxbrew/opt/python@3.10/bin:$PATH"
+if [ -z $TMUX ]; then
+ 	# if tmux is not running then start a session
+ 	tmux new-session -A -s _config -c $HOME/.config
+fi
