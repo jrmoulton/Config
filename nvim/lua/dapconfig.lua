@@ -1,5 +1,4 @@
-
-vim.fn.sign_define('DapBreakpoint', {text='B', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpoint', { text = 'B', texthl = '', linehl = '', numhl = '' })
 
 local breakpoints = require('dap.breakpoints')
 
@@ -62,8 +61,8 @@ dap.adapters.lldb = {
 }
 
 local function file_exists(name)
-    local f=io.open(name,"r")
-    if f~=nil then io.close(f) return true else return false end
+    local f = io.open(name, "r")
+    if f ~= nil then io.close(f) return true else return false end
 end
 
 local function build_c(command)
@@ -102,14 +101,14 @@ end
 
 function Split(s, delimiter)
     local result = {};
-    for match in (s..delimiter):gmatch("(.-)"..delimiter) do
+    for match in (s .. delimiter):gmatch("(.-)" .. delimiter) do
         table.insert(result, match);
     end
     return result;
 end
 
 dap.configurations.c = {
-{
+    {
         name = "Launch",
         type = "lldb",
         request = "launch",
@@ -123,17 +122,17 @@ dap.configurations.c = {
         stopOnEntry = false,
         args = function()
             local val = Split(vim.fn.input('Args: ', ''), " ");
-            if (val ~="") then
+            if (val ~= "") then
                 return val;
             else
                 return;
-        end
+            end
         end,
     },
 }
 
 dap.configurations.cpp = {
-{
+    {
         name = "Launch",
         type = "lldb",
         request = "launch",

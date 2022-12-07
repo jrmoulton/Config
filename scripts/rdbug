@@ -1,0 +1,18 @@
+#!/bin/bash
+
+exe=$(fd -I -a -t x "$1$" | rg debug)
+
+sd "file.*?'" "file $exe'" .lldbinit
+
+cargo build --example $1
+tmux send-keys "openocd"  Enter
+
+panes=$(tmux list-panes | wc -l)
+
+if [ $panes -eq 1 ]; then
+    tmux split-window -hd
+fi
+
+tmux send-keys -t .+ "quit" Enter
+tmux send-keys -t .+ "rust-lldb $exe" Enter
+tmux switch-client -t .+

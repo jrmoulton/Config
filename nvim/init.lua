@@ -2,6 +2,8 @@
 -- # Editor Settings
 -- =============================================================================
 
+vim.g.neovide_cursor_animation_length = 0
+
 HOME = os.getenv("HOME")
 local set = vim.opt
 
@@ -13,8 +15,8 @@ vim.g.latex_indent_enabled = 1
 vim.g.latex_fold_envs = 0
 
 -- buffer stuff
-vim.wo.foldmethod = "expr"
-vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.wo.foldmethod = "expr"
+-- vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 vim.o.foldlevelstart = 99 -- do not close folds when a buffer is opened
 
 -- sets 24bit color
@@ -96,14 +98,6 @@ vim.keymap.set('n', '<leader>wm', set_write_mode)
 
 -- Ctrl+k as Esc and No esc key use <C-k>
 vim.keymap.set({ 'i', 'n', 'v', 's', 'x', 'c', 'l', 't' }, '<C-k>', '<Esc>')
--- vim.keymap.set({ 'i', 'n', 'v', 's', 'x', 'c', 'l', 't' }, '<esc>', '<nop>')
-
--- No arrow keys --- force yourself to use the home row
--- Allowing because I use the vim keys on the launch_1
--- vim.keymap.set( {'n', 'i'}, '<up>', '<nop>' )
--- vim.keymap.set( {'n', 'i'}, '<down>', '<nop>' )
--- vim.keymap.set( {'n', 'i'}, '<left>', '<nop>' )
--- vim.keymap.set( {'n', 'i'}, '<right>', '<nop>' )
 
 -- Ctrl+h to stop searching
 vim.keymap.set({ 'v', 'n' }, '<C-h>', ':nohlsearch<cr>')
@@ -130,8 +124,7 @@ vim.keymap.set('n', '<leader>n', 'ct-')
 
 vim.keymap.set('n', '<leader>sv', ':source $MYVIMRC<CR>')
 
--- Autoclose brackets the way I want them to
--- vim.keymap.set( 'i', '{<Enter>', '{}<Left><Return><Up><Esc>A<Return>' )
+vim.keymap.set('n', 'F2', '<silent>RustDis')
 
 -- Telescope keympaps
 vim.keymap.set('n', '<leader>ff', function() require('telescope.builtin').find_files() end)
@@ -167,7 +160,8 @@ vim.keymap.set({ 'n', 'v' }, '.', '<nop>')
 -- Debugging
 vim.keymap.set('n', "<leader>di", "<cmd>lua require'dap.ui.widgets'.hover()<CR>")
 -- vim.keymap.set( 'n', '<leader>dc', function()  require"dap.ui.widgets".hover().close() end )
-vim.keymap.set('n', '<leader>d?', function() local widgets = require "dap.ui.widgets"; widgets.centered_float(widgets.scopes) end)
+vim.keymap.set('n', '<leader>d?',
+    function() local widgets = require "dap.ui.widgets"; widgets.centered_float(widgets.scopes) end)
 vim.keymap.set({ 'n', 'i', 'v' }, '<F3>', function() require "dap".clear_breakpoints(); store_breakpoints(true) end)
 vim.keymap.set({ 'n', 'i', 'v' }, '<F4>', function() require "dap".toggle_breakpoint(); store_breakpoints(false) end)
 vim.keymap.set({ 'n', 'i', 'v' }, '<F5>', function() require "dap".continue() end)
@@ -183,7 +177,13 @@ vim.keymap.set('n', '<leader>dlb', function() require "telescope".extensions.dap
 vim.keymap.set('n', '<C-c>', '<cmd>on<CR>')
 
 vim.keymap.set('n', '<C-n>', '<cmd>NeoTreeFloatToggle<CR>')
-vim.keymap.set('n', '<C-t>', function() require("trouble").next({ skip_groups = true, jump = true }) end)
+-- vim.keymap.set('n', '<C-t>', function() require("trouble").next({ skip_groups = true, jump = true }) end)
+
+vim.filetype.add({
+    extension = {
+        dmd = 'diamond',
+    }
+})
 
 -- =============================================================================
 -- # Autocommands
@@ -204,13 +204,18 @@ vim.cmd [[
     " Jump to last edit position on opening file
 
     " autocmd BufEnter * :lua load_breakpoints()
-
-    autocmd BufWritePre * :lua vim.lsp.buf.formatting_seq_sync()
+    autocmd BufWritePre * :lua vim.lsp.buf.format()
     autocmd FileType dap-float nnoremap <buffer><silent> <C-k> <cmd>close!<CR>
+  "" augroup remember_folds
+  ""   autocmd!
+  ""   autocmd BufWinLeave *.rs mkview
+  ""   autocmd BufWinEnter *.rs silent! loadview
+  ""  augroup END
 ]]
 
 require "impatient"
 require "plugins"
+require "colortheme"
 require "telescopeconfig"
 require "treesitter"
 require "nvim-cmp"
@@ -222,4 +227,6 @@ require "autocommands"
 require "neoscrollsetup"
 require "neotreesetup"
 require "troubleconfig"
-require "troubleconfig"
+require "fold"
+require "lspsafaconfig"
+require "lspkindconfig"

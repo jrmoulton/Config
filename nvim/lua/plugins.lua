@@ -1,7 +1,8 @@
 local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-    Packer_bootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+    Packer_bootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
+        install_path })
 end
 
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
@@ -22,6 +23,16 @@ return require('packer').startup(function()
     -- use 'andweeb/presence.nvim'
 
     -- Gui enhancements
+    use {
+        'onsails/lspkind.nvim'
+    }
+
+    use {
+        'ldelossa/gh.nvim',
+        requires = { { 'ldelossa/litee.nvim' } }
+    }
+    require('litee.lib').setup()
+    require('litee.gh').setup()
     use {
         "luukvbaal/stabilize.nvim",
         config = function() require("stabilize").setup() end
@@ -57,6 +68,7 @@ return require('packer').startup(function()
             }
         end
     }
+    use { 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async' }
     use {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v2.x",
@@ -67,13 +79,12 @@ return require('packer').startup(function()
         }
     }
     use { 'karb94/neoscroll.nvim', }
-    use { "lukas-reineke/virt-column.nvim", config = function() require 'virt-column'.setup() end }
     use 'andymass/vim-matchup'
     use 'p00f/nvim-ts-rainbow'
-    -- use { 'lewis6991/gitsigns.nvim', config = function()
-    --     require('gitsigns').setup()
-    -- end
-    -- }
+    use { 'lewis6991/gitsigns.nvim', config = function()
+        require('gitsigns').setup()
+    end
+    }
     use 'f-person/git-blame.nvim'
     use { 'j-hui/fidget.nvim', config = function() require 'fidget'.setup({ char = "|" }) end, }
     use {
@@ -89,14 +100,15 @@ return require('packer').startup(function()
         end,
         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     }
-    use { 'jrmoulton/onedark.nvim', config = function() require 'onedark'.setup({
-            functionStyle = "italic",
-            commentStyle = "NONE",
-            transparent = true,
+    -- use { 'jrmoulton/onedark.nvim', config = function() require 'onedark'.setup({
+    --         functionStyle = "italic",
+    --         commentStyle = "NONE",
+    --         transparent = true,
 
-        })
-    end,
-    }
+    --     })
+    -- end,
+    -- }
+    use 'navarasu/onedark.nvim'
     use {
         'norcalli/nvim-colorizer.lua', config = function() require 'colorizer'.setup() end,
     }
@@ -129,6 +141,7 @@ return require('packer').startup(function()
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
     }
+    use { 'nvim-treesitter/playground' }
     use {
         'ray-x/lsp_signature.nvim'
     }
@@ -140,7 +153,37 @@ return require('packer').startup(function()
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
     use 'nvim-telescope/telescope-ui-select.nvim'
     use 'tami5/sqlite.lua'
+    use {
+        'saecki/crates.nvim',
+        event = { "BufRead Cargo.toml" },
+        requires = { { 'nvim-lua/plenary.nvim' } },
+        config = function()
+            require('crates').setup()
+        end,
+    }
+    use {
+        "glepnir/lspsaga.nvim",
+        branch = "main",
+        config = function()
+            local saga = require("lspsaga")
 
+            saga.init_lsp_saga({
+                -- your configuration
+                custom_kind = {
+                    Field = '#61afef',
+                },
+                code_action_lightbulb = {
+                    enable = true,
+                    enable_in_insert = true,
+                    cache_code_action = true,
+                    sign = true,
+                    update_time = 150,
+                    sign_priority = 20,
+                    virtual_text = false,
+                },
+            })
+        end,
+    }
     -- Syntactic language support
     use 'cespare/vim-toml'
     use 'stephpy/vim-yaml'
@@ -149,8 +192,8 @@ return require('packer').startup(function()
     use 'godlygeek/tabular'
     use 'plasticboy/vim-markdown'
     use 'jakewvincent/texmagic.nvim'
-    use 'simrat39/rust-tools.nvim'
-    use 'rust-lang/rust.vim'
+    use { 'simrat39/rust-tools.nvim', branch = "modularize_and_inlay_rewrite" }
+    -- use 'rust-lang/rust.vim'
     use 'vim-python/python-syntax'
     use 'hunger/vim-slint'
     use 'p00f/clangd_extensions.nvim'

@@ -18,24 +18,32 @@ parser_config.wgsl = {
     },
     filetype = "wgsl",
 }
--- parser_config.slint = {
---     install_info = {
---         url = "/Users/jaredmoulton/Programming/tree-sitter-slint/",
---         files = {"src/parser.c"}
---     },
---     filetype = "slint",
-
---     indent = {
---         enable = true
---     }
--- }
-
-parser_config.swift = {
+parser_config.monkey = {
     install_info = {
-        url = HOME .. "/Developer/tree-sitter-swift",
-        files = { "src/parser.c", "src/scanner.c" }
+        url = "/Users/jaredmoulton/Developer/tree-sitter-monkey/",
+        files = { "src/parser.c" }
+    },
+    filetype = "diamond",
+
+    indent = {
+        enable = true
     }
 }
+
+parser_config.slint = {
+    install_info = {
+        url = "/Users/jaredmoulton/Developer/tree-sitter-slint/rewrite/",
+        files = { "src/parser.c" },
+        branch = "rewrite",
+    },
+    filetype = "slint",
+
+    indent = {
+        enable = true
+    }
+}
+vim.opt.runtimepath:append("/Users/jaredmoulton/Developer/tree-sitter-monkey/")
+vim.opt.runtimepath:append("/Users/jaredmoulton/Developer/tree-sitter-slint/rewrite/")
 
 require 'nvim-treesitter.configs'.setup {
     -- One of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -60,6 +68,7 @@ require 'nvim-treesitter.configs'.setup {
         "python",
         "toml",
         "vim",
+        "slint",
     },
 
     highlight = {
@@ -104,5 +113,24 @@ require 'nvim-treesitter.configs'.setup {
             -- '#e86671',
         }, -- table of hex strings
         -- termcolors = {"blue", "green", "orange"} -- table of colour name strings
+    },
+
+    playground = {
+        enable = true,
+        disable = {},
+        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+        persist_queries = false, -- Whether the query persists across vim sessions
+        keybindings = {
+            toggle_query_editor = 'o',
+            toggle_hl_groups = 'i',
+            toggle_injected_languages = 't',
+            toggle_anonymous_nodes = 'a',
+            toggle_language_display = 'I',
+            focus_language = 'f',
+            unfocus_language = 'F',
+            update = 'R',
+            goto_node = '<cr>',
+            show_help = '?',
+        },
     }
 }

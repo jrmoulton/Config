@@ -19,7 +19,7 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', '<C-j>', function() vim.lsp.buf.signature_help() end)
     vim.keymap.set('n', '<leader>td', function() vim.lsp.buf.type_definition() end)
     -- rename the current token
-    vim.keymap.set('n', '<leader>r', function() vim.lsp.buf.rename() end)
+    -- vim.keymap.set('n', '<leader>r', function() vim.lsp.buf.rename() end)
     -- Code actions are code suggestions maybe clippy?
     vim.keymap.set('n', '<leader>a', function() vim.lsp.buf.code_action() end)
     vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end)
@@ -32,6 +32,12 @@ local on_attach = function(_, bufnr)
 
     -- Get signatures (and _only_ signatures) when in argument lists.
 end
+
+Capabilities = vim.lsp.protocol.make_client_capabilities()
+Capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true
+}
 
 local servers = { "texlab", "bashls", "pyright", "denols" }
 local lspconfig = require 'lspconfig'
@@ -66,6 +72,10 @@ require("clangd_extensions").setup {
     }
 }
 
+vim.diagnostic.config {
+    underline = false,
+}
+
 require 'lspconfig'.sourcekit.setup {
     on_attach = on_attach,
     capabilities = Capabilities,
@@ -81,14 +91,16 @@ require 'lspconfig'.slint_lsp.setup {
     -- root_dir = vim.lsp.util.root_pattern('cargo.toml', ".git")
 }
 
-local extension_path = HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.6.10/'
+
+local extension_path = '/Users/jaredmoulton/.vscode/extensions/vadimcn.vscode-lldb-1.7.4/'
 local codelldb_path = extension_path .. 'adapter/codelldb'
 local liblldb_path = extension_path .. 'lldb/lib/liblldb.dylib'
 
+local rt = require("rust-tools")
 local rust_opts = {
     tools = { -- rust-tools options
         autoSetHints = true,
-        hover_with_actions = true,
+        -- Hover actions
         inlay_hints = {
             only_current_line = false,
             show_parameter_hints = true,
@@ -107,10 +119,10 @@ local rust_opts = {
                     overrideCommand = {
                         "cargo",
                         "clippy",
-                        "--workspace",
+                        -- "--workspace",
                         "--message-format=json",
-                        "--all-targets",
-                        "--all-features",
+                        -- "--all-targets",
+                        -- "--all-features",
                     },
                 },
             },
@@ -119,13 +131,16 @@ local rust_opts = {
                     enable = false,
                 },
             },
+            trace = {
+                server = "verbose",
+            },
         },
     },
 
     dap = {
         adapter = require('rust-tools.dap').get_codelldb_adapter(
             codelldb_path, liblldb_path)
-    },
+    }
 }
 
 require('rust-tools').setup(rust_opts)

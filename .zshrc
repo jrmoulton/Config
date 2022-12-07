@@ -9,10 +9,16 @@ export PATH="$HOME/.config/scripts:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+export PATH="/Users/jaredmoulton/.espressif/tools/xtensa-esp32-elf-gcc/8_4_0-esp-2021r2-patch3-aarch64-apple-darwin/bin/:/Users/jaredmoulton/.espressif/tools/xtensa-esp32s2-elf-gcc/8_4_0-esp-2021r2-patch3-aarch64-apple-darwin/bin/:/Users/jaredmoulton/.espressif/tools/xtensa-esp32s3-elf-gcc/8_4_0-esp-2021r2-patch3-aarch64-apple-darwin/bin/:$PATH"
+export PATH="/opt/homebrew/opt/python@3.10/bin:$PATH"
+export LIBCLANG_PATH="/Users/jaredmoulton/.espressif/tools/xtensa-esp32-elf-clang/esp-14.0.0-20220415-aarch64-apple-darwin/lib/"
 
 
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-16.0.1.jdk/Contents/Home/"
 export JDTLS_HOME="$HOME/Downloads/jdt-language-server-1.9.0-202201270134/"
+
+export RUST_GDB="arm-none-eabi-gdb"
+export CARGO_TARGET_DIR="$HOME/Programming/.cargo-target"
 
 # Environment variables
 export EDITOR=nvim
@@ -21,22 +27,9 @@ export RUSTC_FORCE_INCREMENTAL=1
 ZSH_THEME="robbyrussell"
 zstyle ':completion:*' menu select
 
-plugins=(
-	zsh-syntax-highlighting
-	zsh-autosuggestions
-	colored-man-pages
-	colorize
-  )
 
-# Start oh-my-zsh and starship
-source $ZSH/oh-my-zsh.sh
-export STARTSHIP_CONFIG="$HOME/.config/starship/starship.toml"
-eval "$(starship init zsh)"
-eval "$(zoxide init zsh --cmd cdd)"
-# eval "$(op signin my)
-eval "$(op completion zsh)"; compdef _op op
+eval "$(/opt/homebrew/bin/brew shellenv)"
 if [[ "$(uname -s)" == "Darwin" ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
     alias j16="export JAVA_HOME=`/usr/libexec/java_home -v 16`; java -version"
     alias j11="export JAVA_HOME=`/usr/libexec/java_home -v 11`; java -version"
 else
@@ -47,9 +40,22 @@ else
     # alias j16="export JAVA_HOME=`/usr/libexec/java_home -v 16`; java -version"
     # alias j11="export JAVA_HOME=`/usr/libexec/java_home -v 11`; java -version"
 fi
+plugins=(
+	zsh-syntax-highlighting
+	zsh-autosuggestions
+	colored-man-pages
+	colorize
+)
+source $ZSH/oh-my-zsh.sh
+tmux source-file ~/.config/tmux/tmux.conf
+# Start oh-my-zsh and starship
+export STARTSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh --cmd cdd)"
+eval "$(op completion zsh)"; compdef _op op
+# eval "$(op signin my)
 
 # Add aliases
-alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim=nvim
 alias vim.="nvim ."
 alias ls=exa
@@ -87,33 +93,20 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 # Other keybindings
 bindkey '^ ' autosuggest-accept
 
+# fg with Control-f
+function fground() { builtin fg}
+zle -N fground
+bindkey '^f' fground
+
 # set up fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='fd --type file'
 # export FZF_DEFAULT_OPTS="--ansi"
 export FZF_DEFAULT_OPTS='--bind=ctrl-u:up,ctrl-d:down'
+# export TERM=xterm-kitty
 
-tmux source-file ~/.config/tmux/tmux.conf
-
-###### Really don't put stuff beneath this. What happens after this won't
-# necessarily affecty the current running shell
-
-# # if we are in vscode then create/ attach to vscode session and create new window
-#if [ "$TERM_PROGRAM" = "vscode" ];  then
-#	#Get the current working directory to use as the session name
-#	# The exec stuff is so that if there is a duplicate session the error is not
-#	# printed to stdout
-#	SESSION=`pwd | rg "[^/]+$" -o`
-#	exec 3>&2
-#	exec 2> /dev/null
-#	tmux new-session -s $SESSION -d
-#	exec 2>&3
-#	tmux new-window -t $SESSION
-#	if [ -d ".venv" ]; then
-#		tmux send-keys -t $SESSION 'source .venv/bin/activate' Enter
-#	fi
-#	tmux attach-session -t $SESSION
 if [ -z $TMUX ]; then
  	# if tmux is not running then start a session
- 	tmux new-session -A -s _config -c $HOME/.config
+ 	# tmux new-session -A -s _config -c $HOME/.config
+    tms start
 fi

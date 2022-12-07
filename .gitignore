@@ -1,4 +1,5 @@
 tmux-resurrect/
+Autodesk/
 tmux/plugins
 *deleteme*
 *.ipynb*

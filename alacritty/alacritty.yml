@@ -53,6 +53,7 @@ window:
 
 font:
   size: 12.0
+  use_thin_strokes: false
   normal:
     family: OperatorMono Nerd Font
     style:  Light

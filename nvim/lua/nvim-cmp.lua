@@ -1,4 +1,4 @@
-Capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+Capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lspkind_comparator = function(conf)
     local lsp_types = require('cmp.types').lsp

@@ -1,17 +1,5 @@
 theme = "onedark"
 
-[editor]
-line-number = "relative"
-scrolloff = 5
-
-[editor.cursor-shape]
-insert = "bar"
-
-[editor.file-picker]
-hidden=false
-
-[editor.lsp]
-display-messages = true
-
 [keys.normal]
-C-k = "esc"
+C-f = "suspend"
+# C-k = "esc"

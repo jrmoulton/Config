@@ -1,0 +1,1 @@
+/Users/jaredmoulton/Developer/tree-sitter-monkey/queries/highlights.scm

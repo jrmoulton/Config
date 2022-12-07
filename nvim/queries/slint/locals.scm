@@ -1,0 +1,1 @@
+/Users/jaredmoulton/Developer/tree-sitter-slint/rewrite/queries/locals.scm
