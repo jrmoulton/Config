@@ -1,0 +1,34 @@
+[[language]]
+name = "markdown"
+file-types = ["md"]
+auto-format = true
+formatter = {command = "npx", args = ["prettier", "--write", "--parser=markdown", "--prose-wrap=always", "--print-width=100"]}
+
+[[language]]
+name="java"
+auto-format = true
+scope = "source.java"
+injection-regex = "java"
+file-types = ["java"]
+roots = ["pom.xml", "build.gradle"]
+language-server = { command = "jdtls" }
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "rust"
+formatter = {command = "rustup", args = ["run", "nightly", "rustfmt", "--emit", "stdout"]}
+
+[language.config.checkOnSave]
+command = "clippy"
+
+[[language]]
+name = "monkey"
+file-types = ["dmd"]
+scope = "source.dmd"
+comment-token = "//"
+roots = []
+indent = {tab-width = 4, unit = "    "}
+
+[[grammar]]
+name = "monkey"
+source = {path = "/Users/jaredmoulton/Developer/tree-sitter-monkey", rev="29ba8a602388119dca0a2553f9f1246ceece291e"}

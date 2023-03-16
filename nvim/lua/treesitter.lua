@@ -29,21 +29,18 @@ parser_config.monkey = {
         enable = true
     }
 }
+parser_config.html.filetype = { "html", "hbs" }
 
 parser_config.slint = {
     install_info = {
-        url = "/Users/jaredmoulton/Developer/tree-sitter-slint/rewrite/",
-        files = { "src/parser.c" },
-        branch = "rewrite",
+        url = "/Users/jaredmoulton/Developer/slint/master/",
+        files = { "editors/tree-sitter-slint/src/parser.c" },
+        branch = "master",
     },
     filetype = "slint",
-
-    indent = {
-        enable = true
-    }
 }
 vim.opt.runtimepath:append("/Users/jaredmoulton/Developer/tree-sitter-monkey/")
-vim.opt.runtimepath:append("/Users/jaredmoulton/Developer/tree-sitter-slint/rewrite/")
+vim.opt.runtimepath:append("/Users/jaredmoulton/Developer/slint/master/editors/tree-sitter/slint")
 
 require 'nvim-treesitter.configs'.setup {
     -- One of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -68,7 +65,6 @@ require 'nvim-treesitter.configs'.setup {
         "python",
         "toml",
         "vim",
-        "slint",
     },
 
     highlight = {
@@ -93,10 +89,10 @@ require 'nvim-treesitter.configs'.setup {
     incremental_selection = {
         enable = true,
         keymaps = {
-            init_selection = "gnn",
-            node_incremental = "grn",
-            scope_incremental = "grc",
-            node_decremental = "grm",
+            init_selection = "tsis",
+            node_incremental = "tsni",
+            scope_incremental = "tssi",
+            node_decremental = "tsnd",
         },
     },
 

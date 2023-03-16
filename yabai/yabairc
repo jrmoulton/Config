@@ -1,0 +1,53 @@
+#!/bin/sh
+
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
+yabai -m config  \
+	layout bsp \
+	window_placement second_child \
+	top_padding 12 \
+	bottom_padding 12 \
+	left_padding 12 \
+	right_padding 12 \
+	window_gap 12 \
+	mouse_follows_focus on \
+	mouse_action1 move \
+	mouse_action2 resize \
+	window_opacity off \
+	window_animation_duration    0.0 \
+    window_animation_frame_rate  120 \
+    window_opacity_duration      0.0 \
+	  insert_feedback_color        0xff282C34     \
+    active_window_border_color   0xff98C379     \
+    normal_window_border_color   0xff282C34     \
+    window_border_width          2              \
+    window_border_radius         12             \
+    window_border_blur           off            \
+    window_border_hidpi          on             \
+    window_border                off            \
+	active_window_opacity 1.0 \
+	normal_window_opacity 1.0 
+
+# modify window shadows (default: on, options: on, off, float)
+yabai -m config window_shadow                float
+yabai -m config window_border                on
+
+yabai -m mouse_drop_action swap
+
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^1Password$" sticky=on layer=above manage=off
+
+yabai -m signal --add event=mission_control_exit action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=display_added action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=display_removed action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_created action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_destroyed action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_focused action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_moved action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_resized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_minimized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_deminimized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+
+echo "yabai configuration loaded.."

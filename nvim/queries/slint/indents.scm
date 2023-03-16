@@ -1,1 +1,0 @@
-/Users/jaredmoulton/Developer/tree-sitter-slint/rewrite/queries/indents.scm

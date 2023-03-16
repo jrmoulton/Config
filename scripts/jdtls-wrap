@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Download latest from https://download.eclipse.org/jdtls/milestones/?d
+# Unpack tarball into ~/.local/share/jdtls-runtime (create directory first)
+# symlink to this script from ~/.local/bin/jdtls
+
+hash=`pwd | md5`
+
+workspace_dir="${HOME}/.cache/jdtls${hash}"
+
+set -x
+
+jdtls -data $workspace_dir
+

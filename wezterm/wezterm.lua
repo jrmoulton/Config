@@ -1,40 +1,39 @@
 local wezterm = require 'wezterm'
 
-local function font_with_fallback(name, params)
-    local names = { name, 'Noto Color Emoji', 'JetBrains Mono' }
-    return wezterm.font_with_fallback(names, params)
-end
-
 return {
     term = "wezterm",
-    font = font_with_fallback('Operator Mono SSm Lig', { weight = 'Book' }),
+    window_decorations = "RESIZE",
+    adjust_window_size_when_changing_font_size = false,
+    front_end = "WebGpu",
+    font = wezterm.font('Operator Mono SSm Lig Book'),
+    keys = {
+    { key = 'UpArrow', mods = 'SHIFT', action = wezterm.action.ScrollByLine(-2) },
+    { key = 'DownArrow', mods = 'SHIFT', action = wezterm.action.ScrollByLine(2) },
+  },
     font_rules = {
         -- Select a fancy italic font for italic text
         {
             italic = true,
-            font = font_with_fallback('Operator Mono SSm Lig', { weight = 'Book', italic = true }),
+            font = wezterm.font('Operator Mono SSm Lig Book', {italic = true}),
         },
 
         -- Similarly, a fancy bold+italic font
         {
             italic = true,
             intensity = 'Bold',
-            font = font_with_fallback('Operator Mono SSm Lig', { weight = 'Medium', italic = true }),
+            font = wezterm.font('Operator Mono SSm Lig Medium', {italic = true}),
         },
 
-        -- Make regular bold text a different color to make it stand out even more
+    --     -- Make regular bold text a different color to make it stand out even more
         {
             intensity = 'Bold',
-            font = font_with_fallback(
-                'Operator Mono SSm Lig',
-                { weight = "Medium" }
-            ),
+            font = wezterm.font('Operator Mono SSm Lig Medium'),
         },
 
         -- For half-intensity text, use a lighter weight font
         {
             intensity = 'Half',
-            font = font_with_fallback('Operator Mono SSm Lig', { weight = 'Light' }),
+            font = wezterm.font('Operator Mono SSm Lig Light'),
         },
     },
     color_scheme = 'OneDark (base16)',

@@ -13,9 +13,7 @@ export PATH="/Users/jaredmoulton/.espressif/tools/xtensa-esp32-elf-gcc/8_4_0-esp
 export PATH="/opt/homebrew/opt/python@3.10/bin:$PATH"
 export LIBCLANG_PATH="/Users/jaredmoulton/.espressif/tools/xtensa-esp32-elf-clang/esp-14.0.0-20220415-aarch64-apple-darwin/lib/"
 
-
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-16.0.1.jdk/Contents/Home/"
-export JDTLS_HOME="$HOME/Downloads/jdt-language-server-1.9.0-202201270134/"
+export JAVA_HOME="/Users/jaredmoulton/Downloads/jdk-19.0.2.jdk/Contents/Home"
 
 export RUST_GDB="arm-none-eabi-gdb"
 export CARGO_TARGET_DIR="$HOME/Programming/.cargo-target"
@@ -108,5 +106,5 @@ export FZF_DEFAULT_OPTS='--bind=ctrl-u:up,ctrl-d:down'
 if [ -z $TMUX ]; then
  	# if tmux is not running then start a session
  	# tmux new-session -A -s _config -c $HOME/.config
-    tms start
+    # tms start
 fi

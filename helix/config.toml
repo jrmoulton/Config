@@ -1,5 +1,40 @@
-theme = "onedark"
+theme = "onedark_custom"
+
+[editor]
+auto-save = true
+bufferline = "always"
+scroll-lines = 2
+line-number = "relative"
+scrolloff = 5
+cursor-shape.insert = "bar"
+soft-wrap.enable = true
+soft-wrap.wrap-indicator = "↪ "
+
+[editor.file-picker]
+hidden = false
 
 [keys.normal]
+C-k = ["collapse_selection", "keep_primary_selection"]
 C-f = "suspend"
-# C-k = "esc"
+K = "hover"
+
+# "write" shortcut
+[keys.normal.space]
+w = ":write"
+q = ":reflow 100"
+
+# "buffer close" shortcuts
+[keys.normal.space.b.c]
+c = ":buffer-close"
+f = ":buffer-close!"
+o = ":buffer-close-others"
+
+# "editor" shortcuts
+[keys.normal.space.e]
+r = ":config-reload"
+
+# "escape"
+[keys.insert]
+C-k = "normal_mode"
+[keys.select]
+C-k = "normal_mode"

@@ -165,24 +165,9 @@ return require('packer').startup(function()
         "glepnir/lspsaga.nvim",
         branch = "main",
         config = function()
-            local saga = require("lspsaga")
-
-            saga.init_lsp_saga({
-                -- your configuration
-                custom_kind = {
-                    Field = '#61afef',
-                },
-                code_action_lightbulb = {
-                    enable = true,
-                    enable_in_insert = true,
-                    cache_code_action = true,
-                    sign = true,
-                    update_time = 150,
-                    sign_priority = 20,
-                    virtual_text = false,
-                },
-            })
+            require("lspsaga").setup({})
         end,
+
     }
     -- Syntactic language support
     use 'cespare/vim-toml'

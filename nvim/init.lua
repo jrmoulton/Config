@@ -146,10 +146,8 @@ vim.keymap.set('n', '<leader>q', ':q<CR>')
 -- Git blame
 vim.keymap.set('n', '<C-g>', function() require('gitblame').init() end)
 -- -- Buffers
-vim.keymap.set('n', '<leader>,', ':BufferPrevious<CR>')
-vim.keymap.set('n', '<leader>.', ':BufferNext<CR>')
-vim.keymap.set('n', '<BS>,', ':BufferPrevious<CR>')
-vim.keymap.set('n', '<BS>.', ':BufferNext<CR>')
+vim.keymap.set('n', 'gp', ':BufferPrevious<CR>')
+vim.keymap.set('n', 'gn', ':BufferNext<CR>')
 vim.keymap.set('n', '<leader>bp', ':BufferPin<CR>')
 vim.keymap.set('n', '<leader>bc', ':BufferClose!<CR>')
 vim.keymap.set('n', '<leader>bf', ':BufferCloseAllButCurrent<CR>')
