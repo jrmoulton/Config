@@ -45,16 +45,17 @@
 "diagnostic.hint".underline = { color = "green", style = "curl" } 
 "diagnostic.warning".underline = { color = "yellow", style = "curl" } 
 "diagnostic.error".underline = { color = "red", style = "curl" } 
-"info" = { fg = "blue", modifiers = ["bold"] }
-"hint" = { fg = "green", modifiers = ["bold"] }
-"warning" = { fg = "yellow", modifiers = ["bold"] }
-"error" = { fg = "red", modifiers = ["bold"] }
+"info" = { fg = "blue2", modifiers = ["bold"] }
+"hint" = { fg = "green2", modifiers = ["bold"] }
+"warning" = { fg = "yellow2", modifiers = ["bold"] }
+"error" = { fg = "red2", modifiers = ["bold"] }
 
 "ui.background" = { bg = "black" }
 "ui.virtual" = { fg = "faint-gray" }
 "ui.virtual.indent-guide" = { fg = "faint-gray" }
 "ui.virtual.whitespace" = { fg = "light-gray" }
 "ui.virtual.ruler" = { bg = "gray" }
+"ui.virtual.inlay-hint" = {fg = "light-gray", bg = "light-black"}
 
 "ui.cursor" = { fg = "white", modifiers = ["reversed"] }
 "ui.cursor.primary" = { fg = "white", modifiers = ["reversed"] }
@@ -84,18 +85,21 @@
 "ui.menu.scroll" = { fg = "white", bg = "light-gray" }
 
 [palette]
-
 yellow = "#E5C07B"
+yellow2 = "#96905B"
 blue = "#61AFEF"
+blue2 = "#4E84AA"
 red = "#E06C75"
+red2 = "#AE555D"
 purple = "#C678DD"
 green = "#98C379"
+green2 = "#7F9C6C"
 gold = "#D19A66"
 cyan = "#56B6C2"
 white = "#ABB2BF"
 black = "#282C34"
 light-black = "#2C323C"
 gray = "#3E4452"
-faint-gray = "#3B4048"
+faint-gray = "#3E434B"
 light-gray = "#5C6370"
 linenr = "#4B5263"

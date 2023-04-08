@@ -32,3 +32,16 @@ indent = {tab-width = 4, unit = "    "}
 [[grammar]]
 name = "monkey"
 source = {path = "/Users/jaredmoulton/Developer/tree-sitter-monkey", rev="29ba8a602388119dca0a2553f9f1246ceece291e"}
+
+
+[[language]]
+name = "slint"
+file-types = ["slint"]
+scope = "source.slint"
+comment-token = "//"
+roots = []
+indent = {tab-width = 4, unit = "    "}
+
+[[grammar]]
+name = "slint"
+source = {path = "/Users/jaredmoulton/Developer/slint/master/editors/tree-sitter-slint", rev="56e42734d78e585c1fa11531d97ac502c790fe06"}

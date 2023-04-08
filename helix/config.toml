@@ -8,7 +8,10 @@ line-number = "relative"
 scrolloff = 5
 cursor-shape.insert = "bar"
 soft-wrap.enable = true
-soft-wrap.wrap-indicator = "↪ "
+# soft-wrap.wrap-indicator = "↪ "
+
+[editor.lsp]
+display-inlay-hints = true
 
 [editor.file-picker]
 hidden = false
@@ -22,6 +25,12 @@ K = "hover"
 [keys.normal.space]
 w = ":write"
 q = ":reflow 100"
+
+# Display options
+[keys.normal.space.d]
+h = ":toggle lsp.display-inlay-hints"
+# d = ":toggle lsp.display-inline-diagnostics"
+
 
 # "buffer close" shortcuts
 [keys.normal.space.b.c]
