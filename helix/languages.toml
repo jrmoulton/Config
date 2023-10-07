@@ -11,15 +11,20 @@ scope = "source.java"
 injection-regex = "java"
 file-types = ["java"]
 roots = ["pom.xml", "build.gradle"]
-language-server = { command = "jdtls" }
+# language-servers = [{ command = "jdtls" }]
 indent = { tab-width = 4, unit = "    " }
+# [language.config.java.inlayHints]
+# parameterNames.enabled = "all"
+
 
 [[language]]
 name = "rust"
 formatter = {command = "rustup", args = ["run", "nightly", "rustfmt", "--emit", "stdout"]}
 
-[language.config.checkOnSave]
+[language-server.rust-analyzer.config.checkOnSave]
 command = "clippy"
+
+
 
 [[language]]
 name = "monkey"
@@ -45,3 +50,36 @@ indent = {tab-width = 4, unit = "    "}
 [[grammar]]
 name = "slint"
 source = {path = "/Users/jaredmoulton/Developer/slint/master/editors/tree-sitter-slint", rev="56e42734d78e585c1fa11531d97ac502c790fe06"}
+
+[[language]]
+name = "typst"
+scope = "source.typst"
+injection-regex = "^typ(st)?$"
+file-types = ["typ"]
+comment-token = "//"
+indent = { tab-width = 2, unit = "  " }
+roots = ["typst.toml"]
+language-servers = [ "typst-lsp"]
+
+[language.auto-pairs]
+'(' = ')'
+'{' = '}'
+'[' = ']'
+'"' = '"'
+'`' = '`'
+'$' = '$'
+
+[[grammar]]
+name = "typst"
+source = { path = "/Users/jaredmoulton/Developer/tree-sitter-typst" }
+
+[language-server.typst-lsp]
+command = "typst-lsp"
+
+[[language]]
+name = "c"
+auto-format = true
+
+[[language]]
+name = "nasm"
+language-servers = [ "asm-lsp" ]

@@ -1,0 +1,2 @@
+command script import ~/.config/lldb/lldbinit.py
+command script import ~/.config/lldb/jump_to_symbol.py

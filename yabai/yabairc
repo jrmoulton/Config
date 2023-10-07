@@ -11,7 +11,7 @@ yabai -m config  \
 	left_padding 12 \
 	right_padding 12 \
 	window_gap 12 \
-	mouse_follows_focus on \
+	mouse_follows_focus off \
 	mouse_action1 move \
 	mouse_action2 resize \
 	window_opacity off \
@@ -27,7 +27,7 @@ yabai -m config  \
     window_border_hidpi          on             \
     window_border                off            \
 	active_window_opacity 1.0 \
-	normal_window_opacity 1.0 
+	normal_window_opacity 0.9 
 
 # modify window shadows (default: on, options: on, off, float)
 yabai -m config window_shadow                float
@@ -38,6 +38,8 @@ yabai -m mouse_drop_action swap
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^1Password$" sticky=on layer=above manage=off
+# yabai -m rule --add app="^leviathan-gui$" sticky=on layer=above manage=off
+yabai -m rule --add app="^fusion-highlight$" sticky=on layer=above manage=off
 
 yabai -m signal --add event=mission_control_exit action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
 yabai -m signal --add event=display_added action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'

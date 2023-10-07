@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for session in $(tmux list-sessions -F "#S"); do
+    for window in $(tmux list-windows -t $session -F "#W"); do
+        for pane in $(tmux list-panes -t "$session:$window" -F "#P"); do
+            tmux clear-history -t "$session:$window.$pane"
+        done
+    done
+done

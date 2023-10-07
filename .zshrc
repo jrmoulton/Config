@@ -19,7 +19,7 @@ export RUST_GDB="arm-none-eabi-gdb"
 export CARGO_TARGET_DIR="$HOME/Programming/.cargo-target"
 
 # Environment variables
-export EDITOR=nvim
+export EDITOR=hx
 export RUSTC_FORCE_INCREMENTAL=1
 
 ZSH_THEME="robbyrussell"
@@ -62,6 +62,9 @@ alias tmk="tms kill"
 alias pythonten="/opt/homebrew/opt/python@3.10/bin/python3.10"
 alias sqlite=sqlite3
 alias email="cmdg -sign"
+alias hx.="hx ."
+alias zbr="zig build run"
+alias zb="zig build"
 
 # Git alaiases
 alias gaa="git add --all"

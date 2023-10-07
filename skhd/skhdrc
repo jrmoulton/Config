@@ -110,5 +110,6 @@ shift + ctrl + rcmd - r : \
     launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
 
 # Audio
-f11 : SwitchAudioSource -s AT2020USB+
-f12 : SwitchAudioSource -s "Plugable Audio"
+cmd - f10 : SwitchAudioSource -s "Jared’s AirPods Pro"
+cmd - f11 : SwitchAudioSource -s AT2020USB+
+cmd - f12 : SwitchAudioSource -s "Plugable Audio"
