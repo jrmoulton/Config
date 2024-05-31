@@ -90,3 +90,6 @@ microsoft-edge-dev/
 vivaldi-snapshot/
 vivaldi/
 inkdrop/
+zed/conversations
+zed/embeddings
+github-copilot

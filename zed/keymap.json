@@ -1,8 +1,102 @@
 [
-    {
-        "context": "Editor",
-        "bindings": {
-            "gn"
-        }
+  {
+    "bindings": {
+      "ctrl-f": "terminal_panel::ToggleFocus",
+      "ctrl-k": "vim::NormalBefore",
+      "ctrl-a ctrl-o": "projects::OpenRecent"
     }
+  },
+  {
+    "context": "Editor && VimControl && !VimWaiting && !menu && vim_mode == normal",
+    "bindings": {
+      "space a": "editor::ToggleCodeActions",
+      "space r": "editor::Rename",
+      "space w": "workspace::Save",
+      "space f": "file_finder::Toggle",
+      "space b c c": "pane::CloseActiveItem",
+      "space b c a": "pane::CloseAllItems",
+      "space d h": "editor::ToggleInlayHints",
+      "space b c o": "pane::CloseInactiveItems",
+      "space s f": "outline::Toggle",
+      "space s w": "project_symbols::Toggle"
+    }
+  },
+  {
+    "context": "Editor && VimControl && !VimWaiting && !menu",
+    "bindings": {
+      "] d": "editor::GoToDiagnostic",
+      "[ d": "editor::GoToPrevDiagnostic",
+      "g shift-r": "editor::FindAllReferences",
+      "shift-k": "editor::Hover",
+      "shift-u": "editor::Redo",
+      "u": "editor::Undo",
+      "g n": "pane::ActivateNextItem",
+      "g p": "pane::ActivatePrevItem",
+      "g l": "editor::MoveToEndOfLine",
+      "g h": "editor::MoveToBeginningOfLine",
+      "g r": "editor::FindAllReferences",
+      "g y": "editor::GoToTypeDefinition",
+      "g e": "vim::EndOfDocument",
+      "g i": "editor::GoToImplementation",
+      "g w p": "diagnostics::Deploy",
+      "g k m": "zed::OpenKeymap",
+      "space e f f": "editor::Fold",
+      "space e f o": "editor::UnfoldLines",
+      "ctrl-c": "editor::ToggleComments",
+      "ctrl-w t": "terminal_panel::ToggleFocus",
+      "ctrl-a h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-a l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-a k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-a j": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-a ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-a ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-a ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-a ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+      "m m": "vim::Matching",
+      "j": [
+        "vim::Down",
+        {
+          "displayLines": true
+        }
+      ],
+      "k": [
+        "vim::Up",
+        {
+          "displayLines": true
+        }
+      ]
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      "ctrl-c": "editor::ToggleComments"
+    }
+  },
+  {
+    "context": "Dock",
+    "bindings": {
+      "ctrl-a h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-a l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-a k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-a j": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-a ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-a ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-a ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-a ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
+    }
+  },
+  {
+    "context": "Editor && vim_mode == visual",
+    "bindings": {
+      "ctrl-c": "editor::ToggleComments"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-a z": "workspace::ToggleZoom",
+      "ctrl-u": "terminal::Clear"
+    }
+  }
 ]

@@ -1,0 +1,11 @@
+[[search_dirs]]
+path = "/Users/jaredmoulton/Developer"
+depth = 1
+
+[[search_dirs]]
+path = "/Users/jaredmoulton/.config"
+depth = 1
+
+[[search_dirs]]
+path = "/Users/jaredmoulton/notes"
+depth = 1

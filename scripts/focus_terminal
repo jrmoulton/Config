@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Set the target application name (e.g., Safari)
+target_app="Wezterm"
+
+# Get the window ID of the target application
+window_id=$(yabai -m query --windows | jq -r "map(select(.app == \"$target_app\"))[0].id")
+
+# Check if the window ID is valid
+if [ -n "$window_id" ]; then
+    # Focus on the target application window
+    yabai -m window "$window_id" --space main
+    echo "Focused on $target_app"
+else
+    echo "$target_app not found."
+fi
+

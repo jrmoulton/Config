@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Check if the target application name is provided as a command-line argument
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <target_app>"
+    exit 1
+fi
+target_app="$1"
+open -ga $target_app;
+
+# Maximum number of attempts
+max_attempts=15
+
+# Delay between attempts in seconds
+delay=0.2
+
+# Counter for the number of attempts
+attempt=1
+
+while [ $attempt -le $max_attempts ]; do
+    window_info=$(yabai -m query --windows)
+    filtered_info=$(echo "$window_info" | jq ".[] | select(.app == \"$target_app\")")
+    has_fullscreen_zoom=$(echo "$filtered_info" | jq -r ".\"has-fullscreen-zoom\"")
+    window_id=$(echo "$filtered_info" | jq -r ".\"id\"")
+
+    # Check if the window ID is valid
+    if [ -n "$window_id" ]; then
+        if [ "$has_fullscreen_zoom" = "true" ]; then
+            yabai -m window "$window_id" --space main --focus
+            echo "not changing full screen"
+            break
+        else
+            yabai -m window "$window_id" --space main --toggle zoom-fullscreen --focus
+            echo "turning on full screen"
+            break
+        fi
+    else
+        echo "$target_app not found. Attempt $attempt of $max_attempts."
+        sleep $delay
+    fi
+
+    # Increment the attempt counter
+    attempt=$((attempt + 1))
+    delat=$(delay * 1.2)
+done
+
+if [ $attempt -gt $max_attempts ]; then
+    echo "Failed to find $target_app after $max_attempts attempts."
+fi

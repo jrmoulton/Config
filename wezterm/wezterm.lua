@@ -6,7 +6,8 @@ return {
     window_decorations = "RESIZE",
     adjust_window_size_when_changing_font_size = false,
     front_end = "WebGpu",
-    font = wezterm.font('Operator Mono SSm Lig Book'),
+    font_size = 13,
+    font = wezterm.font('Operator Mono SSm Lig Light'),
     keys = {
     { key = 'UpArrow', mods = 'SHIFT', action = wezterm.action.ScrollByLine(-2) },
     { key = 'DownArrow', mods = 'SHIFT', action = wezterm.action.ScrollByLine(2) },
@@ -15,20 +16,20 @@ return {
         -- Select a fancy italic font for italic text
         {
             italic = true,
-            font = wezterm.font('Operator Mono SSm Lig Book', {italic = true}),
+            font = wezterm.font('Operator Mono SSm Lig Light', {italic = true}),
         },
 
         -- Similarly, a fancy bold+italic font
         {
             italic = true,
             intensity = 'Bold',
-            font = wezterm.font('Operator Mono SSm Lig Medium', {italic = true}),
+            font = wezterm.font('Operator Mono SSm Lig Book', {italic = true}),
         },
 
     --     -- Make regular bold text a different color to make it stand out even more
         {
             intensity = 'Bold',
-            font = wezterm.font('Operator Mono SSm Lig Medium'),
+            font = wezterm.font('Operator Mono SSm Lig Book'),
         },
 
         -- For half-intensity text, use a lighter weight font
@@ -37,7 +38,8 @@ return {
             font = wezterm.font('Operator Mono SSm Lig Light'),
         },
     },
-    color_scheme = 'OneDark (base16)',
+    -- color_scheme = 'OneDark (base16)',
+    color_scheme = 'Gruvbox dark, pale (base16)',
     colors = {
         cursor_bg = 'gray',
         cursor_fg = 'none',

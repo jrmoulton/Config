@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Get information about the currently active space
+active_space_info=$(yabai -m query --spaces --space)
+
+# Extract the space ID from the JSON output using jq
+active_space_id=$(echo "$active_space_info" | jq -r '.index')
+
+echo "$active_space_id"

@@ -1,0 +1,41 @@
+[core]
+	excludesFile = ~/.config/.globalgitignore
+	compression = 0
+[commit]
+	gpgsign = true
+[user]
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKDuB6YdhanHwSfQ5Gl79CZMFTCjqyBMzoO9LubPCYe7
+	email = jaredmoulton3@gmail.com
+	name = jrmoulton
+[gpg]
+	program = /usr/local/bin/gpg
+	format = ssh
+[init]
+	defaultBranch = main
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+
+[interactive]
+    diffFilter = delta --color-only
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[includeIf "gitdir:~/Developer/Leviathan/"]
+  path = ~/.config/.bh.gitconfig

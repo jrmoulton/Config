@@ -1,4 +1,4 @@
-theme = "onedark_custom"
+theme = "gruvbox_dark_soft"
 
 [editor]
 # Make the editor respond to keystrokes faster ie faster autocomplete
@@ -19,6 +19,7 @@ cursor-shape.insert = "bar"
 # Wrap lines when they grow past the width of the view
 soft-wrap.enable = true
 # soft-wrap.wrap-indicator = "↪ "
+gutters = ["diagnostics", "spacer", "line-numbers", "spacer"]
 
 [editor.lsp]
 display-inlay-hints = true
@@ -30,8 +31,10 @@ hidden = false
 [keys.normal]
 # Use Control K as my version of escape
 C-k = ["collapse_selection", "keep_primary_selection"]
-# C-i = "increment"
-# in unix systems suspending takes you back to the terminal while leaving the editor open. Then you can jump back into the editor by typing the command 'fg' in the terminal
+C-e = "increment"
+# 55
+# in unix systems suspending takes you back to the terminal while leaving the editor open. Then you
+# can jump back into the editor by typing the command 'fg' in the terminal
 C-f = "suspend"
 # Get documenation popups with capital k
 K = "hover"
@@ -47,7 +50,7 @@ q = ":reflow 100"
 [keys.normal.space.d]
 # space - d - h to toggle inlay hints on and off
 h = ":toggle lsp.display-inlay-hints"
-# d = ":toggle lsp.display-inline-diagnostics"
+d = ":toggle lsp.display-inline-diagnostics"
 
 
 # "buffer close" shortcuts

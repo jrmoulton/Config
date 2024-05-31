@@ -4,7 +4,7 @@ yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
 yabai -m config  \
-	layout bsp \
+	layout stack \
 	window_placement second_child \
 	top_padding 12 \
 	bottom_padding 12 \
@@ -27,19 +27,22 @@ yabai -m config  \
     window_border_hidpi          on             \
     window_border                off            \
 	active_window_opacity 1.0 \
-	normal_window_opacity 0.9 
+	normal_window_opacity 0.9
 
 # modify window shadows (default: on, options: on, off, float)
 yabai -m config window_shadow                float
-yabai -m config window_border                on
+yabai -m config window_border                off
 
 yabai -m mouse_drop_action swap
 
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
-yabai -m rule --add app="^1Password$" sticky=on layer=above manage=off
+yabai -m rule --add app="^1Password$" sticky=off layer=above manage=off
+yabai -m rule --add app="^1leviathan$"  manage=off
 # yabai -m rule --add app="^leviathan-gui$" sticky=on layer=above manage=off
-yabai -m rule --add app="^fusion-highlight$" sticky=on layer=above manage=off
+# yabai -m rule --add app="^fusion-highlight$" sticky=on layer=above manage=off
+# yabai -m rule --add app="^logic-analyzer$" sticky=on layer=above manage=off
+# yabai -m rule --add app="^Color Picker$" sticky=on layer=above manage=off
 
 yabai -m signal --add event=mission_control_exit action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
 yabai -m signal --add event=display_added action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
@@ -51,5 +54,8 @@ yabai -m signal --add event=window_moved action='echo "refresh windows" | nc -U 
 yabai -m signal --add event=window_resized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
 yabai -m signal --add event=window_minimized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
 yabai -m signal --add event=window_deminimized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+
+yabai -m config window_shadow off
+yabai -m config layout stack
 
 echo "yabai configuration loaded.."

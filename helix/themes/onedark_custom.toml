@@ -15,8 +15,8 @@
 "keyword.control" = { fg = "purple" }
 "keyword.control.import" = { fg = "purple" }
 "keyword.directive" = { fg = "yellow" }
-"label" = { fg = "purple" }
-"namespace" = { fg = "yellow" }
+"label" = { fg = "light-gray" }
+"namespace" = { fg = "#C8A76B" }
 # "operator" = { fg = "purple" }
 "keyword.operator" = { fg = "purple" }
 "special" = { fg = "blue" }
@@ -41,10 +41,10 @@
 "diff.delta" = "gold"
 "diff.minus" = "red"
 
-"diagnostic.info".underline = { color = "blue", style = "curl" } 
-"diagnostic.hint".underline = { color = "green", style = "curl" } 
-"diagnostic.warning".underline = { color = "yellow", style = "curl" } 
-"diagnostic.error".underline = { color = "red", style = "curl" } 
+"diagnostic.info".underline = { color = "blue", style = "underline" } 
+"diagnostic.hint".underline = { color = "green", style = "underlline" } 
+"diagnostic.warning".underline = { color = "yellow", style = "underline" } 
+"diagnostic.error".underline = { color = "red", style = "underline" } 
 "info" = { fg = "blue2", modifiers = ["bold"] }
 "hint" = { fg = "green2", modifiers = ["bold"] }
 "warning" = { fg = "yellow2", modifiers = ["bold"] }
@@ -55,7 +55,7 @@
 "ui.virtual.indent-guide" = { fg = "faint-gray" }
 "ui.virtual.whitespace" = { fg = "light-gray" }
 "ui.virtual.ruler" = { bg = "gray" }
-"ui.virtual.inlay-hint" = {fg = "light-gray", bg = "light-black"}
+"ui.virtual.inlay-hint" = {fg = "light-gray"}
 
 "ui.cursor" = { fg = "white", modifiers = ["reversed"] }
 "ui.cursor.primary" = { fg = "white", modifiers = ["reversed"] }
@@ -92,6 +92,7 @@ blue2 = "#4E84AA"
 red = "#E06C75"
 red2 = "#AE555D"
 purple = "#C678DD"
+dark-purple = "#86389D"
 green = "#98C379"
 green2 = "#7F9C6C"
 gold = "#D19A66"
@@ -100,6 +101,7 @@ white = "#ABB2BF"
 black = "#282C34"
 light-black = "#2C323C"
 gray = "#3E4452"
+dark-gray = "#2E3442"
 faint-gray = "#3E434B"
 light-gray = "#5C6370"
 linenr = "#4B5263"

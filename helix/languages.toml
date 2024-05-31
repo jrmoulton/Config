@@ -19,7 +19,7 @@ indent = { tab-width = 4, unit = "    " }
 
 [[language]]
 name = "rust"
-formatter = {command = "rustup", args = ["run", "nightly", "rustfmt", "--emit", "stdout"]}
+# formatter = {command = "rustup", args = ["run", "nightly", "rustfmt", "--emit", "stdout"]}
 
 [language-server.rust-analyzer.config.checkOnSave]
 command = "clippy"
@@ -51,27 +51,27 @@ indent = {tab-width = 4, unit = "    "}
 name = "slint"
 source = {path = "/Users/jaredmoulton/Developer/slint/master/editors/tree-sitter-slint", rev="56e42734d78e585c1fa11531d97ac502c790fe06"}
 
-[[language]]
-name = "typst"
-scope = "source.typst"
-injection-regex = "^typ(st)?$"
-file-types = ["typ"]
-comment-token = "//"
-indent = { tab-width = 2, unit = "  " }
-roots = ["typst.toml"]
-language-servers = [ "typst-lsp"]
+# [[language]]
+# name = "typst"
+# scope = "source.typst"
+# injection-regex = "^typ(st)?$"
+# file-types = ["typ"]
+# comment-token = "//"
+# indent = { tab-width = 2, unit = "  " }
+# roots = ["typst.toml"]
+# [language.auto-pairs]
+# '(' = ')'
+# '{' = '}'
+# '[' = ']'
+# '"' = '"'
+# '`' = '`'
+# '$' = '$'
 
-[language.auto-pairs]
-'(' = ')'
-'{' = '}'
-'[' = ']'
-'"' = '"'
-'`' = '`'
-'$' = '$'
+# [[grammar]]
+# name = "typst"
+# source = { path = "/Users/jaredmoulton/Developer/tree-sitter-typst" }
 
-[[grammar]]
-name = "typst"
-source = { path = "/Users/jaredmoulton/Developer/tree-sitter-typst" }
+
 
 [language-server.typst-lsp]
 command = "typst-lsp"
@@ -82,4 +82,4 @@ auto-format = true
 
 [[language]]
 name = "nasm"
-language-servers = [ "asm-lsp" ]
+# language-server = [ "asm-lsp" ]

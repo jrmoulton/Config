@@ -23,7 +23,7 @@ get_folders() {
 }
 
 if [[ -z "$1" ]]; then
-    selected=$(get_folders | fzy)
+    selected=$(get_folders | fzf)
 else
     selected="$HOME/Developer/$1"
 fi
