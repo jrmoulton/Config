@@ -1,0 +1,56 @@
+[core]
+color-theme = "Gruvbox Dark Soft"
+modal = true
+icon-theme = "Lapce Codicons"
+light-color-theme = "Gruvbox Light Soft"
+
+[editor]
+font-family = "Monaspace Argon"
+show-indent-guide = true
+font-size = 13
+enable-inlay-hints = false
+show-bread-crumbs = false
+hover-delay = 100
+line-height = 1.6
+format-on-save = true
+error-lens-multiline = false
+show-tab = true
+highlight-matching-brackets = false
+bracket-pair-colorization = true
+wrap-style = "editor-width"
+wrap-width = 600
+autosave-interval = 0
+cursor-surrounding-lines = 5
+gutter-highlight-current-line = true
+
+[ui]
+font-family = ""
+hover-font-family = ""
+tab-close-button = "Off"
+list-line-height = 25
+tab-separator-height = "Content"
+scale = 1.0
+scroll-width = 10
+header-height = 25
+status-height = 25
+tab-forward-back-visible = false
+tab-bar-visible = true
+open-editors-visible = false
+palette-width = 600
+tab-controls-layout = "Off"
+tab-split-closeall-visible = false
+palette-width-preview = 1200
+palette-file-search-visible = true
+
+[lapce-rust]
+"checkOnSave.command" = "clippy"
+"check.command" = "clippy"
+
+[color-theme]
+
+[color-theme.syntax]
+"type.builtin" = "$yellow"
+"variable.other.member" = "$white"
+
+[terminal]
+line-height = 1.5

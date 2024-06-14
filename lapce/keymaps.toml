@@ -1,0 +1,384 @@
+[[keymaps]]
+command = "save"
+mode = "nv"
+key = "space w"
+
+[[keymaps]]
+command = "-save"
+key = "Meta+s"
+
+[[keymaps]]
+command = "delete_forward"
+mode = "nv"
+key = "d"
+
+[[keymaps]]
+command = "-delete_forward"
+mode = "nv"
+key = "x"
+
+[[keymaps]]
+command = "redo"
+mode = "n"
+key = "Shift+U"
+
+[[keymaps]]
+command = "-redo"
+mode = "n"
+key = "Ctrl+r"
+
+[[keymaps]]
+command = "document_end"
+mode = "nv"
+key = "g e"
+
+[[keymaps]]
+command = "-document_end"
+key = "Meta+ArrowDown"
+
+[[keymaps]]
+command = "document_start"
+mode = "nv"
+key = "g g"
+
+[[keymaps]]
+command = "-document_start"
+key = "Meta+ArrowUp"
+
+[[keymaps]]
+command = "show_hover"
+mode = "n"
+key = "Shift+k"
+
+[[keymaps]]
+command = "-show_hover"
+mode = "n"
+key = "g h"
+
+[[keymaps]]
+command = "normal_mode"
+mode = "inv"
+key = "Ctrl+k"
+
+[[keymaps]]
+command = "-normal_mode"
+mode = "inv"
+when = "!search_focus && !modal_focus && !search_active"
+key = "Escape"
+
+[[keymaps]]
+command = "split_close"
+mode = "nv"
+key = "space b c c"
+
+[[keymaps]]
+command = "-split_close"
+mode = "n"
+key = "Ctrl+w c"
+
+[[keymaps]]
+command = "previous_editor_tab"
+mode = "n"
+key = "g p"
+
+[[keymaps]]
+command = "-previous_editor_tab"
+key = "Ctrl+Shift+Tab"
+
+[[keymaps]]
+command = "next_editor_tab"
+mode = "nv"
+key = "g n"
+
+[[keymaps]]
+command = "-next_editor_tab"
+key = "Ctrl+Tab"
+
+[[keymaps]]
+command = "goto_type_definition"
+mode = "nv"
+key = "g y"
+
+
+[[keymaps]]
+command = "-next_error"
+key = "F8"
+
+[[keymaps]]
+command = "next_error"
+mode = "nv"
+key = "] d"
+
+[[keymaps]]
+command = "previous_error"
+mode = "nv"
+key = "[ d"
+
+[[keymaps]]
+command = "-previous_error"
+key = "Shift+F8"
+
+[[keymaps]]
+command = "toggle_file_explorer_visual"
+mode = "nv"
+key = "space t f"
+
+[[keymaps]]
+command = "toggle_panel_right_visual"
+mode = "nv"
+key = "Meta+r"
+
+[[keymaps]]
+command = "toggle_panel_right_visual"
+mode = "nv"
+key = "space t r"
+
+[[keymaps]]
+command = "toggle_panel_bottom_visual"
+mode = "nv"
+key = "Ctrl+f"
+
+[[keymaps]]
+command = "toggle_panel_bottom_visual"
+when = "terminal_focus || search_focus"
+key = "Ctrl+f"
+
+[[keymaps]]
+command = "toggle_terminal_focus"
+key = "Ctrl+t"
+
+[[keymaps]]
+command = "palette"
+mode = "nv"
+key = "space f"
+
+[[keymaps]]
+command = "modal.close"
+when = "modal_focus"
+key = "Ctrl+k"
+
+[[keymaps]]
+command = "modal.close"
+when = "modal_focus"
+key = "Escape"
+
+[[keymaps]]
+command = "-modal.close"
+when = "modal_focus"
+key = "Escape"
+
+[[keymaps]]
+command = "save_without_format"
+mode = "nv"
+key = "space Shift+W"
+
+
+[[keymaps]]
+command = "toggle_visual_mode"
+mode = "nv"
+key = "x"
+
+[[keymaps]]
+command = "toggle_inlay_hints"
+mode = "nv"
+key = "space d h"
+
+[[keymaps]]
+command = "next_diagnostic"
+key = "] d"
+
+[[keymaps]]
+command = "show_code_actions"
+mode = "n"
+key = "space a"
+
+[[keymaps]]
+command = "toggle_panel_left_visual"
+key = "Meta+l"
+
+[[keymaps]]
+command = "toggle_maximized_panel"
+key = "Ctrl+a z"
+
+[[keymaps]]
+command = "close_window_tab"
+key = "Meta+Shift+w"
+
+[[keymaps]]
+command = "new_window_tab"
+key = "Meta+Shift+t"
+
+[[keymaps]]
+command = "next_window_tab"
+key = "Ctrl+a 0"
+
+[[keymaps]]
+command = "previous_window_tab"
+key = "Ctrl+a 9"
+
+[[keymaps]]
+command = "palette.workspace"
+key = "Ctrl+a Ctrl+o"
+
+[[keymaps]]
+command = "open_folder"
+key = "Meta+Shift+o"
+
+[[keymaps]]
+command = "split_right"
+mode = "nv"
+key = "Ctrl+a l"
+
+[[keymaps]]
+command = "split_right"
+mode = "nv"
+key = "Ctrl+a Shift+l"
+
+[[keymaps]]
+command = "split_right"
+mode = "nv"
+key = "Ctrl+a Ctrl+l"
+
+[[keymaps]]
+command = "-split_right"
+mode = "n"
+key = "Ctrl+w l"
+
+[[keymaps]]
+command = "split_left"
+mode = "nv"
+key = "Ctrl+a h"
+
+[[keymaps]]
+command = "split_left"
+mode = "nv"
+key = "Ctrl+a Ctrl+h"
+
+[[keymaps]]
+command = "-split_left"
+mode = "n"
+key = "Ctrl+w h"
+
+[[keymaps]]
+command = "split_down"
+mode = "nv"
+key = "Ctrl+a j"
+
+[[keymaps]]
+command = "split_down"
+mode = "nv"
+key = "Ctrl+a Ctrl+j"
+
+[[keymaps]]
+command = "-split_down"
+mode = "n"
+key = "Ctrl+w j"
+
+[[keymaps]]
+command = "split_up"
+mode = "nv"
+key = "Ctrl+a k"
+
+[[keymaps]]
+command = "split_up"
+mode = "nv"
+key = "Ctrl+a Ctrl+k"
+
+[[keymaps]]
+command = "-split_up"
+mode = "n"
+key = "Ctrl+w k"
+
+[[keymaps]]
+command = "line_start_non_blank"
+mode = "vn"
+key = "g h"
+
+[[keymaps]]
+command = "-line_start_non_blank"
+mode = "i"
+key = "Meta+ArrowLeft"
+
+[[keymaps]]
+command = "close_terminal_tab"
+when = "terminal_focus"
+key = "Meta+w"
+
+[[keymaps]]
+command = "new_terminal_tab"
+when = "terminal_focus"
+key = "Meta+t"
+
+[[keymaps]]
+command = "palette.symbol"
+mode = "nv"
+key = "Space s f"
+
+[[keymaps]]
+command = "-palette.symbol"
+key = "Meta+Shift+o"
+
+[[keymaps]]
+command = "toggle_line_comment"
+key = "Ctrl+c"
+
+[[keymaps]]
+command = "-toggle_line_comment"
+key = "Meta+/"
+
+[[keymaps]]
+command = "toggle_file_explorer_focus"
+mode = "nv"
+key = "Space t b"
+
+[[keymaps]]
+command = "toggle_terminal_focus"
+mode = "nv"
+key = "Space t t"
+
+[[keymaps]]
+command = "-toggle_file_explorer_focus"
+key = "Meta+Shift+e"
+
+[[keymaps]]
+command = "split_horizontal"
+mode = "n"
+key = "Ctrl+a '"
+
+[[keymaps]]
+command = "-split_horizontal"
+mode = "n"
+key = "Ctrl+w s"
+
+[[keymaps]]
+command = "split_vertical"
+mode = "n"
+key = 'Ctrl+a \'
+
+[[keymaps]]
+command = "-split_vertical"
+mode = "n"
+key = "Ctrl+w v"
+
+[[keymaps]]
+command = "line_end"
+mode = "nv"
+key = "g l"
+
+[[keymaps]]
+command = "-line_end"
+mode = "nv"
+key = "Shift+4"
+
+[[keymaps]]
+command = "palette.workspace_symbol"
+mode = "nv"
+key = "Space s w"
+
+[[keymaps]]
+command = "-palette.workspace_symbol"
+key = "Meta+t"
+
+[[keymaps]]
+command = "zoom_reset"
+key = "Meta+0"
