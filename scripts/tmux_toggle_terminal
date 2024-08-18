@@ -1,0 +1,62 @@
+#!/bin/zsh
+
+# Directory to store terminal pane identifiers and last pane state
+identifier_dir="$HOME/.tmux_terminal_panes"
+last_pane_file="$identifier_dir/last_pane"
+
+# Ensure the directory exists
+mkdir -p $identifier_dir
+
+# Get the current session and window identifiers
+session_name=$(tmux display-message -p '#{session_name}')
+window_index=$(tmux display-message -p '#{window_index}')
+
+# Construct the file path for storing the terminal pane identifier
+identifier_file="${identifier_dir}/${session_name}_${window_index}"
+
+# Function to check if a pane exists
+pane_exists() {
+    local pane_id=$1
+    tmux list-panes -F "#{session_name}:#{window_index}.#{pane_index}" | grep -q "^${pane_id}$"
+}
+
+# Get the current pane identifier
+current_pane=$(tmux display-message -p "#{session_name}:#{window_index}.#{pane_index}")
+
+# Check if the identifier file exists and the pane is still valid
+if [ -f "$identifier_file" ]; then
+    terminal_pane=$(cat "$identifier_file")
+    if ! pane_exists "$terminal_pane"; then
+        # Pane doesn't exist anymore, create a new one
+        echo "Stale identifier found. Creating a new terminal pane."
+        terminal_pane=""
+    fi
+fi
+
+# If the current pane is the terminal pane, switch back to the last used pane
+if [ "$current_pane" = "$terminal_pane" ]; then
+    if [ -f "$last_pane_file" ]; then
+        last_pane=$(cat "$last_pane_file")
+        if pane_exists "$last_pane"; then
+            tmux select-pane -t "$last_pane"
+            echo "Switched back to last used pane: $last_pane"
+            exit 0
+        fi
+    fi
+fi
+
+# If no valid terminal pane was found, create one
+if [ -z "$terminal_pane" ]; then
+    tmux split-window -Z -v -c "#{pane_current_path}"
+    tmux select-pane -T "terminal"
+    terminal_pane=$(tmux list-panes -F "#{session_name}:#{window_index}.#{pane_index}" | tail -n 1)
+    echo "$terminal_pane" > "$identifier_file"
+fi
+
+# Store the current pane as the last used pane before switching to terminal
+echo "$current_pane" > "$last_pane_file"
+
+# Switch to the terminal pane
+tmux select-pane -t "$terminal_pane"
+
+echo "Switched to terminal pane: $terminal_pane"

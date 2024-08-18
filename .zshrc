@@ -125,10 +125,8 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 # Other keybindings
 bindkey '^ ' autosuggest-accept
 
-# fg with Control-f
-function fground() { builtin fg}
-zle -N fground
-bindkey '^f' fground
+# # fg with Control-f
+bindkey -s "^f" 'tms switch^M'
 
 # set up fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -136,4 +134,11 @@ export FZF_DEFAULT_COMMAND='fd --type file'
 # export FZF_DEFAULT_OPTS="--ansi"
 export FZF_DEFAULT_OPTS='--bind=ctrl-u:up,ctrl-d:down'
 # export TERM=xterm-kitty
+
+# Add custom completion scripts to the fpath
+fpath=(~/.zsh/completions $fpath)
+
+# Load the new completions
+autoload -U compinit
+compinit
 

@@ -1,4 +1,6 @@
 tmux-resurrect/
+zed/\.*
+zed/prompts
 Autodesk/
 tmux/plugins
 *deleteme*

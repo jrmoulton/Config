@@ -1,4 +1,4 @@
-theme = "gruvbox_dark_soft"
+theme = "gruvbox_dark_soft_custom"
 
 [editor]
 # Make the editor respond to keystrokes faster ie faster autocomplete
@@ -12,21 +12,34 @@ bufferline = "always"
 scroll-lines = 2
 # RElattive lines show how far away any given line is. Useful for jumping between lines using 5J or 15K
 line-number = "relative"
-# Always keep at least 5 lines above and below the cursor in view
-scrolloff = 5
+# Always keep at least 4 lines above and below the cursor in view
+scrolloff = 4
 # Use a thin line as the cursor when in insert mode
 cursor-shape.insert = "bar"
 # Wrap lines when they grow past the width of the view
 soft-wrap.enable = true
 # soft-wrap.wrap-indicator = "↪ "
 gutters = ["diagnostics", "spacer", "line-numbers", "spacer"]
+completion-timeout = 10
+cursorline = false
 
 [editor.lsp]
 display-inlay-hints = true
+display-messages = true
 
 [editor.file-picker]
 # Show hidden files in the file picker
 hidden = false
+
+[editor.statusline]
+left = ["mode", "file-name"]
+center = []
+right = ["diagnostics"]
+separator = "│"
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"
+
 
 [keys.normal]
 # Use Control K as my version of escape
@@ -35,7 +48,7 @@ C-e = "increment"
 # 55
 # in unix systems suspending takes you back to the terminal while leaving the editor open. Then you
 # can jump back into the editor by typing the command 'fg' in the terminal
-C-f = "suspend"
+# C-f = "suspend"
 # Get documenation popups with capital k
 K = "hover"
 
@@ -66,5 +79,7 @@ r = ":config-reload"
 # "escape"
 [keys.insert]
 C-k = "normal_mode"
+# C-f = "suspend"
 [keys.select]
 C-k = "normal_mode"
+# C-f = "suspend"

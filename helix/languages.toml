@@ -18,15 +18,6 @@ indent = { tab-width = 4, unit = "    " }
 
 
 [[language]]
-name = "rust"
-# formatter = {command = "rustup", args = ["run", "nightly", "rustfmt", "--emit", "stdout"]}
-
-[language-server.rust-analyzer.config.checkOnSave]
-command = "clippy"
-
-
-
-[[language]]
 name = "monkey"
 file-types = ["dmd"]
 scope = "source.dmd"

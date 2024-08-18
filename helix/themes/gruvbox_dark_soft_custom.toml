@@ -1,0 +1,107 @@
+# Author: [Your Name]
+# Theme: Gruvbox Dark Soft for Helix
+
+"attribute" = { fg = "yellow" }
+"comment" = { fg = "comment-gray", modifiers = ["italic"] }
+"constant" = { fg = "yellow" }
+"constant.numeric" = { fg = "purple" }
+"constant.builtin" = { fg = "yellow" }
+"constant.character.escape" = { fg = "cyan" }
+"constructor" = { fg = "yellow" }
+"function" = { fg = "green" }
+"function.builtin" = { fg = "green" }
+"function.macro" = { fg = "green" }
+"keyword" = { fg = "red" }
+"keyword.control" = { fg = "red" }
+"keyword.control.import" = { fg = "red" }
+"keyword.directive" = { fg = "yellow" }
+"label" = { fg = "white" }
+"namespace" = { fg = "white" }
+# "operator" = { fg = "red" }
+"keyword.operator" = { fg = "red" }
+"special" = { fg = "blue" }
+"string" = { fg = "green" }
+"type" = { fg = "yellow" }
+"type.qualifier" = { fg = "yellow" }
+"variable" = { fg = "white" }
+"variable.builtin" = { fg = "yellow" }
+"variable.parameter" = { fg = "white" }
+"variable.other.member" = { fg = "cyan" }
+
+"markup.heading" = { fg = "red" }
+"markup.raw.inline" = { fg = "green" }
+"markup.bold" = { fg = "yellow", modifiers = ["bold"] }
+"markup.italic" = { fg = "purple", modifiers = ["italic"] }
+"markup.list" = { fg = "red" }
+"markup.quote" = { fg = "yellow" }
+"markup.link.url" = { fg = "cyan", modifiers = ["underlined"]}
+"markup.link.text" = { fg = "purple" }
+
+"diff.plus" = "green"
+"diff.delta" = "yellow"
+"diff.minus" = "red"
+
+"diagnostic.info".underline = { color = "blue", style = "underline" }
+"diagnostic.hint".underline = { color = "green", style = "underline" }
+"diagnostic.warning".underline = { color = "yellow", style = "underline" }
+"diagnostic.error".underline = { color = "red", style = "underline" }
+"info" = { fg = "blue2", modifiers = ["bold"] }
+"hint" = { fg = "green2", modifiers = ["bold"] }
+"warning" = { fg = "yellow2", modifiers = ["bold"] }
+"error" = { fg = "red2", modifiers = ["bold"] }
+
+"ui.background" = { bg = "black" }
+"ui.virtual" = { fg = "comment-gray" }
+"ui.virtual.indent-guide" = { fg = "comment-gray" }
+"ui.virtual.whitespace" = { fg = "gray" }
+"ui.virtual.ruler" = { bg = "gray" }
+"ui.virtual.inlay-hint" = { fg = "comment-gray2" }
+
+"ui.cursor" = { fg = "white", modifiers = ["reversed"] }
+"ui.cursor.primary" = { fg = "white", modifiers = ["reversed"] }
+"ui.cursor.match" = { fg = "blue", modifiers = ["underlined"]}
+
+"ui.selection" = { bg = "gray" }
+"ui.selection.primary" = { bg = "dark-gray" }
+"ui.cursorline.primary" = { bg = "dark-gray" }
+
+"ui.linenr" = { fg = "linenr" }
+"ui.linenr.selected" = { fg = "white" }
+
+"ui.statusline" = { fg = "white", bg = "black" }
+"ui.statusline.inactive" = { fg = "dim-white", bg = "black" }
+"ui.statusline.normal" = { fg = "dark-gray", bg = "blue" }
+"ui.statusline.insert" = { fg = "dark-gray", bg = "red" }
+"ui.statusline.select" = { fg = "dark-gray", bg = "orange" }
+
+"ui.text" = { fg = "white" }
+"ui.text.focus" = { fg = "white", bg = "dark-gray", modifiers = ["bold"] }
+
+"ui.help" = { fg = "white", bg = "gray" }
+"ui.popup" = { bg = "gray" }
+"ui.window" = { fg = "gray" }
+"ui.menu" = { fg = "white", bg = "gray" }
+"ui.menu.selected" = { fg = "black", bg = "blue" }
+"ui.menu.scroll" = { fg = "white", bg = "gray" }
+
+[palette]
+yellow = "#fabd2e"
+yellow2 = "#d79921"
+blue = "#83a598"
+blue2 = "#458588"
+red = "#fb4833"
+red2 = "#cc241d"
+purple = "#C37E90"
+dark-purple = "#8f3f71"
+green = "#b8bb26"
+green2 = "#98971a"
+orange = "#fe8019"
+cyan = "#83a598"
+white = "#dfd0aa"
+dim-white = "#9A8E77"
+black = "#32302F"
+gray = "#504945"
+dark-gray = "#3c3836"
+comment-gray = "#928374"
+comment-gray2 = "#665c54"
+linenr = "#665c54"
